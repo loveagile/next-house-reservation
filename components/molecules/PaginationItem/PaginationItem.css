@@ -1,0 +1,16 @@
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+  color: #0098ba !important;
+  border: 1px solid #ddd;
+  font-size: 18px !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: #0098ba !important;
+  color: white !important;
+  border: 1px solid #0098ba !important;
+  border-collapse: collapse !important;
+}

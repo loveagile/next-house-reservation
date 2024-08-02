@@ -1,0 +1,11 @@
+.new_event_btn {
+  font-size: 20px !important;
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif;
+  padding: 3px 30px !important;
+  border-radius: 1px !important;
+}
+
+.plus_sign {
+  font-size: 25px !important;
+  margin-right: 5px !important;
+}

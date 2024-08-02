@@ -1,0 +1,15 @@
+.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700;
+}
+
+.fa-arrow-circle-left::before {
+  content: "\f0a8";
+}
+
+.date_btn {
+  padding: 3px 30px !important;
+  font-size: 20px !important;
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif !important;
+}

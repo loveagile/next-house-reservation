@@ -1,0 +1,14 @@
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif;
+  padding: 3px 10px;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  padding: 0;
+}
+
+.css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif;
+  padding: 5px 10px !important;
+  min-width: 170px !important;
+}

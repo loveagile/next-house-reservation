@@ -1,0 +1,25 @@
+.main_img_btn {
+  font-size: 15px !important;
+  border-radius: 1px !important;
+  background-color: #29ac6d !important;
+  font-family: "YuGothic";
+}
+
+.up_arrow_btn {
+  font-size: 15px !important;
+  border-radius: 1px !important;
+  font-family: "YuGothic";
+}
+
+.down_arrow_btn {
+  font-size: 15px !important;
+  border-radius: 1px !important;
+  font-family: "YuGothic";
+}
+
+.delete_img_btn {
+  font-size: 15px !important;
+  border-radius: 1px !important;
+  background-color: #e73939 !important;
+  font-family: "YuGothic";
+}

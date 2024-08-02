@@ -1,0 +1,49 @@
+{
+  "name": "housecloud",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "^8.0.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/noto-sans-jp": "^5.0.19",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^3.9.0",
+    "@mui/icons-material": "^5.16.0",
+    "@mui/material": "^5.16.0",
+    "axios": "^1.7.2",
+    "ckeditor5": "^42.0.2",
+    "ckeditor5-classic-plus": "^41.3.0",
+    "ckeditor5-premium-features": "^0.0.1",
+    "dompurify": "^3.1.6",
+    "formidable": "^3.5.1",
+    "mysql2": "^3.10.3",
+    "next": "14.2.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-draggable": "^4.4.6",
+    "react-hook-form": "^7.52.1",
+    "react-spinners": "^0.14.1",
+    "recoil": "^0.7.7",
+    "sass": "^1.77.8",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/dompurify": "^3.0.5",
+    "@types/formidable": "^3.4.5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

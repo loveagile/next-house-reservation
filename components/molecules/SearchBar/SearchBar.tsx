@@ -38,9 +38,9 @@ const SearchBar: React.FC<ISearchBarProps> = ({
           件
         </span>
         <div className="ml-auto flex gap-1">
-          <InputField id="keyword" placeholder="キーワード" control={control} />
-          <SelectBox id="type" names={types} control={control} />
-          <SelectBox id="status" names={status} control={control} />
+          <InputField id="keyword" placeholder="キーワード" control={control} className="w-[200px]" />
+          <SelectBox id="type" names={types} control={control} className="max-w-[200px]" />
+          <SelectBox id="status" names={status} control={control} className="max-w-[200px]" />
           <Button type="submit" className="search_btn" variant="contained">
             <SearchRoundedIcon />
             検索

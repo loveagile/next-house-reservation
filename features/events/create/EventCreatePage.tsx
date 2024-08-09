@@ -66,16 +66,15 @@ export default function EventCreatePage() {
               <RequiredLabel />
             </div>
             <div className="w-full">
-              <InputField id="title" control={control} />
+              <InputField id="title" control={control} className="w-full" />
               {errors.title && (
                 <p className="text-[14px] mt-3 text-m-red">
                   {errors.title.message}
                 </p>
               )}
               <p
-                className={`text-[14px] mt-3 ${
-                  errors.title ? "text-m-red" : ""
-                }`}
+                className={`text-[14px] mt-3 ${errors.title ? "text-m-red" : ""
+                  }`}
               >
                 ※地域名をタイトルの先頭に入れると検索によるアクセス増加が見込めます。
                 <br></br>

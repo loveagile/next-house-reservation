@@ -1,55 +1,51 @@
 "use client";
 
 import axios from "axios";
-import PaginationItem from "@/components/molecules/PaginationItem/PaginationItem";
-import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
 
+import Button from "@mui/material/Button";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
-import "./ReservationViewPage.css";
-import { useEffect, useState } from "react";
-import EventListItem from "@/components/organisms/EventListItem/EventListItem";
-import { IEventListItem } from "@/components/organisms/EventListItem/EventListItem";
-import SearchBar, {
-  ISearchForm,
-} from "@/components/molecules/SearchBar/SearchBar";
 import Loading from "@/components/molecules/Loading/loading";
+import PaginationItem from "@/components/molecules/PaginationItem/PaginationItem";
+import ReservationListItem, { IReservationListItem } from "@/components/organisms/ReservationListItem/ReservationListItem";
+import ReservationSearchBar, { IReservationSearchForm } from "@/components/molecules/ReservationSearchBar/ReservationSearchBar";
+
+import "./ReservationViewPage.css";
 
 export default function ReservationViewPage() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [eventItems, setEventItems] = useState<IEventListItem[]>([]);
-  const [selectedEventItems, setSelectedEventItems] = useState<
-    IEventListItem[]
+  const [reservationItems, setReservationItems] = useState<IReservationListItem[]>([]);
+  const [selectedReservationItems, setSelectedReservationItems] = useState<
+    IReservationListItem[]
   >([]);
-  const [searchData, setSearchData] = useState<ISearchForm>({
+  const [searchData, setSearchData] = useState<IReservationSearchForm>({
+    sortMethod: "申込日: 降順",
     keyword: "",
     type: "イベント種別 - 全て",
-    status: "ステータス - 全て",
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setIsLoading(true);
-    const fetchEvents = async () => {
-      const events = await axios.post("/api/events/view", {
+    const fetchReservations = async () => {
+      const reservations = await axios.post("/api/reservations/view", {
         ...searchData,
       });
-      setEventItems(events.data);
+      setReservationItems(reservations.data);
       setIsLoading(false);
     };
-    fetchEvents();
+    fetchReservations();
   }, [searchData]);
 
   useEffect(() => {
-    const selectedItems = eventItems.slice(
-      currentPage * 10,
-      (currentPage + 1) * 10
+    const selectedItems = reservationItems.slice(
+      currentPage * 20,
+      (currentPage + 1) * 20
     );
-    setSelectedEventItems(selectedItems);
-  }, [eventItems, currentPage]);
-
-  console.log(eventItems)
+    setSelectedReservationItems(selectedItems);
+  }, [reservationItems, currentPage]);
 
   return (
     <>
@@ -59,7 +55,7 @@ export default function ReservationViewPage() {
           <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 mb-3 font-bold text-[#555]">
             予約一覧
           </h1>
-          <p className="text-[14px] yu_gothic">
+          <p className="text-[14px]">
             全ての予約情報が確認でき、「承認」「日付変更」「取り消し」など各種変更を行えます。<br></br>
             「予約詳細」をクリックすると、予約情報「詳細画面」が表示されます。<br></br>
             ※ 必ず「予約詳細」をご確認いただきますようお願い致します。<br></br>
@@ -69,10 +65,7 @@ export default function ReservationViewPage() {
         </div>
 
         <div className="bg-white grow w-full p-5">
-          <SearchBar
-            totalCounts={eventItems.length}
-            setSearchData={setSearchData}
-          />
+          <ReservationSearchBar totalCounts={reservationItems.length} setSearchData={setSearchData} />
 
           {/* New Reservation Create */}
           <div className="mb-6">
@@ -86,30 +79,44 @@ export default function ReservationViewPage() {
             </Button>
           </div>
 
-          {selectedEventItems.length ? (
+          {selectedReservationItems.length ? (
             <div className="flex flex-col">
               <PaginationItem
-                totalPages={Math.ceil(eventItems.length / 10)}
+                totalPages={Math.ceil(reservationItems.length / 10)}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
 
-              {/* Event List */}
-              <div className="grow">
-                {selectedEventItems.map((eventItem, index) => (
-                  <EventListItem key={index} values={eventItem} />
-                ))}
+              {/* Reservation List */}
+              <div className="grow bg-white w-full p-5">
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="w-[90px]">予約詳細</th>
+                      <th className="w-[135px]">予約日時</th>
+                      <th>お客様情報</th>
+                      <th>イベント名</th>
+                      <th className="w-[80px]">流入元</th>
+                      <th className="w-[120px]">ステータス</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedReservationItems.map((reservationItem, index) => (
+                      <ReservationListItem key={index} values={reservationItem} />
+                    ))}
+                  </tbody>
+                </table>
               </div>
 
               <PaginationItem
-                totalPages={Math.ceil(eventItems.length / 10)}
+                totalPages={Math.ceil(reservationItems.length / 10)}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             </div>
           ) : (
             <p className="bg-[#fcf8e3] border-[#faebcc] border-[1px] p-4 rounded-sm">
-              イベントがありません
+              イベント予約が見つかりませんでした
             </p>
           )}
         </div>

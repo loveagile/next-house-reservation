@@ -42,7 +42,7 @@ const DeleteBtn: React.FC<IDeleteBtnProps> = ({
   return (
     <>
       <Button
-        className={`px-[5px] py-[2px] text-[11px] bg-m-red hover:bg-m-red hover:opacity-80 yu_gothic ${className}`}
+        className={`px-[5px] py-[2px] text-[11px] bg-m-red hover:bg-m-red hover:opacity-80 ${className}`}
         variant="contained"
         onClick={() => setOpen(true)}
       >
@@ -56,7 +56,7 @@ const DeleteBtn: React.FC<IDeleteBtnProps> = ({
         aria-labelledby="responsive-dialog-title"
       >
         <DialogTitle
-          className="yu_gothic font-bold"
+          className="font-bold"
           id="responsive-dialog-title"
         >
           {"本当に削除しますか？"}
@@ -67,14 +67,14 @@ const DeleteBtn: React.FC<IDeleteBtnProps> = ({
         <DialogActions>
           <Button
             autoFocus
-            className="yu_gothic font-semibold"
+            className="font-semibold"
             onClick={handleDelete}
           >
             はい
           </Button>
           <Button
             autoFocus
-            className="yu_gothic font-semibold"
+            className="font-semibold"
             onClick={() => setOpen(false)}
           >
             いいえ

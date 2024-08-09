@@ -5,7 +5,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    './features/**/*.{js,ts,jsx,tsx,mdx}',
+    "./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -15,12 +15,14 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        'dark-gray': '#3a4358',
-        'light-gray': '#cfd8dc',
-        'border-gray': '#4b556c',
-        'hover-green': '#0098ba',
-        'm-red': '#e73939',
-      }
+        "dark-gray": "#3a4358",
+        "light-gray": "#cfd8dc",
+        "border-gray": "#4b556c",
+        "hover-green": "#0098ba",
+        "link-color": "#2296f3",
+        "m-red": "#e73939",
+        "m-blue": "#2296f3",
+      },
     },
   },
   plugins: [],

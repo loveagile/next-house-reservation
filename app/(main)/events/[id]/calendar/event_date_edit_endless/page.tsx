@@ -2,7 +2,7 @@ import EventDateEndlessPage from "@/features/events/edit/calendar/event_date_edi
 
 export default function EventDateCalendar() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <EventDateEndlessPage />
     </main>
   );

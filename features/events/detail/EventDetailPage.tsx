@@ -2,31 +2,32 @@
 
 import axios from "axios";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
 import DetailBackBtn from "@/components/atoms/DetailBackBtn";
 import DeleteBtn from "@/components/atoms/DeleteBtn";
-
-import Image from "next/image";
-
-import { getReservationPeriod, eventDateTimeSplit } from "@/utils/convert";
-import { IEventDateTime } from "@/lib/recoil/EventDateAtom";
 import EditBtn from "@/components/atoms/EditBtn";
-import { useRecoilState } from "recoil";
-import { EventAtom } from "@/lib/recoil/EventAtom";
 import Loading from "@/components/molecules/Loading/loading";
 import NoInputLabel from "@/components/atoms/NoInputLabel";
 import ItemField from "@/components/molecules/ItemField/ItemField";
 import DetailSideBar from "@/components/molecules/DetailSideBar/DetailSideBar";
-
-import "./EventDetailPage.css";
 import HTMLContent from "@/components/atoms/HTMLContent";
 import CheckBox from "@/components/molecules/CheckBox/CheckBox";
+
+import { formatDateToJapaneseString } from "@/utils/convert";
+import { IEventDateTime } from "@/utils/types";
+import { EventAtom } from "@/lib/recoil/EventAtom";
+
+import "./EventDetailPage.css";
 
 const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
 
 const EventDetailPage: React.FC = () => {
   const { id } = useParams();
   const [eventAtom, setEventAtom] = useRecoilState(EventAtom);
+  const [eventDate, setEventDate] = useState<IEventDateTime[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -36,13 +37,13 @@ const EventDetailPage: React.FC = () => {
       const res = await axios.post("/api/events/detail", { id });
       if (res.status === 200) setEventAtom(res.data[0]);
       setChecked(res.data[0].priority);
+      setEventDate(JSON.parse(res.data[0].eventDate));
       setIsLoading(false);
     };
     fetchEventDetail();
   }, []);
 
   useEffect(() => {
-    console.log(checked);
     const setPriority = async () => {
       await axios.post("/api/events/update", {
         id,
@@ -52,13 +53,6 @@ const EventDetailPage: React.FC = () => {
     };
     setPriority();
   }, [checked]);
-
-  let eventDates: IEventDateTime[] = [];
-
-  if (eventAtom.eventDate) {
-    const saveDates = eventAtom.eventDate.split(",").map((date) => date.trim());
-    eventDates = saveDates.map((saveDate) => eventDateTimeSplit(saveDate));
-  }
 
   const imgs = eventAtom.imgUrl
     ? eventAtom.imgUrl.split(",").map((img) => img.trim())
@@ -106,7 +100,7 @@ const EventDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-[18px] my-8 yu_gothic">
+            <div className="text-[18px] my-8">
               イベントの公開に最低限必要な情報を入力しましょう！
             </div>
 
@@ -167,9 +161,12 @@ const EventDetailPage: React.FC = () => {
               <div className="flex items-center p-5 w-full">
                 {eventAtom.eventDate ? (
                   <p className="text-[15px]">
-                    {getReservationPeriod(eventDates)}
+                    {formatDateToJapaneseString(new Date(eventDate[0].date))}
+                    {eventDate.length > 1 && (
+                      `〜${formatDateToJapaneseString(new Date(eventDate[eventDate.length - 1].date))}`
+                    )}
                     <br></br>
-                    上記の期間で開催日が{eventDates.length}日設定されています。
+                    上記の期間で開催日が{eventDate.length}日設定されています。
                   </p>
                 ) : (
                   <NoInputLabel />
@@ -217,7 +214,7 @@ const EventDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-[18px] mt-16 mb-4 yu_gothic">
+            <div className="text-[18px] mt-16 mb-4">
               アピールポイントや写真もアップして、イベントを魅力的に伝えましょう！
             </div>
 
@@ -355,7 +352,7 @@ const EventDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="text-[18px] my-8 yu_gothic">
+            <div className="text-[18px] my-8 ">
               その他イベントに関する設定をしましょう！
             </div>
 
@@ -364,7 +361,7 @@ const EventDetailPage: React.FC = () => {
               <div className="flex items-center p-5 min-w-[260px] border-r-[1px] border-[#eee]">
                 <ItemField
                   src="/imgs/icons/priority.png"
-                  name="優先順位を上げる"
+                  name="優先順位"
                   height={36}
                 />
               </div>

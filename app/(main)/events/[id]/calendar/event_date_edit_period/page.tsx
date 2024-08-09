@@ -2,7 +2,7 @@ import EventDatePeriodPage from "@/features/events/edit/calendar/event_date_edit
 
 export default function EventDateCalendar() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <EventDatePeriodPage />
     </main>
   );

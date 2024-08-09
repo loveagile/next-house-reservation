@@ -2,7 +2,7 @@ import CampaignFormatEditPage from "@/features/campaigns/edit/format/CampaignFor
 
 export default function EventDetail() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <CampaignFormatEditPage />
     </main>
   );

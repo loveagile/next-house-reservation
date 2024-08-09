@@ -2,7 +2,7 @@ import CampaignDateEndlessPage from "@/features/campaigns/edit/calendar/campaign
 
 export default function CampaignDateEndless() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <CampaignDateEndlessPage />
     </main>
   );

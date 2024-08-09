@@ -13,7 +13,7 @@ interface ResultSetHeader {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { title, type, format, note, createdAt, updatedAt } = data;
+  const { title, type, format, note } = data;
 
   let queryStr =
     "INSERT INTO events (title, type, format" + (note ? ", note" : "") + ") ";

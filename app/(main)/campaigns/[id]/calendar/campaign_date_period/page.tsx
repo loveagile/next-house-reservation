@@ -2,7 +2,7 @@ import CampaignDatePeriodPage from "@/features/campaigns/edit/calendar/campaign_
 
 export default function CampaignDatePeriod() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <CampaignDatePeriodPage />
     </main>
   );

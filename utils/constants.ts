@@ -85,6 +85,13 @@ export const types = [
   "その他",
 ];
 
+export const sortMethods = [
+  "申込日: 降順",
+  "申込日: 昇順",
+  "予約日: 降順",
+  "予約日: 昇順",
+];
+
 export const formats = ["オープン制", "予約制", "予約承認制", "日程調整予約"];
 
 export const status = [

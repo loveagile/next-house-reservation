@@ -64,7 +64,7 @@ export default function CampaignCreatePage() {
               <RequiredLabel />
             </div>
             <div className="w-full">
-              <InputField id="title" control={control} />
+              <InputField id="title" control={control} className="w-full" />
               {errors.title && (
                 <p className="text-[14px] mt-3 text-m-red">
                   {errors.title.message}

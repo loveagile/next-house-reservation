@@ -1,3 +1,12 @@
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
   padding: 5px 10px !important;
 }
+
+.eye_icon {
+  color: #737373 !important;
+  font-size: 28px !important;
+}
+
+.publish_icon {
+  color: #2aac6d !important;
+}

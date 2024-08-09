@@ -2,7 +2,7 @@ import CampaignCalendarEditPage from "@/features/campaigns/edit/calendar/Campaig
 
 export default function EventCalendarEdit() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <CampaignCalendarEditPage />
     </main>
   );

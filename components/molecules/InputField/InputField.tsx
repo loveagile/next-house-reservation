@@ -32,9 +32,7 @@ const InputField: React.FC<IInputField> = ({
           {...field}
           id={id}
           disabled={disabled}
-          className={`w-full max-w-[500px] ${className} ${
-            disabled ? "bg-[#e6e6e6]" : ""
-          }`}
+          className={`max-w-[500px] ${className}`}
           placeholder={placeholder}
         />
       )}

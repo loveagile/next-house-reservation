@@ -1,7 +1,8 @@
 "use client";
 
-import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
+
 import "./StatusField.css";
 
 interface IStatusField {

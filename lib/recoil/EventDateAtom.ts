@@ -1,22 +1,16 @@
 import { atom } from "recoil";
-
-export interface IEventDateTime {
-  year: number;
-  month: number;
-  day: number;
-  startTime: string;
-  endTime: string;
-}
-
-interface ISelectYearMonth {
-  year: number;
-  month: number;
-}
+import { IEventDateTime } from "@/utils/types";
 
 export const EventDateAtom = atom({
   key: "eventDateAtom",
   default: [] as IEventDateTime[],
 });
+
+// Current Selected Year & Month
+interface ISelectYearMonth {
+  year: number;
+  month: number;
+}
 
 export const SelectYearMonthAtom = atom({
   key: "selectYearMonthAtom",

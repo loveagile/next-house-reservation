@@ -25,7 +25,7 @@ async function initializeDatabase(db: Connection) {
       type VARCHAR(255) NOT NULL,
       format VARCHAR(255) NOT NULL,
       attend INT DEFAULT 0,
-      eventDate VARCHAR(255),
+      eventDate JSON,
       note VARCHAR(255),
       status VARCHAR(255) DEFAULT '非公開(下書き)',
       priority TINYINT DEFAULT 0,
@@ -62,6 +62,50 @@ async function initializeDatabase(db: Connection) {
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
       deletedAt TIMESTAMP NULL
+    )
+  `);
+
+  // Create 'customers' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS customers (
+      id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      status VARCHAR(255),
+
+      lastName VARCHAR(255) NOT NULL,
+      firstName VARCHAR(255) NOT NULL,
+      seiName VARCHAR(255) NOT NULL,
+      meiName VARCHAR(255) NOT NULL,
+
+      zipCode VARCHAR(255),
+      prefecture VARCHAR(255),
+      city VARCHAR(255),
+      street VARCHAR(255),
+      building VARCHAR(255),
+
+      email VARCHAR(255),
+      brithday VARCHAR(255),
+
+      note VARCHAR(255),
+      memo VARCHAR(255),
+      employee VARCHAR(255),
+
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+      deletedAt TIMESTAMP NULL
+    )
+  `);
+
+  // Create 'reservations' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS reservations (
+      id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      customerId INT,
+      eventId INT,
+      reservationDate VARCHAR(255),
+      reservationTime VARCHAR(255),
+      status VARCHAR(255),
+      receptionAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      canceledAt TIMESTAMP NULL
     )
   `);
 }

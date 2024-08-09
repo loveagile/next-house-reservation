@@ -235,7 +235,7 @@ export default function Sidebar() {
   const [hoveredSubItem, setHoveredSubItem] = useState<number>(-1);
 
   return (
-    <Box className="w-[240px] bg-dark-gray relative z-50">
+    <Box className="fixed h-full w-[240px] bg-dark-gray z-50">
       <List className="text-light-gray relative">
         {menues.map((item, index) => (
           <div key={index}>

@@ -1,20 +1,21 @@
 "use client";
 
+import { useRecoilState, useRecoilValue } from "recoil";
+
 import Button from "@mui/material/Button";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 import TableRow from "@/components/molecules/TableRow/TableRow";
-import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
-import { useRecoilState } from "recoil";
 
 import { daysStr } from "@/utils/constants";
-import { dayOfWeek, numberOfDays, getReservationPeriod } from "@/utils/convert";
+import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
+import { dayOfWeek, numberOfDays, formatDateToJapaneseString } from "@/utils/convert";
 
 import "./DateCalendar.css";
 
 const DateCalendar: React.FC = () => {
-  const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
+  const eventDates = useRecoilValue(EventDateAtom);
   const [selectYearMonth, setSelectYearMonth] =
     useRecoilState(SelectYearMonthAtom);
 
@@ -111,9 +112,13 @@ const DateCalendar: React.FC = () => {
         </table>
         {eventDates.length > 0 && (
           <p className="text-[15px] mt-6">
-            {getReservationPeriod(eventDates)}
+            {formatDateToJapaneseString(new Date(eventDates[0].date))}
+            {eventDates.length > 1 && (
+              `〜${formatDateToJapaneseString(new Date(eventDates[eventDates.length - 1].date))}`
+            )}
             <br></br>
             上記の期間で開催日が{eventDates.length}日設定されています。
+
           </p>
         )}
         <div className="flex justify-center items-center">

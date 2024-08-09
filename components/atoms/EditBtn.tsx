@@ -14,7 +14,7 @@ const EditBtn: React.FC<IEditBtnProps> = ({
   return (
     <Button
       href={linkUrl}
-      className={`py-[5px] rounded-[1px] yu_gothic mb-3 ml-auto ${className}`}
+      className={`py-[5px] rounded-[1px]  mb-3 ml-auto ${className}`}
       variant="contained"
     >
       {text}

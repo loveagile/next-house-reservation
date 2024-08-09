@@ -1,4 +1,5 @@
-import { IEventDateTime } from "@/lib/recoil/EventDateAtom";
+import { IEventDateTime } from "@/utils/types";
+import { IStartEndTimeProps } from "@/components/molecules/TimeSetDialog/TimeSetDialog";
 
 export const formatDateToJapaneseString = (date: Date) => {
   const year = date.getFullYear();
@@ -11,6 +12,24 @@ export const formatDateToJapaneseString = (date: Date) => {
   return `${year}年${month}月${day}日(${weekday})`;
 };
 
+export const formatReservationDateToJapaneseString = (isoTimestamp: string) => {
+  const date = new Date(isoTimestamp);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+  const day = date.getDate().toString().padStart(2, "0");
+
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const weekday = weekdays[date.getDay()];
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return {
+    date: `${year}/${month}/${day}(${weekday})`,
+    time: `${hours}:${minutes}`,
+  };
+};
+
 export const formatDateToJapaneseStringWithTime = (date: Date) => {
   const dateStr = formatDateToJapaneseString(date);
 
@@ -21,22 +40,24 @@ export const formatDateToJapaneseStringWithTime = (date: Date) => {
   return dateStr + ` ${hours}:${minutes}:${seconds}`;
 };
 
-export const formatISO8601TimestampToJapaneseString = (isoTimestamp: string) => {
+export const formatISO8601TimestampToJapaneseString = (
+  isoTimestamp: string
+) => {
   const date = new Date(isoTimestamp);
 
   const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+  const day = date.getDate().toString().padStart(2, "0");
 
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const seconds = date.getSeconds().toString().padStart(2, '0');
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
 
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
   const weekday = weekdays[date.getDay()];
 
   return `${year}年${month}月${day}日(${weekday}) ${hours}:${minutes}:${seconds}`;
-}
+};
 
 const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -66,28 +87,64 @@ export const eventDateTimeSplit = (dateTimeString: string) => {
   };
 };
 
-export const getReservationPeriod = (eventDates: IEventDateTime[]) => {
-  const reservationDates = eventDates.map(
-    (date) => new Date(date.year, date.month - 1, date.day)
-  );
-  reservationDates.sort((a, b) => a.getTime() - b.getTime());
-  const count = reservationDates.length;
-  let ret = formatDateToJapaneseString(reservationDates[0]);
-  if (count > 1)
-    ret += "〜" + formatDateToJapaneseString(reservationDates[count - 1]);
-  return ret;
+export const getFormatDate = (date: string, time: string) => {
+  const [year, month, day] = date.split("-").map(Number);
+  const [hours, minutes] = time.split(":").map(Number);
+  return new Date(year, month - 1, day, hours, minutes);
 };
 
-export const formatEventDateTime = (event: IEventDateTime) => {
-  const { year, month, day, startTime, endTime } = event;
-  return `${year}/${month}/${day} ${startTime}-${endTime}`;
+export const getNearestFutureDate = (eventDate: IEventDateTime[]) => {
+  let candidateDate = "";
+  let candidateTimes = [];
+
+  for (let i = 0; i < eventDate.length; i++) {
+    const date = eventDate[i].date;
+    const timeArray = eventDate[i].time;
+    for (let j = 0; j < timeArray.length; j += 2) {
+      const startTime = getTimeStr(timeArray[j]);
+      const dateObject = getFormatDate(date, startTime);
+
+      if (new Date() <= dateObject) {
+        candidateDate = date;
+        for (let k = j; k < timeArray.length; k += 2)
+          candidateTimes.push(getTimeStr(timeArray[k]));
+        return {
+          candidateDate,
+          candidateTimes,
+        };
+      }
+    }
+  }
+  return {
+    candidateDate: "",
+    candidateTimes: [],
+  };
 };
 
-export const formatDateToDBString = (eventDates: IEventDateTime[]) => {
-  const eventDateStrings = eventDates.map((event) =>
-    formatEventDateTime(event)
-  );
-  return eventDateStrings.join(", ");
+export const getTimeStr = (elapsedTime: number) => {
+  const hour = String(Math.floor(elapsedTime / 60));
+  const minute = String(Math.floor(elapsedTime % 60)).padStart(2, "0");
+  return `${hour}:${minute}`;
+};
+
+export const getDateStr = (year: number, month: number, day: number) => {
+  const monthStr = String(month).padStart(2, "0");
+  const dayStr = String(day).padStart(2, "0");
+  return `${year}-${monthStr}-${dayStr}`;
+};
+
+export const getTimeNumber = (elapsedTime: string) => {
+  const [hour, minute] = elapsedTime.split(":");
+  return Number(hour) * 60 + Number(minute);
+};
+
+export const getTimeArray = (startEndTime: IStartEndTimeProps[]) => {
+  let timeArray = [];
+  for (let i = 0; i < startEndTime.length; i++) {
+    timeArray.push(startEndTime[i].startTime);
+    timeArray.push(startEndTime[i].endTime);
+  }
+  return timeArray;
 };
 
 export const includeEventDate = (
@@ -98,20 +155,23 @@ export const includeEventDate = (
 ) => {
   for (let i = 0; i < eventDates.length; i++) {
     const currentEventDate: IEventDateTime = eventDates[i];
-    const { year, month, day, startTime, endTime } = currentEventDate;
-    if (year === selectYear && month === selectMonth && day === selectDay) {
+    const { date, time } = currentEventDate;
+    const [year, month, day] = date.split("-");
+    if (
+      Number(year) === selectYear &&
+      Number(month) === selectMonth &&
+      Number(day) === selectDay
+    ) {
       return {
         status: true,
-        startTime,
-        endTime,
+        time,
         index: i,
       };
     }
   }
   return {
     status: false,
-    startTime: "10:00",
-    endTime: "17:00",
+    time: [600, 1020],
     index: -1,
   };
 };

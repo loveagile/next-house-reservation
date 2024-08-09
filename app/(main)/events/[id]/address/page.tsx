@@ -2,7 +2,7 @@ import EventAddressEditPage from "@/features/events/edit/address/EventAddressEdi
 
 export default function EventAddressEdit() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <EventAddressEditPage />
     </main>
   );

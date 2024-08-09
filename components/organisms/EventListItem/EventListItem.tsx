@@ -1,12 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+
 import Button from "@mui/material/Button";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import StatusField from "@/components/molecules/StatusField/StatusField";
-import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
-import { getReservationPeriod, eventDateTimeSplit } from "@/utils/convert";
-import { IEventDateTime } from "@/lib/recoil/EventDateAtom";
-import { formatISO8601TimestampToJapaneseString } from "@/utils/convert";
+
+import { formatISO8601TimestampToJapaneseString, formatDateToJapaneseString } from "@/utils/convert";
+
 import "./EventListItem.css";
 
 export interface IEventListItem {
@@ -26,7 +30,13 @@ export interface IEventListItem {
   updatedAt: string;
 }
 
-const EventListItem: React.FC<{ values: IEventListItem }> = ({ values }) => {
+interface IEventListProps {
+  values: IEventListItem;
+  setIsLoading: (isLoading: boolean) => void;
+}
+
+const EventListItem: React.FC<IEventListProps> = ({ values, setIsLoading }) => {
+  const router = useRouter();
   const {
     id,
     title,
@@ -44,22 +54,33 @@ const EventListItem: React.FC<{ values: IEventListItem }> = ({ values }) => {
     updatedAt,
   } = values;
 
+  const convertEventDate = JSON.parse(eventDate);
+
   const displayImg = imgUrl
     ? imgUrl.split(",").map((img) => img.trim())[mainImg]
     : "";
 
   const address = (prefecture || "") + (address1 || "") + (address2 || "");
 
-  let eventDates: IEventDateTime[] = [];
-  if (eventDate) {
-    const saveDates = eventDate.split(",").map((date) => date.trim());
-    eventDates = saveDates.map((saveDate) => eventDateTimeSplit(saveDate));
+  const handleDuplicate = async () => {
+    // setIsLoading(true);
+    const res = await axios.post('/api/events/duplicate', { id });
+    // setIsLoading(false);
+    const { lastInsertedId } = res.data;
+
+    router.push(`/events/${lastInsertedId}`);
   }
 
   return (
     <div className="w-full flex border-[1px] border-[#ddd] mb-5">
       <div className="flex flex-col justify-center items-center w-[120px] border-r-[1px] border-[#ddd] p-1">
-        {priority === 1 && <StarsRoundedIcon className="star_icon" />}
+        {priority === 1 && <Image
+          src="/imgs/icons/priority.png"
+          className="w-[30px] h-[36px]"
+          width={30}
+          height={36}
+          alt="優先順位"
+        />}
         <StatusField status={status} />
       </div>
       <div className="flex p-5">
@@ -84,10 +105,13 @@ const EventListItem: React.FC<{ values: IEventListItem }> = ({ values }) => {
             </Link>
           </span>
           <div className="text-sm mt-3 mb-5">{title}</div>
-          {eventDates.length > 0 && (
-            <div className="text-sm text-[#ff0000]">
-              {getReservationPeriod(eventDates)}
-            </div>
+          {convertEventDate && convertEventDate.length > 0 && (
+            <p className="text-sm text-[#ff0000]">
+              {formatDateToJapaneseString(new Date(convertEventDate[0].date))}
+              {eventDate.length > 1 && (
+                `〜${formatDateToJapaneseString(new Date(convertEventDate[convertEventDate.length - 1].date))}`
+              )}
+            </p>
           )}
           {address && <div className="text-sm my-1">・{address}</div>}
           <span className="text-xs mt-2 bg-[#2FA8B5] px-2 py-[2px] text-white">
@@ -107,12 +131,12 @@ const EventListItem: React.FC<{ values: IEventListItem }> = ({ values }) => {
           >
             プレビュー
           </Link>
-          <Link
-            className="border-[1px] w-[49%] border-[#484848] text-center p-[1px]"
-            href={"#"}
+          <Button
+            className="duplicate_btn"
+            onClick={handleDuplicate}
           >
             複製
-          </Link>
+          </Button>
         </div>
         <div className="text-[11px] mt-auto">最終更新: {formatISO8601TimestampToJapaneseString(updatedAt)}</div>
       </div>

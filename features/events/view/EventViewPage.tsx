@@ -1,26 +1,23 @@
 "use client";
 
 import axios from "axios";
-import PaginationItem from "@/components/molecules/PaginationItem/PaginationItem";
-import Button from "@mui/material/Button";
+import { useEffect, useState } from "react";
 
+import Loading from "@/components/molecules/Loading/loading";
+import PaginationItem from "@/components/molecules/PaginationItem/PaginationItem";
+import EventListItem from "@/components/organisms/EventListItem/EventListItem";
+import { IEventListItem } from "@/components/organisms/EventListItem/EventListItem";
+import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
+
+import Button from "@mui/material/Button";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 import "./EventViewPage.css";
-import { useEffect, useState } from "react";
-import EventListItem from "@/components/organisms/EventListItem/EventListItem";
-import { IEventListItem } from "@/components/organisms/EventListItem/EventListItem";
-import SearchBar, {
-  ISearchForm,
-} from "@/components/molecules/SearchBar/SearchBar";
-import Loading from "@/components/molecules/Loading/loading";
 
 export default function EventViewPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [eventItems, setEventItems] = useState<IEventListItem[]>([]);
-  const [selectedEventItems, setSelectedEventItems] = useState<
-    IEventListItem[]
-  >([]);
+  const [selectedEventItems, setSelectedEventItems] = useState<IEventListItem[]>([]);
   const [searchData, setSearchData] = useState<ISearchForm>({
     keyword: "",
     type: "イベント種別 - 全て",
@@ -49,8 +46,6 @@ export default function EventViewPage() {
     setSelectedEventItems(selectedItems);
   }, [eventItems, currentPage]);
 
-  console.log(eventItems)
-
   return (
     <>
       {isLoading && <Loading />}
@@ -59,7 +54,7 @@ export default function EventViewPage() {
           <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 mb-3 font-bold text-[#555]">
             イベントページ編集
           </h1>
-          <p className="text-[14px] yu_gothic">
+          <p className="text-[14px] ">
             イベントを告知するページを作成することができます。<br></br>
             アピールポイントや写真もアップして、イベントを魅力的に伝えましょう！
           </p>
@@ -94,7 +89,7 @@ export default function EventViewPage() {
               {/* Event List */}
               <div className="grow">
                 {selectedEventItems.map((eventItem, index) => (
-                  <EventListItem key={index} values={eventItem} />
+                  <EventListItem key={index} values={eventItem} setIsLoading={setIsLoading} />
                 ))}
               </div>
 

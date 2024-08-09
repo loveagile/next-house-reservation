@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loading from "@/components/molecules/Loading/loading";
-import { eventDateTimeSplit, formatDateToDBString } from "@/utils/convert";
 
 import { useRecoilState } from "recoil";
 import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
@@ -19,7 +18,7 @@ const EventDateCalendarPage: React.FC = () => {
   const { id } = useParams();
   const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [_, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
+  const [__, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
 
   useEffect(() => {
     const fetchEventDate = async () => {
@@ -34,13 +33,7 @@ const EventDateCalendarPage: React.FC = () => {
       const res = await axios.post("/api/events/detail", { id });
 
       if (res.status === 200) {
-        const saveDateStr: string = res.data[0].eventDate;
-        if (saveDateStr) {
-          const saveDates = saveDateStr.split(",").map((date) => date.trim());
-          setEventDates(
-            saveDates.map((saveDate) => eventDateTimeSplit(saveDate))
-          );
-        }
+        setEventDates(JSON.parse(res.data[0].eventDate));
       }
       setIsLoading(false);
     };
@@ -50,10 +43,16 @@ const EventDateCalendarPage: React.FC = () => {
   const { handleSubmit } = useForm();
 
   const onSubmit = async () => {
-    await axios.post("/api/events/update", {
+    let sortedEventDates = [...eventDates];
+
+    sortedEventDates.sort((lhs, rhs) => {
+      return new Date(lhs.date).getTime() - new Date(rhs.date).getTime();
+    })
+
+    await axios.post("/api/events/update-json", {
       id,
       field_name: "eventDate",
-      field_value: formatDateToDBString(eventDates),
+      field_value: sortedEventDates,
     });
     router.push(`/events/${id}`);
   };

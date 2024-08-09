@@ -2,7 +2,7 @@ import CampaignEventsEditPage from "@/features/campaigns/edit/events/CampaignEve
 
 export default function CampaignTitleEdit() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <CampaignEventsEditPage />
     </main>
   );

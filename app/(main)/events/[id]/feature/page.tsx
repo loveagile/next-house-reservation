@@ -2,7 +2,7 @@ import EventFeatureEditPage from "@/features/events/edit/feature/EventFeatureEdi
 
 export default function EventDetail() {
   return (
-    <main className="flex min-h-screen grow">
+    <main className="flex min-h-screen grow ml-[240px]">
       <EventFeatureEditPage />
     </main>
   );

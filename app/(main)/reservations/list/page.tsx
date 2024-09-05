@@ -1,4 +1,4 @@
-import ReservationViewPage from "@/features/reservations/view/ReservationViewPage";
+import ReservationViewPage from "@/features/reservations/ReservationViewPage";
 
 export default function EventList() {
   return (

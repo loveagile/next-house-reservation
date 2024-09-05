@@ -1,6 +1,6 @@
-import EventCreatePage from "@/features/events/create/EventCreatePage";
+import EventCreatePage from "@/features/events/EventCreatePage";
 
-export default function EventCreate() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <EventCreatePage />

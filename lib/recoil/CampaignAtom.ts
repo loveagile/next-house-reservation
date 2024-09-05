@@ -1,37 +1,24 @@
 import { atom } from "recoil";
+import { ICampaign } from "@/utils/types";
 
-interface ICurrentItemProps {
-  prefecture: string;
-  address1: string;
-  address2: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: string;
-  eventDate: string;
-  format: string;
-  status: string;
-  title: string;
-  type: string;
-  featuredEvent: string;
-  imgUrl?: string;
-  article: string;
-}
-
-const initialCampaignItem: ICurrentItemProps = {
+const initialCampaignItem: ICampaign = {
+  id: -1,
+  title: "",
+  type: "",
+  format: "",
+  status: "非公開",
+  eventDate: "",
   prefecture: "",
   address1: "",
   address2: "",
-  createdAt: "",
-  updatedAt: "",
-  deletedAt: "",
-  eventDate: "",
-  format: "",
-  status: "非公開(下書き)",
-  title: "",
-  type: "",
+  hiddenAddress: "",
   featuredEvent: "",
-  imgUrl: "",
+  images: "",
+  mainIndex: 0,
   article: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: new Date(),
 };
 
 export const CampaignAtom = atom({

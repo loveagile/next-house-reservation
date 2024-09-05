@@ -15,14 +15,11 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { title, type, format, note } = data;
 
-  let queryStr =
-    "INSERT INTO events (title, type, format" + (note ? ", note" : "") + ") ";
-  queryStr += "VALUES (";
-  queryStr += "'" + title + "', ";
-  queryStr += "'" + type + "', ";
-  queryStr += "'" + format + "'";
-  if (note) queryStr += ", '" + note + "'";
-  queryStr += ");";
+  let queryStr = `
+    INSERT INTO events 
+      (title, type, format, note) 
+    VALUES
+      ('${title}', '${type}', '${format}', '${note || ""}')`;
 
   try {
     const db = await connectToDatabase();

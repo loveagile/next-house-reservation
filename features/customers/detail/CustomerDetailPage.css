@@ -1,0 +1,52 @@
+.css-9npbnl-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: 'Yu Gothic', 'YuGothic', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+  min-height: 30px !important;
+}
+
+.register_btn {
+  padding: 5px 30px !important;
+  font-size: 20px !important;
+  font-family: 'YuGothic', sans-serif !important;
+  border-radius: 1px !important;
+}
+
+.customer_edit_btn {
+  padding-top: 8px !important;
+  border-radius: 2px !important;
+  font-family: YuGothic !important;
+}
+
+.customer_table th {
+  width: 220px !important;
+  font-weight: 500 !important;
+  padding: 8px !important;
+  font-size: 15px !important;
+  text-align: left !important;
+  background-color: #f7f7f7 !important;
+}
+
+.customer_table td {
+  padding: 8px 10px !important;
+  font-size: 15px !important;
+}
+
+.request_table th {
+  background-color: #2fa8b5 !important;
+  padding: 12px !important;
+  font-size: 15px !important;
+  color: white !important;
+  font-weight: 400 !important;
+}
+
+.reservation_table th {
+  background-color: #2fa8b5 !important;
+  padding: 10px !important;
+  color: white !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}

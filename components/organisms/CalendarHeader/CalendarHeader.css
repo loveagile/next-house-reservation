@@ -1,0 +1,9 @@
+.prev_btn,
+.nxt_btn {
+  padding: 0 !important;
+  min-width: auto;
+}
+
+.arrow_icon {
+  font-size: 30px !important;
+}

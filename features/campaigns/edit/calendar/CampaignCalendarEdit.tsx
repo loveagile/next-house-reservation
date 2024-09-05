@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "@/components/molecules/Loading/loading";
-import EditBackBtn from "@/components/atoms/EditBackBtn";
+import Loading from "@/components/molecules/loading";
+import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import "./CampaignCalendarEdit.css";
 
@@ -32,7 +32,7 @@ const CampaignCalendarEditPage: React.FC = () => {
     <Loading />
   ) : (
     <div className="px-10 py-8 w-full">
-      <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 font-bold text-[#555]">
+      <h1 className="border-m-green border-l-[6px] text-xl p-0 pl-2 font-bold ">
         開催日の設定
       </h1>
       <p className="mt-2 mb-5 text-sm">どんなまとめページですか？</p>

@@ -9,9 +9,8 @@ import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRigh
 import TableRow from "@/components/molecules/TableRow/TableRow";
 
 import { daysStr } from "@/utils/constants";
-import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
 import { dayOfWeek, numberOfDays, formatDateToJapaneseString } from "@/utils/convert";
-
+import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
 import "./DateCalendar.css";
 
 const DateCalendar: React.FC = () => {
@@ -57,7 +56,7 @@ const DateCalendar: React.FC = () => {
 
   return (
     <div className="bg-white items-start mt-5 p-5 w-full">
-      <p className="text-[15px] font-semibold">
+      <p className="font-semibold">
         {selectYearMonth.year} 年 {selectYearMonth.month} 月
       </p>
       <div>

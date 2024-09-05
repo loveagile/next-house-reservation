@@ -18,8 +18,9 @@ const config: Config = {
         "dark-gray": "#3a4358",
         "light-gray": "#cfd8dc",
         "border-gray": "#4b556c",
-        "hover-green": "#0098ba",
         "link-color": "#2296f3",
+
+        "m-green": "#0098ba",
         "m-red": "#e73939",
         "m-blue": "#2296f3",
       },

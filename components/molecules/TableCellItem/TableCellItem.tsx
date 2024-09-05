@@ -10,14 +10,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Dialog from "@mui/material/Dialog";
 
-import SelectBox from "@/components/molecules/SelectBox/SelectBox";
+import TimeSetDialog from "../TimeSetDialog/TimeSetDialog";
 
-import { timesStr } from "@/utils/constants";
 import { includeEventDate, getTimeStr, getDateStr } from "@/utils/convert";
 import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
 
 import "./TableCellItem.css";
-import TimeSetDialog from "../TimeSetDialog/TimeSetDialog";
 
 const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
   const [open, setOpen] = useState(false);

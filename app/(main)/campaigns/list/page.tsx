@@ -1,6 +1,6 @@
-import CampaignViewPage from "@/features/campaigns/view/CampaignViewPage";
+import CampaignViewPage from "@/features/campaigns/CampaignViewPage";
 
-export default function EventList() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <CampaignViewPage />

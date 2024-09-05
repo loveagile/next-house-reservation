@@ -28,11 +28,3 @@ td {
 thead td {
   text-align: center;
 }
-
-table,
-tr,
-th,
-td {
-  border: 1px solid #eee;
-  border-collapse: collapse;
-}

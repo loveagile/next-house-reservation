@@ -2,13 +2,14 @@
 
 import * as React from "react";
 import Image from "next/image";
+import axios from "axios";
 import { useState } from "react";
+
 import { Button, Box } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import axios from "axios";
-import { IRegisteredImageProps } from "@/features/campaigns/edit/picture/CampaignPictureEdit";
 
+import { IRegisteredImageProps } from "@/features/campaigns/edit/picture/CampaignPictureEdit";
 import "./EventImageUpload.css";
 
 interface IImageProps {
@@ -22,9 +23,7 @@ interface IImageUploadProps {
   >;
 }
 
-const EventImageUpload: React.FC<IImageUploadProps> = ({
-  setRegisteredImgs,
-}) => {
+const EventImageUpload: React.FC<IImageUploadProps> = ({ setRegisteredImgs }) => {
   const [uploadImg, setUploadImg] = useState<IImageProps>({
     url: "",
     name: "選択ファイルなし",
@@ -77,7 +76,7 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({
           <InputLabel htmlFor="picture">画像をアップロード</InputLabel>
         </div>
         <div className="flex flex-col w-full">
-          <Box className="border-[1px] border-[#ccc] rounded w-[400px]">
+          <Box className="flex items-center border-[1px] border-[#ccc] rounded w-[400px]">
             <input
               accept=".png, .jpg, .jpeg"
               style={{ display: "none" }}
@@ -90,15 +89,15 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({
                 variant="contained"
                 color="primary"
                 component="span"
-                className="rounded-none"
+                className="rounded-none YuGothic"
                 startIcon={<CloudUploadIcon />}
               >
                 画像を選択
               </Button>
             </label>
-            <span className="ml-2">{uploadImg.name}</span>
+            <span className="ml-3">{uploadImg.name}</span>
           </Box>
-          <p className="text-[14px] mt-3">
+          <p className="text-sm mt-3">
             ※推奨サイズ: 「1024px × 768px」、画像比率: 「4(横) : 3(縦)」
             <br></br>
             ※アップロード画像の推奨カラーモードは「RGB」です。「CMYK」でアップロードいただいた場合、本来の色とは異なった見え方になる可能性があります。
@@ -116,7 +115,7 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({
           )}
           <Button
             onClick={addImageURL}
-            className="update_btn"
+            className="register_btn"
             variant="contained"
           >
             登録する

@@ -15,7 +15,19 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { id } = data;
 
-  let queryStr = `INSERT INTO events (title, type, format, attend, note, status, priority, prefecture, address1, address2, imgUrl, mainImg, tag, feature, benefit) SELECT title, type, format, attend, note, status, priority, prefecture, address1, address2, imgUrl, mainImg, tag, feature, benefit FROM events WHERE id = ${id}`;
+  let queryStr = `
+    INSERT INTO events (
+      title, type, format, note, status, statusBit, priority, 
+      prefecture, address1, address2, hiddenAddress, mapFormat, mailFormat,
+      images, mainIndex, FPImages, 
+      tag, feature, benefit, propertyType) 
+    SELECT 
+      title, type, format, note, status, statusBit, priority, 
+      prefecture, address1, address2, hiddenAddress, mapFormat, mailFormat,
+      images, mainIndex, FPImages, 
+      tag, feature, benefit, propertyType
+    FROM events 
+    WHERE id = ${id}`;
 
   try {
     const db = await connectToDatabase();

@@ -1,15 +1,14 @@
 "use client";
 
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+
+import Loading from "@/components/molecules/loading";
+import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RegisteredImage from "@/components/molecules/RegisteredImage/RegisteredImage";
 import CampaignImageUpload from "@/components/molecules/CampaignImageUpload/CampaignImageUpload";
-
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Loading from "@/components/molecules/Loading/loading";
-import EditBackBtn from "@/components/atoms/EditBackBtn";
 
 import "./CampaignPictureEdit.css";
 
@@ -32,12 +31,10 @@ const CampaignPictureEditPage: React.FC = () => {
       setIsLoading(true);
       const res = await axios.post("/api/campaigns/detail", { id });
       if (res.status === 200) {
-        if (res.data[0].imgUrl)
+        if (res.data[0].images)
           setRegisteredImgs({
-            urls: res.data[0].imgUrl
-              .split(",")
-              .map((img: string) => img.trim()),
-            mainIndex: res.data[0].mainImg,
+            urls: res.data[0].images.split(",").map((img: string) => img.trim()),
+            mainIndex: res.data[0].mainIndex,
           });
       } else {
         setRegisteredImgs({
@@ -55,12 +52,12 @@ const CampaignPictureEditPage: React.FC = () => {
   const onSubmit = async () => {
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "imgUrl",
+      field_name: "images",
       field_value: registeredImgs.urls.join(","),
     });
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "mainImg",
+      field_name: "mainIndex",
       field_value: registeredImgs.mainIndex,
     });
     router.push(`/campaigns/${id}`);
@@ -71,7 +68,7 @@ const CampaignPictureEditPage: React.FC = () => {
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="px-10 py-8 w-full">
-        <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 mb-5 font-bold text-[#555]">
+        <h1 className="border-m-green border-l-[6px] text-xl pl-2 mb-5 font-bold">
           画像の追加
         </h1>
         <div className="flex bg-white items-start mt-5 p-5 w-full">

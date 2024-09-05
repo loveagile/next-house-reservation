@@ -1,8 +1,6 @@
-import { connectToDatabase } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
-import formidable from "formidable";
 import path from "path";
 import { writeFile } from "fs/promises";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const image = (await req.formData()).get("image");

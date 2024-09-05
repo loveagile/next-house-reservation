@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "@/components/molecules/Loading/loading";
-import EditBackBtn from "@/components/atoms/EditBackBtn";
+import Loading from "@/components/molecules/loading";
+import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import "./CampaignEventsEdit.css";
 
 const CampaignEventsEditPage: React.FC = () => {
@@ -48,7 +48,7 @@ const CampaignEventsEditPage: React.FC = () => {
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="px-10 py-8 w-full">
-        <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 mb-5 font-bold text-[#555]">
+        <h1 className="border-m-green border-l-[6px] text-xl p-0 pl-2 mb-5 font-bold ">
           掲載イベント選択
         </h1>
         <div className="flex bg-white items-start mt-5 p-5 w-full">

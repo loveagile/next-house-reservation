@@ -37,7 +37,7 @@
 }
 
 .dialog_title {
-  font-family: 'YuGothic' !important;
+  font-family: 'YuGothic', sans-serif !important;
   font-weight: 700 !important;
   border-left: 5px #35bda1 solid !important;
   padding: 0 0 0 8px !important;

@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { Button } from "@mui/material";
 
+import { Button } from "@mui/material";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import { IRegisteredImageProps } from "@/features/campaigns/edit/picture/CampaignPictureEdit";
 
+import { IRegisteredImageProps } from "@/features/campaigns/edit/picture/CampaignPictureEdit";
 import "./RegisteredImage.css";
 
 interface IRegistereProps {
@@ -33,10 +33,7 @@ const RegisteredImage: React.FC<IRegistereProps> = ({
 
   const handleUpArrowBtn = (index: number) => {
     let swapUrls = registeredImgs.urls;
-    [swapUrls[index - 1], swapUrls[index]] = [
-      swapUrls[index],
-      swapUrls[index - 1],
-    ];
+    [swapUrls[index - 1], swapUrls[index]] = [swapUrls[index], swapUrls[index - 1]];
     let mainIndex = registeredImgs.mainIndex;
     if (mainIndex === index - 1) mainIndex = index;
     else if (mainIndex === index) mainIndex = index - 1;
@@ -48,10 +45,7 @@ const RegisteredImage: React.FC<IRegistereProps> = ({
 
   const handleUpDownBtn = (index: number) => {
     let swapUrls = registeredImgs.urls;
-    [swapUrls[index], swapUrls[index + 1]] = [
-      swapUrls[index + 1],
-      swapUrls[index],
-    ];
+    [swapUrls[index], swapUrls[index + 1]] = [swapUrls[index + 1], swapUrls[index]];
     let mainIndex = registeredImgs.mainIndex;
     if (mainIndex === index) mainIndex = index + 1;
     else if (mainIndex === index + 1) mainIndex = index;
@@ -75,7 +69,7 @@ const RegisteredImage: React.FC<IRegistereProps> = ({
 
   return (
     <div className="flex flex-col w-full">
-      <div className="text-[18px] mb-5">登録済み画像</div>
+      <div className="text-lg mb-5">登録済み画像</div>
       <hr className="w-full h-[1px] border-t-[1px] border-t-[#ccc]" />
       {registeredImgs.urls.map((img, index) => (
         <div key={index} className="flex border-b-[1px] border-b-[#ccc] py-4">
@@ -141,7 +135,7 @@ const RegisteredImage: React.FC<IRegistereProps> = ({
         <div className="flex w-[250px] justify-end pr-5"></div>
         <Button
           type="submit"
-          className="text-[20px] px-10 mt-5 update_btn"
+          className="update_btn"
           variant="contained"
         >
           更新する

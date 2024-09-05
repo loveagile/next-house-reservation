@@ -1,6 +1,6 @@
-import EventBenefitEditPage from "@/features/events/edit/benefit/EventBenefitEdit";
+import EventBenefitEditPage from "@/features/events/edit/EventBenefitEdit";
 
-export default function EventDetail() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <EventBenefitEditPage />

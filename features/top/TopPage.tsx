@@ -1,7 +1,10 @@
 "use client";
-import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import DraggableDialog from "@/components/molecules/DraggableDialog/DraggableDialog";
+
 import { Fragment } from "react";
+
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+
+import DraggableDialog from "@/components/molecules/DraggableDialog/DraggableDialog";
 
 const news = [
   {

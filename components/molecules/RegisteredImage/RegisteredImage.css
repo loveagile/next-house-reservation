@@ -23,3 +23,13 @@
   background-color: #e73939 !important;
   font-family: "YuGothic";
 }
+
+.update_btn {
+  width: 170px;
+  font-size: 20px !important;
+  padding: 3px 25px !important;
+  margin-top: 20px !important;
+  border-radius: 1px !important;
+  text-align: center;
+  font-family: 'YuGothic', sans-serif !important;
+}

@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const { id } = data;
-  let queryStr = "SELECT * FROM events WHERE id = ";
-  queryStr += id.toString() + ";";
+  let queryStr = `
+    SELECT * FROM events 
+    WHERE id = ${id.toString()}
+  `;
 
   try {
     const db = await connectToDatabase();

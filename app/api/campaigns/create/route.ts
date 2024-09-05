@@ -13,21 +13,20 @@ interface ResultSetHeader {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const {title, type, format} = data;
+  const { title, type, format } = data;
 
-  let queryStr = "INSERT INTO campaigns (title, type, format) VALUES (";
-  queryStr += "'" + title + "', ";
-  queryStr += "'" + type + "', ";
-  queryStr += "'" + format + "');";
+  let queryStr = `
+    INSERT INTO campaigns 
+      (title, type, format) 
+    VALUES
+      ('${title}', '${type}', '${format}')`;
 
   try {
     const db = await connectToDatabase();
-    const [result] = await db.query(queryStr) as ResultSetHeader[];
+    const [result] = (await db.query(queryStr)) as ResultSetHeader[];
     const lastInsertedId = result.insertId;
-    return NextResponse.json({lastInsertedId
-      
-    });
+    return NextResponse.json({ lastInsertedId });
   } catch (error) {
-    console.error('Error connecting to database:', error);
+    console.error("Error connecting to database:", error);
   }
 }

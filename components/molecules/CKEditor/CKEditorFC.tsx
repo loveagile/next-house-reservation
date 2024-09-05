@@ -1,7 +1,10 @@
+import axios from "axios";
 import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditorBase from "ckeditor5-classic-plus";
 import { Editor } from "@ckeditor/ckeditor5-core";
+
+import "./CKEditorFC.css";
 
 interface ICKEditorProps {
   article: string;
@@ -9,14 +12,49 @@ interface ICKEditorProps {
 }
 
 const ClassicEditor = ClassicEditorBase as unknown as {
-  new (...args: any[]): Editor;
+  new(...args: any[]): Editor;
   create(...args: any[]): Promise<Editor>;
   EditorWatchdog: typeof Editor.EditorWatchdog;
   ContextWatchdog: typeof Editor.ContextWatchdog;
 };
 
+class MyUploadAdapter {
+  loader: any;
+
+  constructor(loader: any) {
+    this.loader = loader;
+  }
+
+  async upload() {
+    try {
+      const file = await this.loader.file;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await axios.post("/api/ckeditor/upload-file", formData);
+
+      if (!res.data.url) {
+        throw new Error("Failed to upload file. Server did not return a URL.");
+      }
+
+      return {
+        default: res.data.url,
+      };
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
+  }
+}
+
+function MyCustomUploadAdapterPlugin(editor: any) {
+  editor.plugins.get("FileRepository").createUploadAdapter = (loader: any) => {
+    return new MyUploadAdapter(loader);
+  };
+}
+
 const CKEditorFC: React.FC<ICKEditorProps> = ({ article, setArticle }) => {
-  console.log(article);
   return (
     <CKEditor
       editor={ClassicEditor}
@@ -29,17 +67,7 @@ const CKEditorFC: React.FC<ICKEditorProps> = ({ article, setArticle }) => {
         setArticle(data);
       }}
       config={{
-        simpleUpload: {
-          // The URL that the images are uploaded to.
-          uploadUrl: "http://localhost:3000/",
-          // Enable the XMLHttpRequest.withCredentials property if required.
-          withCredentials: true,
-          // Headers sent along with the XMLHttpRequest to the upload server.
-          headers: {
-            "X-CSRF-Token": "CSRF-Token",
-            Authorization: "Bearer [JSON Web Token]",
-          },
-        },
+        extraPlugins: [MyCustomUploadAdapterPlugin],
       }}
     />
   );

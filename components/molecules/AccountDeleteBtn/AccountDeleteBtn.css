@@ -1,0 +1,25 @@
+.account_del_btn {
+  width: 100% !important;
+  background-color: #e73939 !important;
+  font-size: 13px !important;
+  font-family: YuGothic !important;
+  padding: 2px 0 0 !important;
+  border-radius: 1px !important;
+}
+
+.account_icon {
+  font-size: 15px !important;
+  margin-right: 4px !important;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  min-width: 500px !important;
+}
+
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  padding: 20px !important;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  padding: 5px 15px !important;
+}

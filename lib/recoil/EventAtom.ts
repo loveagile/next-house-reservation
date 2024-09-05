@@ -1,47 +1,29 @@
 import { atom } from "recoil";
+import { IEvent } from "@/utils/types";
 
-interface ICurrentItemProps {
-  prefecture: string;
-  address1: string;
-  address2: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: string;
-  attend: number;
-  eventDate: string;
-  format: string;
-  note?: string;
-  status: string;
-  tag?: string;
-  feature?: string;
-  benefit?: string;
-  title: string;
-  type: string;
-  imgUrl?: string;
-  floorImgs?: string;
-  priority: number;
-}
-
-const initialEventItem: ICurrentItemProps = {
+const initialEventItem: IEvent = {
+  id: -1,
+  title: "",
+  type: "",
+  format: "",
+  attend: 0,
+  eventDate: "",
+  note: "",
+  status: "非公開",
+  priority: 0,
   prefecture: "",
   address1: "",
   address2: "",
-  createdAt: "",
-  updatedAt: "",
-  deletedAt: "",
-  attend: 0,
-  eventDate: "",
-  format: "",
-  note: "",
-  status: "非公開(下書き)",
+  hiddenAddress: "",
+  images: "",
+  mainIndex: 0,
+  FPImages: "",
   tag: "",
   feature: "",
   benefit: "",
-  title: "",
-  type: "",
-  imgUrl: "",
-  floorImgs: "",
-  priority: 0,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: new Date(),
 };
 
 export const EventAtom = atom({

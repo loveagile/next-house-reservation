@@ -19,3 +19,16 @@ export const SelectYearMonthAtom = atom({
     month: 1,
   } as ISelectYearMonth,
 });
+
+export const CandidateReserveDateAtom = atom({
+  key: "candidateReserveDateAtom",
+  default: [] as IEventDateTime[],
+});
+
+export const CurrentReserveDateAtom = atom({
+  key: "currentReserveDateAtom",
+  default: {
+    value: "",
+    isOpen: false,
+  },
+});

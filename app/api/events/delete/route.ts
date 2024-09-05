@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { id } = data;
 
-  let queryStr = "DELETE FROM events WHERE id = " + id.toString() + ";";
+  let queryStr = `DELETE FROM events WHERE id = ${id.toString()}`;
 
   try {
     const db = await connectToDatabase();

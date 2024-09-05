@@ -7,23 +7,105 @@ export interface IEvent {
   eventDate: string;
   note: string;
   status: string;
+  statusBit: number;
   priority: number;
   prefecture: string;
   address1: string;
   address2: string;
-  imgUrl: string;
-  mainImg: number;
+  hiddenAddress: string;
+  mapFormat: string;
+  mailFormat: string;
+  images: string;
+  mainIndex: number;
+  FPImages: string;
   tag: string;
   feature: string;
   benefit: string;
+  propertyType: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
 }
 
+export const initialEvent: IEvent = {
+  id: -1,
+  title: "",
+  type: "",
+  format: "",
+  attend: 0,
+  eventDate: "",
+  note: "",
+  status: "非公開",
+  statusBit: 0,
+  priority: 0,
+  prefecture: "",
+  address1: "",
+  address2: "",
+  hiddenAddress: "",
+  mapFormat: "地図にピンを表示する",
+  mailFormat: "住所を全て記載する",
+  images: "",
+  mainIndex: 0,
+  FPImages: "",
+  tag: "",
+  feature: "",
+  benefit: "",
+  propertyType: "設定しない",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: new Date(),
+};
+
+export interface ICampaign {
+  id: number;
+  title: string;
+  type: string;
+  format: string;
+  eventDate: string;
+  status: string;
+  statusBit: number;
+  prefecture: string;
+  address1: string;
+  address2: string;
+  hiddenAddress: string;
+  mapFormat: string;
+  featuredEvent: string;
+  images: string;
+  mainIndex: number;
+  article: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+}
+
+export interface IReservationEvent {
+  eventId: number;
+  customerId: number;
+  title: string;
+  reserveDate: string;
+  startTime: string;
+  endTime: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface IReservationGroupedEvent {
+  eventId: number;
+  title: string;
+  customers: {
+    customerId: number;
+    firstName: string;
+    lastName: string;
+    reserveDate: string;
+    startTime: string;
+    endTime: string;
+  }[];
+}
+
 export interface ICustomer {
   id: number;
   status: string;
+  route: string;
   lastName: string;
   firstName: string;
   seiName: string;
@@ -34,10 +116,31 @@ export interface ICustomer {
   street: string;
   building: string;
   email: string;
-  birthday: string;
+  phone: string;
+  birthYear: number;
+  birthMonth: number;
+  birthDate: number;
   note: string;
   memo: string;
   employee: string;
+  delivery: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+}
+
+export interface IAccount {
+  id: number;
+  approved: number;
+  isAdmin: number;
+  privilege: string;
+
+  name: string;
+  email: string;
+  phone: string;
+
+  password: string;
+
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;

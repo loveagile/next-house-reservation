@@ -1,28 +1,34 @@
 "use client";
 
-import InputField from "@/components/molecules/InputField/InputField";
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
-import SelectBox from "@/components/molecules/SelectBox/SelectBox";
-import MultilineField from "@/components/molecules/MultilineField/MultilineField";
-import { useParams } from "next/navigation";
-import { useRecoilState } from "recoil";
-import { EventAtom } from "@/lib/recoil/EventAtom";
+import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import * as yup from "yup";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useForm } from "react-hook-form";
+import { useParams, useRouter } from "next/navigation";
+
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/navigation";
-import RequiredLabel from "@/components/atoms/RequiredLabel";
-import { getFormatDate, getNearestFutureDate } from "@/utils/convert";
-import Loading from "@/components/molecules/Loading/loading";
+
+import InputLabel from "@mui/material/InputLabel";
+import Button from "@mui/material/Button";
+
+import Loading from "@/components/molecules/loading";
+import InputField from "@/components/molecules/InputField";
+import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
+import MultilineField from "@/components/molecules/MultilineField";
+import ReservationDate from "@/components/molecules/ReservationDate/ReservationDate";
+import ReservationTime from "@/components/molecules/ReservationTime/ReservationTime";
+
+import { IEventDateTime } from "@/utils/types";
+import { IReservationTimeProps } from "@/components/molecules/ReservationTime/ReservationTime";
+import { formatDateToJapaneseString, getFormatDate, getTimeStr } from "@/utils/convert";
+import { EventDateAtom, SelectYearMonthAtom, CandidateReserveDateAtom, CurrentReserveDateAtom } from "@/lib/recoil/EventDateAtom";
 
 import "./ReservationNewPage.css";
 
 interface IReservationForm {
-  date: string;
-  time: string;
   lastName: string;
   firstName: string;
   seiName: string;
@@ -38,44 +44,122 @@ interface IReservationForm {
   memo?: string;
 }
 
-const hiraganaRegex = /^[\u3040-\u309Fー]+$/;
-
-export interface INearestDateTime {
-  candidateDate: string;
-  candidateTimes: string[];
+interface IEventItem {
+  eventId: number;
+  title: string;
+  type: string;
+  format: string;
+  images: string;
+  mainIndex: number;
+  eventDate: string;
 }
+
+const hiraganaRegex = /^[\u3040-\u309Fー]+$/;
 
 export default function ReservationNewPage() {
   const router = useRouter();
 
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [nearestDate, setNearestDate] = useState<INearestDateTime>({
-    candidateDate: "",
-    candidateTimes: []
-  })
+  const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
+  const [candidateReserveDates, setCandidateReserveDates] = useRecoilState(CandidateReserveDateAtom);
+  const currentDate = useRecoilValue(CurrentReserveDateAtom);
+  const [currentTime, setCurrentTime] = useState<IReservationTimeProps>({
+    startTime: "",
+    endTime: "",
+  });
+  const [__, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
 
   useEffect(() => {
     const fetchEventDetail = async () => {
       setIsLoading(true);
+
+      const currentDate: Date = new Date();
+      setSelectYearMonth({
+        year: currentDate.getFullYear(),
+        month: currentDate.getMonth() + 1,
+      });
+
       const res = await axios.post("/api/events/detail", { id });
       const data = res.data[0];
       if (res.status === 200) {
-        setNearestDate(getNearestFutureDate(JSON.parse(data.eventDate)));
+        setEventItem({
+          eventId: data.id,
+          title: data.title,
+          type: data.type,
+          format: data.format,
+          images: data.images,
+          mainIndex: data.mainIndex,
+          eventDate: data.eventDate,
+        });
+        setEventDates(JSON.parse(res.data[0].eventDate));
       }
       setIsLoading(false);
     };
     fetchEventDetail();
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    let candidates: IEventDateTime[] = [];
+    for (let i = 0; i < eventDates.length; i++) {
+      const currentEventDate: IEventDateTime = eventDates[i];
+      const { date, time } = currentEventDate;
+      for (let j = 0; j < time.length; j += 2) {
+        if (getFormatDate(date, getTimeStr(time[j])) >= new Date()) {
+          candidates.push({
+            date,
+            time: time.slice(j)
+          });
+          break;
+        }
+      }
+    }
+    if (candidates.length > 0) {
+      const { date, time } = candidates[0];
+      const [year, month, day] = date.split("-");
+      setSelectYearMonth({
+        year: Number(year),
+        month: Number(month),
+      })
+    }
+    setCandidateReserveDates(candidates);
+    setIsLoading(false);
+  }, [eventDates])
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (candidateReserveDates.length > 0 && candidateReserveDates[0].time.length > 0)
+      setCurrentTime({
+        startTime: getTimeStr(candidateReserveDates[0].time[0]),
+        endTime: getTimeStr(candidateReserveDates[0].time[1]),
+      })
+    setIsLoading(false);
+  }, [candidateReserveDates])
+
+  const [eventItem, setEventItem] = useState<IEventItem>({
+    eventId: 1,
+    title: "",
+    type: "",
+    format: "",
+    images: "",
+    mainIndex: 0,
+    eventDate: "",
+  });
+
+  const mainImg = eventItem.images ?
+    eventItem.images.split(",").map((img) => img.trim())[eventItem.mainIndex] : "/imgs/events/no_image.png";
+
   const schema = yup.object().shape({
-    date: yup.string().required("入力してください。"),
-    time: yup.string().required("入力してください。"),
-    lastName: yup.string().required("入力してください。"),
-    firstName: yup.string().required("入力してください。"),
+    lastName: yup.string().required("入力してください。")
+      .max(10, "10字以内で入力してください"),
+    firstName: yup.string().required("入力してください。")
+      .max(10, "10字以内で入力してください"),
     seiName: yup.string().required("入力してください。")
+      .max(10, "10字以内で入力してください")
       .matches(hiraganaRegex, 'ひらがなで入力してください'),
     meiName: yup.string().required("入力してください。")
+      .max(10, "10字以内で入力してください")
       .matches(hiraganaRegex, 'ひらがなで入力してください'),
     phone: yup.string().required("入力してください。")
       .test('is-not-empty', '電話番号を正しく入力してください', (value) => {
@@ -83,6 +167,7 @@ export default function ReservationNewPage() {
         return /(\d{2,3})\-?(\d{3,4})\-?(\d{4})/g.test(value)
       }),
     email: yup.string().email("メールアドレスを正しく入力してください")
+      .max(80, "80字以内で入力してください"),
   });
 
   const {
@@ -121,13 +206,18 @@ export default function ReservationNewPage() {
 
 
   const onSubmit = async (data: IReservationForm) => {
-    const { date, time, lastName, firstName, seiName, meiName, zipCode, prefecture, city, street, building, phone, email, note, memo } = data;
-
-    const res = await axios.post('/api/customers/create', {
-      status: "予約",
+    const {
       lastName, firstName, seiName, meiName,
       zipCode, prefecture, city, street, building,
-      email, note, memo
+      phone, email, note, memo
+    } = data;
+
+    const res = await axios.post('/api/customers/create', {
+      status: "未設定", route: "予約",
+      lastName, firstName, seiName, meiName,
+      zipCode, prefecture, city, street, building,
+      phone, email, note, memo,
+      delivery: "未設定",
     });
 
     const { lastCustomerId } = res.data;
@@ -135,7 +225,9 @@ export default function ReservationNewPage() {
     await axios.post('/api/reservations/create', {
       customerId: lastCustomerId,
       eventId: id,
-      reservationAt: `${date} ${time.padStart(5, "0")}:00`,
+      reserveDate: currentDate.value,
+      startTime: currentTime.startTime,
+      endTime: currentTime.endTime,
       status: "active",
     });
 
@@ -146,7 +238,7 @@ export default function ReservationNewPage() {
     isLoading ? <Loading /> : (
       <div className="flex flex-col p-10 w-full">
         <div className="mb-6">
-          <h1 className="border-hover-green border-l-[6px] mb-2 text-[20px] p-0 pl-2 font-bold text-[#555]">
+          <h1 className="border-m-green border-l-[6px] mb-2 text-xl p-0 pl-2 font-bold ">
             予約入力
           </h1>
           <p className="text-sm">
@@ -154,32 +246,61 @@ export default function ReservationNewPage() {
           </p>
         </div>
         <div className="bg-white w-full p-5">
+          <div className="flex p-3 border-[1px] border-[#ddd]">
+            <Image
+              src={mainImg}
+              width={160}
+              height={120}
+              className="w-[160px] h-[120px]"
+              alt="イベント画像"
+            />
+            <div className="flex flex-col ml-3">
+              <div>
+                <span className="text-[10px] text-white bg-black px-2 py-[2px]">
+                  {eventItem.type}
+                </span>
+                <span className="text-xs border-[1px] border-[#737373] px-2 py-[2px] ml-1">
+                  {eventItem.format}
+                </span>
+              </div>
+              <p className="mt-2 text-[15px]">
+                <Link href={`/events/${eventItem.eventId}`} className="text-m-blue underline">{eventItem.title}</Link>
+              </p>
+              {eventDates && eventDates.length > 0 && (
+                <p className="text-sm text-[#ff0000] mt-auto">
+                  {formatDateToJapaneseString(new Date(eventDates[0].date))}
+                  {eventDates.length > 1 && (
+                    `〜${formatDateToJapaneseString(new Date(eventDates[eventDates.length - 1].date))}`
+                  )}
+                </p>
+              )}
+            </div>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Reservation Date */}
-            <div className="flex items-start mt-5">
-              <div className="flex min-w-[230px] justify-end pr-5">
-                <InputLabel htmlFor="date">日付</InputLabel>
-                <RequiredLabel />
-              </div>
-              <div className="w-full">
-                <InputField id="date" control={control} className="max-w-full w-full" value={nearestDate.candidateDate} disabled />
-              </div>
-            </div>
+            {candidateReserveDates.length > 0 && (
+              <>
+                {/* Reservation Date */}
+                <div className="flex items-start mt-5 relative">
+                  <div className="flex min-w-[230px] justify-end pr-5">
+                    <InputLabel htmlFor="date">日付</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <div className="w-full">
+                    <ReservationDate id="date" className="max-w-full w-full" value={candidateReserveDates[0].date} />
+                  </div>
+                </div>
 
-            {/* Reservation Time */}
-            <div className="flex items-start mt-5">
-              <div className="flex min-w-[230px] justify-end pr-5">
-                <InputLabel htmlFor="time">時刻</InputLabel>
-              </div>
-              <div className="w-full">
-                <SelectBox
-                  id="time"
-                  control={control}
-                  names={nearestDate.candidateTimes}
-                  className="max-w-[150px]"
-                />
-              </div>
-            </div>
+                {/* Reservation Time */}
+                <div className="flex items-start mt-5">
+                  <div className="flex min-w-[230px] justify-end pr-5">
+                    <InputLabel htmlFor="time">時刻</InputLabel>
+                  </div>
+                  <div className="w-full">
+                    <ReservationTime id="time" currentTime={currentTime} setCurrentTime={setCurrentTime} />
+                  </div>
+                </div>
+              </>
+            )}
 
             {/* Client Name */}
             <div className="flex items-start mt-5">
@@ -193,8 +314,9 @@ export default function ReservationNewPage() {
                   <InputField id="firstName" control={control} className="w-1/4" placeholder="例）太郎" />
                 </div>
                 {(errors.lastName || errors.firstName) && (
-                  <p className="text-[14px] mt-3 text-m-red">
-                    {errors.lastName?.message}
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.lastName && errors.lastName?.message}
+                    {!errors.lastName && errors.firstName?.message}
                   </p>
                 )}
                 <p className="text-sm mt-2">
@@ -215,8 +337,9 @@ export default function ReservationNewPage() {
                   <InputField id="meiName" control={control} className="w-1/4" placeholder="例）たろう" />
                 </div>
                 {(errors.seiName || errors.meiName) && (
-                  <p className="text-[14px] mt-3 text-m-red">
-                    {errors.seiName?.message}
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.seiName && errors.seiName.message}
+                    {!errors.seiName && errors.meiName?.message}
                   </p>
                 )}
                 <p className="text-sm mt-2">
@@ -296,7 +419,7 @@ export default function ReservationNewPage() {
               <div className="w-full">
                 <InputField id="phone" control={control} className="w-2/5" />
                 {errors.phone && (
-                  <p className="text-[14px] mt-3 text-m-red">
+                  <p className="text-sm mt-3 text-m-red">
                     {errors.phone?.message}
                   </p>
                 )}

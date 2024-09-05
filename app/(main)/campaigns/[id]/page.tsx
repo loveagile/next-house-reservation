@@ -1,4 +1,4 @@
-import CampaignDetailPage from "@/features/campaigns/detail/CampaignDetailPage";
+import CampaignDetailPage from "@/features/campaigns/CampaignDetailPage";
 
 export default function CampaignDetail() {
   return (

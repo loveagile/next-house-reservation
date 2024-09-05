@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const {
     status,
+    route,
     lastName,
     firstName,
     seiName,
@@ -24,14 +25,27 @@ export async function POST(req: NextRequest) {
     city,
     street,
     building,
+    phone,
     email,
+    birthYear,
+    birthMonth,
+    birthDate,
     note,
     memo,
+    employee,
+    delivery,
   } = data;
 
-  let queryStr =
-    "INSERT INTO customers (status, lastName, firstName, seiName, meiName, zipCode, prefecture, city, street, building, email, note, memo) VALUES (";
+  let queryStr = `INSERT INTO customers (
+    status, route, lastName, firstName, seiName, meiName, 
+    zipCode, prefecture, city, street, building, 
+    phone, email, note, memo,
+    birthYear, birthMonth, birthDate,
+    employee, delivery
+    ) VALUES (
+  `;
   queryStr += "'" + (status || "") + "', ";
+  queryStr += "'" + (route || "") + "', ";
   queryStr += "'" + (lastName || "") + "', ";
   queryStr += "'" + (firstName || "") + "'";
   queryStr += ", '" + (seiName || "") + "'";
@@ -41,9 +55,15 @@ export async function POST(req: NextRequest) {
   queryStr += ", '" + (city || "") + "'";
   queryStr += ", '" + (street || "") + "'";
   queryStr += ", '" + (building || "") + "'";
+  queryStr += ", '" + (phone || "") + "'";
   queryStr += ", '" + (email || "") + "'";
   queryStr += ", '" + (note || "") + "'";
   queryStr += ", '" + (memo || "") + "'";
+  queryStr += ", " + (birthYear || -1);
+  queryStr += ", " + (birthMonth || -1);
+  queryStr += ", " + (birthDate || -1);
+  queryStr += ", '" + (employee || "未設定") + "'";
+  queryStr += ", '" + (delivery || "") + "'";
   queryStr += ");";
 
   try {

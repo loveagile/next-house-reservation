@@ -1,9 +1,9 @@
-import FloorImageEditPage from "@/features/events/edit/floor-image/FloorImageEdit";
+import EventFloorPlanImageEditPage from "@/features/events/edit/floor-image/EventFloorPlanImageEdit";
 
-export default function FloorImage() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
-      <FloorImageEditPage />
+      <EventFloorPlanImageEditPage />
     </main>
   );
 }

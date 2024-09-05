@@ -98,7 +98,7 @@ const CampaignImageUpload: React.FC<IImageUploadProps> = ({
             </label>
             <span className="ml-2">{uploadImg.name}</span>
           </Box>
-          <p className="text-[14px] mt-3">
+          <p className="text-sm mt-3">
             ※推奨サイズ: 「640px × 480px」、画像比率: 「4(横) : 3(縦)」<br></br>
             ※アップロード画像の推奨カラーモードは「RGB」です。「CMYK」でアップロードいただいた場合、本来の色とは異なった見え方になる可能性があります。
             <br></br>

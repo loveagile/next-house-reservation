@@ -11,8 +11,8 @@ export interface IPublishEventListItem {
   type: string;
   format: string;
   eventDate: string;
-  imgUrl: string;
-  mainImg: number;
+  images: string;
+  mainIndex: number;
 }
 
 const PublishEventListItem: React.FC<{ values: IPublishEventListItem }> = ({ values }) => {
@@ -22,18 +22,18 @@ const PublishEventListItem: React.FC<{ values: IPublishEventListItem }> = ({ val
     type,
     format,
     eventDate,
-    imgUrl,
-    mainImg,
+    images,
+    mainIndex,
   } = values;
 
   const convertEventDate = JSON.parse(eventDate);
-  const displayImg = imgUrl ? imgUrl.split(",").map((img) => img.trim())[mainImg] : "";
+  const mainImg = images ? images.split(",").map((img) => img.trim())[mainIndex] : "/imgs/events/no_image.png";
 
   return (
     <div className="w-full h-full flex">
       <div className="flex p-2">
         <Image
-          src={imgUrl ? displayImg : "/imgs/events/no_image.png"}
+          src={mainImg}
           width={160}
           height={120}
           className="w-[160px] h-[120px]"

@@ -1,6 +1,6 @@
 import CampaignPictureEditPage from "@/features/campaigns/edit/picture/CampaignPictureEdit";
 
-export default function EventDetail() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <CampaignPictureEditPage />

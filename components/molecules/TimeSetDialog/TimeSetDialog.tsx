@@ -8,7 +8,6 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
-import SelectBox from "@/components/molecules/SelectBox/SelectBox";
 
 import { EventDateAtom } from "@/lib/recoil/EventDateAtom";
 import { timesStr } from "@/utils/constants";
@@ -128,7 +127,7 @@ const TimeSetDialog: React.FC<ITimeSetDialogProps> = ({ time, date, setOpen, ind
     <form onSubmit={handleSubmit(onRegister)} className="flex flex-col w-full">
       {timeError &&
         <p className="border-[1px] border-m-red p-3 text-m-red rounded text-[15px]">
-          <InfoRoundedIcon />{timeError}
+          <InfoRoundedIcon className="mr-1" />{timeError}
         </p>}
       {startEndTime.map((time, timeIndex) => (
         <div key={timeIndex} className="mt-3 pb-5 border-b-[1px] broder-[#ccc]">

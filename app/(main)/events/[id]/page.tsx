@@ -1,6 +1,6 @@
-import EventDetailPage from "@/features/events/detail/EventDetailPage";
+import EventDetailPage from "@/features/events/EventDetailPage";
 
-export default function EventDetail() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <EventDetailPage />

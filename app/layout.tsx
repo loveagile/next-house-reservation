@@ -1,8 +1,9 @@
 "use client";
 
+import theme from "@/utils/theme";
 import { RecoilRoot } from "recoil";
+import { ThemeProvider } from '@mui/material/styles';
 import "./globals.css";
-import Sidebar from "@/components/organisms/Sidebar/Sidebar";
 
 export default function RootLayout({
   children,
@@ -11,9 +12,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="jp">
-      <body className="flex">
-        <Sidebar />
-        <RecoilRoot>{children}</RecoilRoot>
+      <body>
+        <ThemeProvider theme={theme}>
+          <RecoilRoot>
+            {children}
+          </RecoilRoot>
+        </ThemeProvider>
       </body>
     </html>
   );

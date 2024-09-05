@@ -1,6 +1,6 @@
-import CampaignFormatEditPage from "@/features/campaigns/edit/format/CampaignFormatEdit";
+import CampaignFormatEditPage from "@/features/campaigns/edit/CampaignFormatEdit";
 
-export default function EventDetail() {
+export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
       <CampaignFormatEditPage />

@@ -1,6 +1,6 @@
 "use client";
 import InputLabel from "@mui/material/InputLabel";
-import MultilineField from "@/components/molecules/MultilineField/MultilineField";
+import MultilineField from "@/components/molecules/MultilineField";
 import Button from "@mui/material/Button";
 
 import { useForm } from "react-hook-form";
@@ -11,8 +11,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./EventDateEndlessPage.css";
-import Loading from "@/components/molecules/Loading/loading";
-import EditBackBtn from "@/components/atoms/EditBackBtn";
+import Loading from "@/components/molecules/loading";
+import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 interface INoteProps {
   event_note: string;
@@ -51,8 +51,8 @@ const EventDateEndlessPage: React.FC = () => {
 
     const res = await axios.post("/api/events/update", {
       id,
-      field_name: "eventNote",
-      field_value: event_note,
+      field_names: ["eventNote"],
+      field_values: [event_note],
     });
 
     router.push(`/events/${id}`);
@@ -63,7 +63,7 @@ const EventDateEndlessPage: React.FC = () => {
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="px-10 py-8 w-full">
-        <h1 className="border-hover-green border-l-[6px] text-[20px] p-0 pl-2 font-bold text-[#555]">
+        <h1 className="border-m-green border-l-[6px] text-xl p-0 pl-2 font-bold ">
           開催日の設定
         </h1>
         <p className="mt-2 mb-5 text-sm">どんなイベントですか？</p>
@@ -71,7 +71,7 @@ const EventDateEndlessPage: React.FC = () => {
           <p className="text-sm">見学会など、土日のみ数日間のイベント</p>
           <Button
             href="/events/calendar/event_date_calendar"
-            className="text-[20px] px-10 mt-3 date_btn"
+            className="text-xl px-10 mt-3 date_btn"
             variant="contained"
           >
             数日間のイベント
@@ -84,7 +84,7 @@ const EventDateEndlessPage: React.FC = () => {
           </p>
           <Button
             href="/events/calendar/event_date_edit_period"
-            className="text-[20px] px-10 mt-3 date_btn"
+            className="text-xl px-10 mt-3 date_btn"
             variant="contained"
           >
             数週間〜数ヶ月間のイベント
@@ -95,7 +95,7 @@ const EventDateEndlessPage: React.FC = () => {
           <p className="text-sm">ずっと開催、または終了日未定のイベント</p>
           <Button
             href="/events/calendar/event_date_edit_endless"
-            className="text-[20px] px-10 mt-3 date_btn"
+            className="text-xl px-10 mt-3 date_btn"
             variant="contained"
           >
             終了日未定のイベント

@@ -3,15 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const {id} = data;
-  let queryStr = "SELECT * FROM campaigns WHERE id = ";
-  queryStr += id.toString() + ";";
+  const { id } = data;
+  let queryStr = `SELECT * FROM campaigns WHERE id = ${id.toString()}`;
 
   try {
     const db = await connectToDatabase();
     const [row] = await db.query(queryStr);
     return NextResponse.json(row);
   } catch (error) {
-    console.error('Error connecting to database:', error);
+    console.error("Error connecting to database:", error);
   }
 }

@@ -1,4 +1,4 @@
-import EventPreviewPage from "@/features/events/preview/EventPreviewPage";
+import EventPreviewPage from "@/features/events/EventPreviewPage";
 import FooterFC from "@/components/molecules/Footer/FooterFC";
 
 export default function page() {

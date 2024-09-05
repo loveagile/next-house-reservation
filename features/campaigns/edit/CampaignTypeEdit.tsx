@@ -44,10 +44,10 @@ const CampaignTypeEditPage: React.FC = () => {
   const onSubmit = async (data: ITypeProps) => {
     const { type } = data;
 
-    const res = await axios.post("/api/campaigns/update", {
+    await axios.post("/api/campaigns/update", {
       id,
-      field_name: "type",
-      field_value: type,
+      field_names: ["type"],
+      field_values: [type],
     });
 
     router.push(`/campaigns/${id}`);

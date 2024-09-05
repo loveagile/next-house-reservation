@@ -27,6 +27,11 @@ const MultilineField: React.FC<IMultilineFieldProps> = ({
           rows={5}
           multiline
           variant="outlined"
+          sx={{
+            '& .MuiInputBase-input': {
+              fontSize: "15px",
+            }
+          }}
         />
       )}
     />

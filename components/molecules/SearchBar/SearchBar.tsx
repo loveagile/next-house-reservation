@@ -1,7 +1,7 @@
 import InputField from "@/components/molecules/InputField";
 import SelectBox from "@/components/molecules/SelectBox";
 import Button from "@mui/material/Button";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { IoSearchSharp } from "react-icons/io5";
 
 import { types, status } from "@/utils/constants";
 import { useForm } from "react-hook-form";
@@ -38,10 +38,11 @@ const SearchBar: React.FC<ISearchBarProps> = ({
           <SelectBox id="status" names={status} control={control} className="max-w-[200px]" />
           <Button type="submit" variant="contained" sx={{
             minWidth: '70px',
-            padding: "2px 0",
+            padding: "4px 1px",
             borderRadius: '1px',
           }}>
-            <SearchRoundedIcon />検索
+            <IoSearchSharp className="text-base mr-[2px]" />
+            <span className="text-sm">検索</span>
           </Button>
         </div>
       </div>

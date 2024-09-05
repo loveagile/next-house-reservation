@@ -1,4 +1,4 @@
-import ContactCreatePage from "@/features/contact/create/ContactCreatePage";
+import ContactCreatePage from "@/features/contact/ContactCreatePage";
 
 export default function InquiryContact() {
   return (

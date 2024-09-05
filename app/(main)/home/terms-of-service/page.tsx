@@ -1,4 +1,4 @@
-import TermsOfServicePage from "@/features/home/terms-of-service/TermsOfServicePage";
+import TermsOfServicePage from "@/features/home/TermsOfServicePage";
 
 export default function page() {
   return (

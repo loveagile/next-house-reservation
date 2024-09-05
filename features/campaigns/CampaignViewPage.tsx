@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { FaPlus } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
@@ -98,18 +98,16 @@ export default function CampaignViewPage() {
         <div className="flex justify-center mb-6">
           <Button
             sx={{
-              fontSize: "20px",
-              padding: "3px 30px",
+              display: "flex",
+              alignItems: "center",
+              padding: "5px 30px",
               borderRadius: "1px",
             }}
             variant="contained"
             href="/campaigns/create"
           >
-            <AddRoundedIcon sx={{
-              fontSize: "25px",
-              marginRight: "5px",
-            }} />
-            新しくまとめページを作成
+            <FaPlus className="text-xl" />
+            <span className="text-xl ml-1">新しくまとめページを作成</span>
           </Button>
         </div>
 

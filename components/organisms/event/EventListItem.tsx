@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import Button from "@mui/material/Button";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import { FaPencilAlt } from "react-icons/fa";
 
 import StatusField from "@/components/molecules/StatusField";
 
@@ -90,16 +90,16 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
             fontSize: '14px',
           }}
         >
-          <EditRoundedIcon className="mr-1" />
-          イベントを編集
+          <FaPencilAlt className="text-sm mr-1" />
+          <span className="text-sm">イベントを編集</span>
         </Button>
         <div className="flex justify-between text-sm">
           <Link
-            className="border-[1px] w-[49%] border-[#484848] text-center p-[1px]"
+            className="border-[1px] w-[49%] border-[#484848] text-center p-[2px]"
             href={`/smilebuilders/events/${id}`}
             target="_blank"
           >
-            プレビュー
+            <span className="text-sm">プレビュー</span>
           </Link>
           <Button
             sx={{
@@ -108,11 +108,10 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
               padding: 0,
               borderRadius: 0,
               color: 'black',
-              fontSize: '14px',
             }}
             onClick={handleDuplicate}
           >
-            複製
+            <span className="text-sm">複製</span>
           </Button>
         </div>
         <div className="text-xs mt-auto">最終更新: {formatISO8601TimestampToJapaneseString(updatedAt.toString())}</div>

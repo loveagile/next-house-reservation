@@ -46,7 +46,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
                   fontSize: "24px",
                   margin: "4px 0",
                 }} />
-                <span className="ml-1 YuGothic">公開</span>
+                <span className="ml-1">公開</span>
               </div>
               <div className="px-5 pt-5 pb-3">
                 <p className="relative">
@@ -73,7 +73,6 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
                 fontSize: "14px",
                 border: "1px solid #888",
                 borderRadius: "1px",
-                marginBottom: "12px",
                 '&:hover': {
                   backgroundColor: "white",
                 }
@@ -100,7 +99,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
                   fontSize: "24px",
                   margin: "4px 0",
                 }} />
-                <span className="ml-1 YuGothic">限定公開</span>
+                <span className="ml-1 ">限定公開</span>
               </div>
               <p className="px-5 pt-5 pb-2 text-[13px] leading-5">
                 URLを知っているお客様のみが閲覧できます。
@@ -114,7 +113,6 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
                 fontSize: "14px",
                 border: "1px solid #888",
                 borderRadius: "1px",
-                marginBottom: "12px",
                 '&:hover': {
                   backgroundColor: "white",
                 }
@@ -139,7 +137,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
                 fontSize: "20px",
                 margin: "4px 0",
               }} />
-              <span className="ml-2 YuGothic">非公開 (下書き)</span>
+              <span className="ml-2 ">非公開 (下書き)</span>
             </div>
             <Button
               variant="contained"

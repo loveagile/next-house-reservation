@@ -54,8 +54,8 @@ const CampaignTitleEditPage: React.FC = () => {
 
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "title",
-      field_value: title,
+      field_names: ["title"],
+      field_values: [title],
     });
 
     router.push(`/campaigns/${id}`);

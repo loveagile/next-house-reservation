@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { IoIosClose } from "react-icons/io";
+import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,11 +13,8 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from "@mui/material/DialogActions";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import RadioGroup from '@mui/material/RadioGroup';
 
 import { IStatusProps } from "../../molecules/SideBar/EventStatusSideBar";
@@ -66,7 +65,6 @@ const EventPublicBtn: React.FC<ThisFCProps> = ({ id, eventStatus, setEventStatus
         border: "1px solid #0098ba",
         padding: "5px 20px",
         fontSize: "14px",
-        marginBottom: "12px",
         borderRadius: "1px",
         '&:hover': {
           backgroundColor: "#0098ba",
@@ -85,11 +83,14 @@ const EventPublicBtn: React.FC<ThisFCProps> = ({ id, eventStatus, setEventStatus
           }
         }}
       >
-        <Button
-          className="absolute right-1 top-1 min-w-0 text-[#95979c]"
-          onClick={() => setOpen(false)}
-        >
-          <CloseRoundedIcon />
+        <Button onClick={() => setOpen(false)} sx={{
+          position: "absolute",
+          right: "4px",
+          top: "4px",
+          minWidth: 0,
+          color: "#95979c",
+        }}>
+          <IoIosClose className="text-3xl" />
         </Button>
         <DialogTitle
           sx={{
@@ -124,18 +125,15 @@ const EventPublicBtn: React.FC<ThisFCProps> = ({ id, eventStatus, setEventStatus
                     }
                   }}
                 />
-                <RemoveRedEyeIcon sx={{
-                  color: "#2aac6d",
-                  fontSize: "22px",
-                  margin: "4px 0",
-                }} />
+                <BsFillEyeFill className="mx-1 text-xl text-[#2aac6d]" />
               </div>
-              <div className="flex flex-col px-6 py-4 gap-1">
+              <div className="flex flex-col p-6 gap-1">
                 <FormControlLabel control={<Checkbox defaultChecked={eventStatus.isEmbed}
                   inputRef={embedCheckboxRef} />} label="埋込先HPへ公開する" sx={{
                     '& .MuiFormControlLabel-label': {
                       marginLeft: "8px",
                       letterSpacing: "1px",
+                      fontSize: "14px",
                     },
                     '& .MuiCheckbox-root': {
                       padding: 0,
@@ -146,40 +144,39 @@ const EventPublicBtn: React.FC<ThisFCProps> = ({ id, eventStatus, setEventStatus
                     '& .MuiFormControlLabel-label': {
                       marginLeft: "8px",
                       letterSpacing: "1px",
+                      fontSize: "14px",
                     },
                     '& .MuiCheckbox-root': {
                       padding: 0,
                     }
                   }} />
                 <div className="flex ml-4">
-                  <span className="mr-2">見学マッチングサイト iemiruに当イベントを掲載し、新規集客を行います。※掲載料金無料</span>
+                  <span className="mr-2 text-sm">見学マッチングサイト iemiruに当イベントを掲載し、新規集客を行います。※掲載料金無料</span>
                   <Image src="/imgs/icons/logo_iemiru.png" width={140} height={30} alt="iemiru" className="self-center" />
                 </div>
               </div>
             </div>
             <div className="mt-2">
-              <FormControlLabel
-                value="限定公開"
-                control={<Radio />}
-                label="限定公開"
-                sx={{
-                  marginRight: "5px",
-                  '& .MuiSvgIcon-root': {
-                    width: "18px",
-                    height: "18px",
-                  }
-                }}
-              />
-              <RemoveRedEyeIcon sx={{
-                color: "#737373",
-                fontSize: "18px",
-                margin: "4px 0",
-              }} />
+              <div className="flex items-center">
+                <FormControlLabel
+                  value="限定公開"
+                  control={<Radio />}
+                  label="限定公開"
+                  sx={{
+                    marginRight: "5px",
+                    '& .MuiSvgIcon-root': {
+                      width: "18px",
+                      height: "18px",
+                    }
+                  }}
+                />
+                <BsFillEyeFill className="mx-1 text-xl text-[#737373]" />
+              </div>
               <p className=" text-sm pl-5 leading-6 mt-1">
                 URLを知っているお客様のみが閲覧できます。イベントURLをメールで送信したり、DMにQRコードを貼り付けて予約ページとして利用したりすることができます。
               </p>
             </div>
-            <div className="mt-2">
+            <div className="flex items-center mt-2">
               <FormControlLabel
                 value="非公開"
                 control={<Radio />}
@@ -192,11 +189,7 @@ const EventPublicBtn: React.FC<ThisFCProps> = ({ id, eventStatus, setEventStatus
                   }
                 }}
               />
-              <VisibilityOffRoundedIcon sx={{
-                color: "#737373",
-                fontSize: "18px",
-                margin: "4px 0",
-              }} />
+              <BsFillEyeSlashFill className="mx-1 text-xl text-[#737373]" />
             </div>
           </RadioGroup>
         </DialogContent>

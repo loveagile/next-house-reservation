@@ -9,7 +9,7 @@ import EventListItem from "@/components/organisms/event/EventListItem";
 import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
 
 import Button from "@mui/material/Button";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { FaPlus } from "react-icons/fa6";
 
 import { IEvent } from "@/utils/types";
 import { convEventStatus } from "@/utils/convert";
@@ -106,18 +106,16 @@ export default function EventViewPage() {
         <div className="flex justify-center mb-6">
           <Button
             sx={{
-              fontSize: "20px",
-              padding: "3px 30px",
+              display: "flex",
+              alignItems: "center",
+              padding: "5px 30px",
               borderRadius: "1px",
             }}
             variant="contained"
             href="/events/create"
           >
-            <AddRoundedIcon sx={{
-              fontSize: "25px",
-              marginRight: "5px",
-            }} />
-            新しいイベントを作成
+            <FaPlus className="text-xl" />
+            <span className="text-xl ml-1">新しいイベントを作成</span>
           </Button>
         </div>
 

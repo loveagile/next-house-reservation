@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import { MdDelete } from "react-icons/md";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
@@ -51,17 +51,17 @@ const EventCampaignDeleteBtn: React.FC<ThisFCProps> = ({
         variant="contained"
         onClick={() => setOpen(true)}
         sx={{
-          padding: "2px 8px",
-          fontSize: "12px",
+          padding: "1px 8px",
           backgroundColor: "#e73939",
+          borderRadius: "2px",
           '&:hover': {
             backgroundColor: "#e73939",
             opacity: 0.9,
           }
         }}
       >
-        <DeleteRoundedIcon className="mr-1" />
-        このまとめページを削除する
+        <MdDelete className="text-lg" />
+        <span className="ml-[2px]">このまとめページを削除する</span>
       </Button>
       <Dialog
         fullScreen={fullScreen}

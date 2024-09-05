@@ -48,8 +48,8 @@ const CampaignArticleEditPage: React.FC = () => {
   const onSubmit = async () => {
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "article",
-      field_value: article,
+      field_names: ["article"],
+      field_values: [article],
     });
     router.push(`/campaigns/${id}`);
   };

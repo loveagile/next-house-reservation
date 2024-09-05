@@ -3,7 +3,7 @@
 import TextField from "@mui/material/TextField";
 import { Control, Controller } from "react-hook-form";
 
-interface IInputField {
+interface ThisFCProps {
   id: string;
   value?: string;
   placeholder?: string;
@@ -13,7 +13,7 @@ interface IInputField {
   control: Control<any>;
 }
 
-const InputField: React.FC<IInputField> = ({
+const InputField: React.FC<ThisFCProps> = ({
   id,
   placeholder,
   isPassword = false,
@@ -37,6 +37,7 @@ const InputField: React.FC<IInputField> = ({
             color: "black",
             '& .MuiInputBase-input': {
               padding: '3px 12px',
+              fontSize: "15px",
             },
             '& .Mui-disabled': {
               background: '#e6e6e6',

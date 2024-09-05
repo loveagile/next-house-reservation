@@ -1,4 +1,4 @@
-import PrivacyPolicyPage from "@/features/home/privacy-policy/PrivacyPolicyPage";
+import PrivacyPolicyPage from "@/features/home/PrivacyPolicyPage";
 
 export default function page() {
   return (

@@ -1,4 +1,4 @@
-import LineSettingPage from "@/features/settings/line/LineSettingPage";
+import LineSettingPage from "@/features/settings/LineSettingPage";
 
 export default function InquiryContact() {
   return (

@@ -110,26 +110,8 @@ const CampaignAddressEditPage: React.FC = () => {
     const { prefecture, address1, address2, hiddenAddress } = data;
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "prefecture",
-      field_value: prefecture,
-    });
-
-    await axios.post("/api/campaigns/update", {
-      id,
-      field_name: "address1",
-      field_value: address1,
-    });
-
-    await axios.post("/api/campaigns/update", {
-      id,
-      field_name: "address2",
-      field_value: address2,
-    });
-
-    await axios.post("/api/campaigns/update", {
-      id,
-      field_name: "hiddenAddress",
-      field_value: hiddenAddress,
+      field_names: ["prefecture", "address1", "address2", "hiddenAddress"],
+      field_values: [prefecture, address1, address2, hiddenAddress],
     });
 
     router.push(`/campaigns/${id}`);

@@ -52,13 +52,8 @@ const CampaignPictureEditPage: React.FC = () => {
   const onSubmit = async () => {
     await axios.post("/api/campaigns/update", {
       id,
-      field_name: "images",
-      field_value: registeredImgs.urls.join(","),
-    });
-    await axios.post("/api/campaigns/update", {
-      id,
-      field_name: "mainIndex",
-      field_value: registeredImgs.mainIndex,
+      field_names: ["images", "mainIndex"],
+      field_values: [registeredImgs.urls.join(","), registeredImgs.mainIndex],
     });
     router.push(`/campaigns/${id}`);
   };

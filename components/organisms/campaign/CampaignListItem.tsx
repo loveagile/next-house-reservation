@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaPencilAlt } from "react-icons/fa";
 
 import Button from "@mui/material/Button";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 import StatusField from "@/components/molecules/StatusField";
 
@@ -68,15 +68,15 @@ const CampaignListItem: React.FC<ThisFCProps> = ({ item }) => {
             fontSize: '14px',
           }}
         >
-          <EditRoundedIcon className="mr-1" />
-          まとめページを編集
+          <FaPencilAlt className="text-sm mr-1" />
+          <span className="text-sm">まとめページを編集</span>
         </Button>
         <Link
-          className="border-[1px] border-[#484848] text-center p-[6px] hover:bg-[#eee]"
+          className="border-[1px] border-[#484848] text-center p-1 hover:bg-[#eee]"
           href={`/smilebuilders/campaigns/${id}`}
           target="_blank"
         >
-          プレビュー
+          <span className="text-sm">プレビュー</span>
         </Link>
         <div className="text-[11px] mt-auto">最終更新: {formatISO8601TimestampToJapaneseString(updatedAt.toString())}</div>
       </div>

@@ -45,10 +45,10 @@ const CampaignFormatEditPage: React.FC = () => {
   const onSubmit = async (data: IFormatProps) => {
     const { format } = data;
 
-    const res = await axios.post("/api/campaigns/update", {
+    await axios.post("/api/campaigns/update", {
       id,
-      field_name: "format",
-      field_value: format,
+      field_names: ["format"],
+      field_values: [format],
     });
 
     router.push(`/campaigns/${id}`);

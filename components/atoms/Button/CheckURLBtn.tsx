@@ -1,17 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { HiMiniComputerDesktop } from "react-icons/hi2";
+import { IoClose } from "react-icons/io5";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import LaptopIcon from "@mui/icons-material/Laptop";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { DialogContentText, useMediaQuery, TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
@@ -35,8 +30,8 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
           backgroundColor: "#bcbcbc",
         }
       }}>
-        <LaptopIcon className="mr-1" />
-        URLを確認する
+        <HiMiniComputerDesktop className="text-xl" />
+        <span className="ml-1">URLを確認する</span>
       </Button >
       <Dialog
         fullScreen={fullScreen}
@@ -53,26 +48,27 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
           autoFocus
           onClick={() => setOpen(false)}
         >
-          <CloseRoundedIcon />
+          <IoClose className="text-xl" />
         </Button>
         <DialogTitle>
-          <h4 className="border-[#35bda1] border-l-[6px] text-xl pl-2 font-bold  text-[#555]">
+          <h4 className="border-[#35bda1] border-l-[6px] text-xl pl-3 font-bold  text-[#555]">
             URLを確認する
           </h4>
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
             <p className="text-[#b3b3b3] text-[15px]">下記がこのイベント公開後のURLとなります。コピーしてご活用ください。</p>
-            <div className="flex flex-col mt-3">
+            <div className="flex flex-col my-3">
               <p className="text-[15px] font-bold text-black">イベント告知ページ</p>
               <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
-                <span className="border-r-[1px] border-[#ccc] px-3">URL</span>
+                <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">URL</span>
                 <TextField
                   value={`${SITE_URL}/smilebuilders/${type}/${id}`}
                   sx={{
                     width: "100%",
                     '& .MuiInputBase-input': {
-                      padding: "0 10px",
+                      padding: "4px 10px",
+                      fontSize: "14px",
                     },
                     '& .MuiOutlinedInput-notchedOutline': {
                       border: 'none',
@@ -85,13 +81,14 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
               <div className="flex flex-col my-3">
                 <p className=" text-[15px] font-bold text-black">イベント予約ページ</p>
                 <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
-                  <span className="border-r-[1px] border-[#ccc] px-3 ">URL</span>
+                  <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">URL</span>
                   <TextField
                     value={`${SITE_URL}/smilebuilders/${type}/${id}/calendar`}
                     sx={{
                       width: "100%",
                       '& .MuiInputBase-input': {
-                        padding: "0 10px",
+                        padding: "4px 10px",
+                        fontSize: "14px",
                       },
                       '& .MuiOutlinedInput-notchedOutline': {
                         border: 'none',
@@ -109,3 +106,4 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
 };
 
 export default CheckURLBtn;
+

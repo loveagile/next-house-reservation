@@ -1,4 +1,4 @@
-import ContactConfirmPage from "@/features/contact/confirm/ContactConfirmPage";
+import ContactConfirmPage from "@/features/contact/ContactConfirmPage";
 
 export default function InquiryContact() {
   return (

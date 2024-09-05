@@ -78,6 +78,28 @@ export interface ICampaign {
   deletedAt?: Date;
 }
 
+export const initialCampaign: ICampaign = {
+  id: -1,
+  title: "",
+  type: "",
+  format: "",
+  eventDate: "",
+  status: "非公開",
+  statusBit: 0,
+  prefecture: "",
+  address1: "",
+  address2: "",
+  hiddenAddress: "",
+  mapFormat: "地図にピンを表示する",
+  featuredEvent: "",
+  images: "",
+  mainIndex: 0,
+  article: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: new Date(),
+};
+
 export interface IReservationEvent {
   eventId: number;
   customerId: number;

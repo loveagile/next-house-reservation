@@ -8,7 +8,7 @@ import { useRecoilState } from "recoil";
 
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import CancelBtn from "@/components/atoms/Button/CancelBtn";
-import ChangeDateBtn from "@/components/atoms/ChangeDateBtn";
+import ChangeDateBtn from "@/components/atoms/Button/ChangeDateBtn";
 
 import "./ReservationDetailPage.css";
 import Loading from "@/components/molecules/loading";

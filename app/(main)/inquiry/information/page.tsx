@@ -1,4 +1,4 @@
-import InquiryInformationPage from "@/features/inquiry/information/InquiryInformationPage";
+import InquiryInformationPage from "@/features/inquiry/InquiryInformationPage";
 
 export default function InquiryContact() {
   return (

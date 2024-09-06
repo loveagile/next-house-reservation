@@ -1,7 +1,3 @@
-"use client";
-
-import "./InquiryContactPage.css";
-
 export default function InquiryContactPage() {
   return (
     <div className="flex flex-col p-10 w-full">
@@ -15,9 +11,9 @@ export default function InquiryContactPage() {
         <table className="w-full">
           <thead>
             <tr>
-              <th>タイトル</th>
-              <th>未対応・対応中件数</th>
-              <th className="w-[150px]">詳細</th>
+              <th className="bg-[#2fa8b5] p-3 text-white font-normal text-[15px]">タイトル</th>
+              <th className="bg-[#2fa8b5] p-3 text-white font-normal text-[15px]">未対応・対応中件数</th>
+              <th className="w-[150px] bg-[#2fa8b5] p-3 text-white font-normal text-[15px]">詳細</th>
             </tr>
           </thead>
           <tbody>

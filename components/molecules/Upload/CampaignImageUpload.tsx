@@ -2,14 +2,12 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { useState } from "react";
-import { Button, Box } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
-import { IRegisteredImageProps } from "../Upload/RegisteredImage";
+import { useState } from "react";
+import { IoMdCloudUpload } from "react-icons/io";
 
-import "./CampaignImageUpload.css";
+import { Button, Box, InputLabel } from "@mui/material";
+import { IRegisteredImageProps } from "./RegisteredImage";
 
 interface IImageProps {
   url: string;
@@ -91,20 +89,19 @@ const CampaignImageUpload: React.FC<IImageUploadProps> = ({
                 color="primary"
                 component="span"
                 className="rounded-none"
-                startIcon={<CloudUploadIcon />}
+                startIcon={<IoMdCloudUpload />}
               >
                 画像を選択
               </Button>
             </label>
             <span className="ml-2">{uploadImg.name}</span>
           </Box>
-          <p className="text-sm mt-3">
+          <p className="text-sm mt-3 leading-6">
             ※推奨サイズ: 「640px × 480px」、画像比率: 「4(横) : 3(縦)」<br></br>
             ※アップロード画像の推奨カラーモードは「RGB」です。「CMYK」でアップロードいただいた場合、本来の色とは異なった見え方になる可能性があります。
             <br></br>
             画像は4枚までアップロード可能です。<br></br>
-            また、アップロードできる画像の拡張子は「.png, .jpg,
-            .jpeg」のみとなっております。
+            また、アップロードできる画像の拡張子は「.png, .jpg, .jpeg」のみとなっております。
           </p>
           {uploadImg.url && (
             <Image
@@ -116,8 +113,15 @@ const CampaignImageUpload: React.FC<IImageUploadProps> = ({
           )}
           <Button
             onClick={addImageURL}
-            className="update_btn"
             variant="contained"
+            sx={{
+              width: "170px",
+              fontSize: "20px",
+              marginTop: "20px",
+              padding: "3px 25px",
+              borderRadius: "1px",
+              textAlign: "center",
+            }}
           >
             登録する
           </Button>

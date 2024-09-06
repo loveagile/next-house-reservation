@@ -10,16 +10,13 @@ import Loading from "@/components/molecules/loading";
 import DateCalendar from "@/components/organisms/Calendar/DateCalendar";
 
 import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
-import "./CampaignDateCalendarPage.css";
 
-const CampaignDateCalendarPage: React.FC = () => {
+const CampaignDateSomeDaysCalendarPage: React.FC = () => {
   const router = useRouter();
   const { id } = useParams();
   const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [_, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
-
-  console.log(eventDates)
 
   useEffect(() => {
     const fetchCampaignEventDate = async () => {
@@ -80,4 +77,4 @@ const CampaignDateCalendarPage: React.FC = () => {
   );
 };
 
-export default CampaignDateCalendarPage;
+export default CampaignDateSomeDaysCalendarPage;

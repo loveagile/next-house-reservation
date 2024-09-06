@@ -7,12 +7,8 @@ import { useRouter, useParams } from "next/navigation";
 
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import RegisteredImage from "@/components/molecules/Upload/RegisteredImage";
-import CampaignImageUpload from "@/components/molecules/CampaignImageUpload/CampaignImageUpload";
-
-import { IRegisteredImageProps } from "@/components/molecules/Upload/RegisteredImage";
-
-import "./CampaignPictureEdit.css";
+import RegisteredImage, { IRegisteredImageProps } from "@/components/molecules/Upload/RegisteredImage";
+import CampaignImageUpload from "@/components/molecules/Upload/CampaignImageUpload";
 
 const CampaignPictureEditPage: React.FC = () => {
   const { id } = useParams();

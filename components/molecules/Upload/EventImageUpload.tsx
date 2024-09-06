@@ -4,11 +4,9 @@ import * as React from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
-
 import { IoMdCloudUpload } from "react-icons/io";
 
 import { Button, Box, InputLabel } from "@mui/material";
-
 import { IRegisteredImageProps } from "./RegisteredImage";
 
 interface IImageProps {
@@ -101,8 +99,7 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({ setRegisteredImgs }) =>
             <br></br>
             ※アップロード画像の推奨カラーモードは「RGB」です。「CMYK」でアップロードいただいた場合、本来の色とは異なった見え方になる可能性があります。
             <br></br>
-            また、アップロードできる画像の拡張子は「.png, .jpg,
-            .jpeg」のみとなっております。
+            また、アップロードできる画像の拡張子は「.png, .jpg, .jpeg」のみとなっております。
           </p>
           {uploadImg.url && (
             <Image

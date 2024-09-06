@@ -1,4 +1,4 @@
-import CampaignPictureEditPage from "@/features/campaigns/edit/picture/CampaignPictureEdit";
+import CampaignPictureEditPage from "@/features/campaigns/edit/CampaignPictureEdit";
 
 export default function page() {
   return (

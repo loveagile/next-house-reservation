@@ -124,7 +124,7 @@ const CampaignDetailPage: React.FC = () => {
                   <NoInputLabel />
                 )}
                 <EditBtn
-                  linkUrl={`/campaigns/${id}/calendar/date_calendar`}
+                  linkUrl={`/campaigns/${id}/calendar/date_somedays`}
                   text="設定" className="self-start"
                 />
               </div>

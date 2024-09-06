@@ -7,7 +7,7 @@ import { Button, Box } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
-import { IRegisteredImageProps } from "@/features/campaigns/edit/picture/CampaignPictureEdit";
+import { IRegisteredImageProps } from "../Upload/RegisteredImage";
 
 import "./CampaignImageUpload.css";
 

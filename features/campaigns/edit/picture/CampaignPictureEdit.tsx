@@ -10,7 +10,7 @@ import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RegisteredImage from "@/components/molecules/Upload/RegisteredImage";
 import CampaignImageUpload from "@/components/molecules/CampaignImageUpload/CampaignImageUpload";
 
-import { IRegisteredImageProps } from "@/features/events/edit/EventPictureEdit";
+import { IRegisteredImageProps } from "@/components/molecules/Upload/RegisteredImage";
 
 import "./CampaignPictureEdit.css";
 

@@ -7,26 +7,22 @@ import { useRouter, useParams } from "next/navigation";
 
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import RegisteredImage from "@/components/molecules/Upload/RegisteredImage";
-import CampaignImageUpload from "@/components/molecules/CampaignImageUpload/CampaignImageUpload";
+import RegisteredImage, { IRegisteredImageProps } from "@/components/molecules/Upload/RegisteredImage";
+import EventImageUpload from "@/components/molecules/Upload/EventImageUpload";
 
-import { IRegisteredImageProps } from "@/features/events/edit/EventPictureEdit";
-
-import "./CampaignPictureEdit.css";
-
-const CampaignPictureEditPage: React.FC = () => {
+const EventPictureEditPage: React.FC = () => {
   const { id } = useParams();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [registeredImgs, setRegisteredImgs] = useState<IRegisteredImageProps>({
     urls: [],
     mainIndex: 0,
   });
-  const router = useRouter();
 
   useEffect(() => {
-    const fetchCampaignImage = async () => {
+    const fetchEventImage = async () => {
       setIsLoading(true);
-      const res = await axios.post("/api/campaigns/detail", { id });
+      const res = await axios.post("/api/events/detail", { id });
       if (res.status === 200) {
         if (res.data[0].images)
           setRegisteredImgs({
@@ -41,18 +37,18 @@ const CampaignPictureEditPage: React.FC = () => {
       }
       setIsLoading(false);
     };
-    fetchCampaignImage();
+    fetchEventImage();
   }, []);
 
   const { handleSubmit } = useForm();
 
   const onSubmit = async () => {
-    await axios.post("/api/campaigns/update", {
+    await axios.post("/api/events/update", {
       id,
       field_names: ["images", "mainIndex"],
       field_values: [registeredImgs.urls.join(","), registeredImgs.mainIndex],
     });
-    router.push(`/campaigns/${id}`);
+    router.push(`/events/${id}`);
   };
 
   return isLoading ? (
@@ -64,7 +60,7 @@ const CampaignPictureEditPage: React.FC = () => {
           画像の追加
         </h1>
         <div className="flex bg-white items-start mt-5 p-5 w-full">
-          <CampaignImageUpload setRegisteredImgs={setRegisteredImgs} />
+          <EventImageUpload setRegisteredImgs={setRegisteredImgs} />
         </div>
         <div className="flex bg-white items-start mt-5 p-5 w-full">
           <RegisteredImage
@@ -73,10 +69,10 @@ const CampaignPictureEditPage: React.FC = () => {
             isMainImgDisplayed
           />
         </div>
-        <EditBackBtn className="mt-4" linkUrl={`/campaigns/${id}`} />
+        <EditBackBtn className="mt-4" linkUrl={`/events/${id}`} />
       </div>
     </form>
   );
 };
 
-export default CampaignPictureEditPage;
+export default EventPictureEditPage;

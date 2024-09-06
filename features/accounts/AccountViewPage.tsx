@@ -51,7 +51,7 @@ export default function AccountViewPage() {
         <div className="flex justify-center items-center mb-6">
           <Button
             variant="contained"
-            href="/accounts/select-type"
+            href="/accounts/select_type"
             sx={{
               fontSize: "20px",
               padding: "3px 30px",

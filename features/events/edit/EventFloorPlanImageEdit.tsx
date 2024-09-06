@@ -2,19 +2,15 @@
 
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import RegisteredImage from "@/components/molecules/Upload/RegisteredImage";
-import CampaignImageUpload from "@/components/molecules/CampaignImageUpload/CampaignImageUpload";
+import RegisteredImage, { IRegisteredImageProps } from "@/components/molecules/Upload/RegisteredImage";
+import EventImageUpload from "@/components/molecules/Upload/EventImageUpload";
 
-import { IRegisteredImageProps } from "@/features/events/edit/EventPictureEdit";
-
-import "./CampaignPictureEdit.css";
-
-const CampaignPictureEditPage: React.FC = () => {
+const EventFloorPlanImageEditPage: React.FC = () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [registeredImgs, setRegisteredImgs] = useState<IRegisteredImageProps>({
@@ -24,14 +20,14 @@ const CampaignPictureEditPage: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCampaignImage = async () => {
+    const fetchEventFloorImage = async () => {
       setIsLoading(true);
-      const res = await axios.post("/api/campaigns/detail", { id });
+      const res = await axios.post("/api/events/detail", { id });
       if (res.status === 200) {
-        if (res.data[0].images)
+        if (res.data[0].FPImages)
           setRegisteredImgs({
-            urls: res.data[0].images.split(",").map((img: string) => img.trim()),
-            mainIndex: res.data[0].mainIndex,
+            urls: res.data[0].FPImages.split(",").map((img: string) => img.trim()),
+            mainIndex: 0,
           });
       } else {
         setRegisteredImgs({
@@ -41,18 +37,18 @@ const CampaignPictureEditPage: React.FC = () => {
       }
       setIsLoading(false);
     };
-    fetchCampaignImage();
+    fetchEventFloorImage();
   }, []);
 
   const { handleSubmit } = useForm();
 
   const onSubmit = async () => {
-    await axios.post("/api/campaigns/update", {
+    await axios.post("/api/events/update", {
       id,
-      field_names: ["images", "mainIndex"],
-      field_values: [registeredImgs.urls.join(","), registeredImgs.mainIndex],
+      field_names: ["FPImages"],
+      field_values: [registeredImgs.urls.join(",")],
     });
-    router.push(`/campaigns/${id}`);
+    router.push(`/events/${id}`);
   };
 
   return isLoading ? (
@@ -60,23 +56,22 @@ const CampaignPictureEditPage: React.FC = () => {
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="px-10 py-8 w-full">
-        <h1 className="border-m-green border-l-[6px] text-xl pl-2 mb-5 font-bold">
+        <h1 className="border-m-green border-l-[6px] text-xl pl-2 mb-5 font-bold ">
           画像の追加
         </h1>
         <div className="flex bg-white items-start mt-5 p-5 w-full">
-          <CampaignImageUpload setRegisteredImgs={setRegisteredImgs} />
+          <EventImageUpload setRegisteredImgs={setRegisteredImgs} />
         </div>
         <div className="flex bg-white items-start mt-5 p-5 w-full">
           <RegisteredImage
             registeredImgs={registeredImgs}
             setRegisteredImgs={setRegisteredImgs}
-            isMainImgDisplayed
           />
         </div>
-        <EditBackBtn className="mt-4" linkUrl={`/campaigns/${id}`} />
+        <EditBackBtn className="mt-4" linkUrl={`/events/${id}`} />
       </div>
     </form>
   );
 };
 
-export default CampaignPictureEditPage;
+export default EventFloorPlanImageEditPage;

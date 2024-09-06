@@ -1,4 +1,4 @@
-import AccountPasswordEditPage from "@/features/accounts/edit/password/AccountPasswordEditPage";
+import AccountPasswordEditPage from "@/features/accounts/edit/AccountPasswordEditPage";
 
 export default function page() {
   return (

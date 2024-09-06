@@ -10,19 +10,16 @@ import Loading from "@/components/molecules/loading";
 import DateCalendar from "@/components/organisms/Calendar/DateCalendar";
 
 import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
-import "./CampaignDateCalendarPage.css";
 
-const CampaignDateCalendarPage: React.FC = () => {
+const EventDateSomeDaysCalendarPage: React.FC = () => {
   const router = useRouter();
   const { id } = useParams();
   const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [_, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
-
-  console.log(eventDates)
+  const [__, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
 
   useEffect(() => {
-    const fetchCampaignEventDate = async () => {
+    const fetchEventDate = async () => {
       setIsLoading(true);
 
       const currentDate: Date = new Date();
@@ -31,7 +28,7 @@ const CampaignDateCalendarPage: React.FC = () => {
         month: currentDate.getMonth() + 1,
       });
 
-      const res = await axios.post("/api/campaigns/detail", { id });
+      const res = await axios.post("/api/events/detail", { id });
 
       if (res.status === 200) {
         if (res.data[0].eventDate) {
@@ -40,8 +37,8 @@ const CampaignDateCalendarPage: React.FC = () => {
       }
       setIsLoading(false);
     };
-    fetchCampaignEventDate();
-  }, [id]);
+    fetchEventDate();
+  }, []);
 
   const { handleSubmit } = useForm();
 
@@ -52,12 +49,12 @@ const CampaignDateCalendarPage: React.FC = () => {
       return new Date(lhs.date).getTime() - new Date(rhs.date).getTime();
     })
 
-    await axios.post("/api/campaigns/update-json", {
+    await axios.post("/api/events/update-json", {
       id,
       field_name: "eventDate",
       field_value: sortedEventDates,
     });
-    router.push(`/campaigns/${id}`);
+    router.push(`/events/${id}`);
   };
 
   return isLoading ? (
@@ -72,7 +69,7 @@ const CampaignDateCalendarPage: React.FC = () => {
           色が付いている日が開催日です。<br></br>
           「+」を押すと、その日を開催日として登録することができます。時刻を押すと編集ができます。
           <br></br>
-          終了日未定のキャンペーンは現在から３ヶ月以降のイベントは自動生成されていくため、確認できません。
+          終了日未定のイベントは現在から３ヶ月以降のイベントは自動生成されていくため、確認できません。
         </p>
         <DateCalendar />
       </div>
@@ -80,4 +77,4 @@ const CampaignDateCalendarPage: React.FC = () => {
   );
 };
 
-export default CampaignDateCalendarPage;
+export default EventDateSomeDaysCalendarPage;

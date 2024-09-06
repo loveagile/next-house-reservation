@@ -8,7 +8,7 @@ import { FaPlus } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
-import CampaignListItem from "@/components/organisms/campaign/CampaignListItem";
+import CampaignListItem from "@/components/organisms/ListItem/CampaignListItem";
 import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
 
 import { ICampaign } from "@/utils/types";

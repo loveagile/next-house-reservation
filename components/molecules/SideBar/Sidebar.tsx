@@ -203,11 +203,11 @@ const menues = [
       },
       {
         label: "利用規約",
-        link: "/home/terms-of-service",
+        link: "/home/terms_of_service",
       },
       {
         label: "プライバシーポリシー",
-        link: "/home/privacy-policy",
+        link: "/home/privacy_policy",
       },
       {
         label: "ログアウト",

@@ -162,7 +162,7 @@ const EventDetailPage: React.FC = () => {
                   <NoInputLabel />
                 )}
                 <EditBtn
-                  linkUrl={`/events/${id}/calendar/date_calendar`}
+                  linkUrl={`/events/${id}/calendar/date_somedays`}
                   text="設定" className="self-start"
                 />
               </div>
@@ -340,7 +340,7 @@ const EventDetailPage: React.FC = () => {
                     ))}
                   </div>
                 )}
-                <EditBtn linkUrl={`/events/${id}/floor-image`} text="設定" />
+                <EditBtn linkUrl={`/events/${id}/floor_image`} text="設定" />
               </div>
             </div>
 

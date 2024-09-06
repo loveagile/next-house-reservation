@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { HiMiniArrowLeftCircle } from "react-icons/hi2";
 
 interface ThisFCProps {
   className?: string;

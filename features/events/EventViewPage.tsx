@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
-import EventListItem from "@/components/organisms/event/EventListItem";
+import EventListItem from "@/components/organisms/ListItem/EventListItem";
 import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
 
 import Button from "@mui/material/Button";

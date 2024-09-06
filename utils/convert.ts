@@ -3,7 +3,7 @@ import {
   IReservationEvent,
   IReservationGroupedEvent,
 } from "@/utils/types";
-import { IStartEndTimeProps } from "@/components/molecules/TimeSetDialog/TimeSetDialog";
+import { IStartEndTimeProps } from "@/components/molecules/Dialog/TimeSetDialog";
 
 // ex: (2024, 8, 12)  =>  "月"
 export const dayStrOfWeek = (specificDate: Date) => {

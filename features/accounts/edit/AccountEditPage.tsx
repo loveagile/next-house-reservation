@@ -2,12 +2,12 @@
 "use client";
 
 import axios from "axios";
-import bcryptjs from 'bcryptjs';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import Loading from "@/components/molecules/loading";
 import CheckBox from "@/components/molecules/Input/CheckBox";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import InputField from "@/components/molecules/InputField";
@@ -16,10 +16,8 @@ import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 
-import "./AccountEditPage.css";
 import { useEffect, useState } from "react";
 import { IAccount } from "@/utils/types";
-import Loading from "@/components/molecules/loading";
 
 interface IAccountEditForm {
   name: string;
@@ -158,8 +156,12 @@ export default function AccountEditPage() {
               <div className="w-full">
                 <Button
                   type="submit"
-                  className="update_btn"
                   variant="contained"
+                  sx={{
+                    padding: "3px 30px",
+                    fontSize: "20px",
+                    borderRadius: "1px",
+                  }}
                 >
                   更新する
                 </Button>

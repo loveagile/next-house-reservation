@@ -59,7 +59,7 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
           <DialogContentText>
             <p className="text-[#b3b3b3] text-[15px]">下記がこのイベント公開後のURLとなります。コピーしてご活用ください。</p>
             <div className="flex flex-col my-3">
-              <p className="text-[15px] font-bold text-black">イベント告知ページ</p>
+              <p className="text-[15px] font-bold text-[#2b2e38]">イベント告知ページ</p>
               <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
                 <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">URL</span>
                 <TextField
@@ -69,6 +69,7 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
                     '& .MuiInputBase-input': {
                       padding: "4px 10px",
                       fontSize: "14px",
+                      color: "black",
                     },
                     '& .MuiOutlinedInput-notchedOutline': {
                       border: 'none',
@@ -79,7 +80,7 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
             </div>
             {type === "events" && (
               <div className="flex flex-col my-3">
-                <p className=" text-[15px] font-bold text-black">イベント予約ページ</p>
+                <p className=" text-[15px] font-bold text-[#2b2e38]">イベント予約ページ</p>
                 <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
                   <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">URL</span>
                   <TextField
@@ -89,6 +90,7 @@ const CheckURLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
                       '& .MuiInputBase-input': {
                         padding: "4px 10px",
                         fontSize: "14px",
+                        color: "black",
                       },
                       '& .MuiOutlinedInput-notchedOutline': {
                         border: 'none',

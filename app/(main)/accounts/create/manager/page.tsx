@@ -1,4 +1,4 @@
-import AccountManagerCreatePage from "@/features/accounts/create/manager/AccountManagerCreatePage";
+import AccountManagerCreatePage from "@/features/accounts/create/AccountManagerCreatePage";
 
 export default function page() {
   return (

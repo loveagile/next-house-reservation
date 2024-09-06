@@ -36,7 +36,7 @@ const InputField: React.FC<ThisFCProps> = ({
             maxWidth: '500px',
             color: "black",
             '& .MuiInputBase-input': {
-              padding: '3px 12px',
+              padding: '5px 12px 3px',
               fontSize: "15px",
             },
             '& .Mui-disabled': {

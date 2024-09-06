@@ -16,23 +16,29 @@ import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
-import "./AccountMemberCreatePage.css";
 
 interface IAccountEditForm {
   name: string;
-  phone: string;
+  email: string;
+  phone?: string;
 }
 
-export default function AccountMemberCreatePage() {
+export default function AccountManagerCreatePage() {
   const router = useRouter();
   const [error, setError] = useState<string>("");
 
   const schema = yup.object({
     name: yup.string().required("入力してください。"),
+    email: yup
+      .string()
+      .required("入力してください。")
+      .email("メールアドレスを正しく入力してください")
+      .max(80, "80字以内で入力してください"),
     phone: yup
-      .string().required("入力してください。")
+      .string()
       .transform((value) => (value ? value.replaceAll("-", "") : value))
       .test("is-valid-phone", "電話番号を正しく入力してください", (value) => {
+        if (!value) return true;
         return /(\d{2,3})\-?(\d{3,4})\-?(\d{4})/g.test(value);
       }),
   });
@@ -42,20 +48,21 @@ export default function AccountMemberCreatePage() {
   });
 
   const onSubmit = async (data: IAccountEditForm) => {
-    const { name, phone } = data;
+    const { name, email, phone } = data;
     const res = await axios.post("/api/accounts/detail", {
-      field_name: "phone",
-      field_value: phone,
+      field_name: "email",
+      field_value: email,
     });
     const isExist = res.data.length > 0;
     if (isExist) {
-      setError("電話番号はすでに存在します。");
+      setError("エラーがあります。確認してください。");
       return;
     }
     await axios.post("/api/accounts/create", {
       name,
+      email,
       phone,
-      privilege: "日程調整のみ",
+      privilege: "管理者",
     })
     router.push("/accounts/list");
   }
@@ -67,8 +74,7 @@ export default function AccountMemberCreatePage() {
           アカウント管理
         </h1>
         <p className="text-sm">
-          社外の関係者アカウントを作成します。<br></br>
-          日程調整予約イベントに申し込みが入った時や予約日確定の連絡は、登録された電話番号にショートメッセージが届きます。
+          社内のアカウントを作成します
         </p>
       </div>
 
@@ -95,25 +101,44 @@ export default function AccountMemberCreatePage() {
             </div>
           </div>
 
+          {/* Account Email Address */}
+          <div className="flex items-start mt-5">
+            <div className="flex min-w-[230px] justify-end pr-5 mt-1">
+              <InputLabel htmlFor="email">メールアドレス</InputLabel>
+              <RequiredLabel />
+            </div>
+            <div className="w-full">
+              <InputField id="email" control={control} placeholder="taro@biz-creation.co.jp" className="w-full" />
+              {errors.email && (
+                <p className="text-sm mt-3 text-m-red">
+                  {errors.email.message}
+                </p>
+              )}
+              {error &&
+                <p className="text-sm mt-3 text-m-red">
+                  既に招待済みのメールアドレスです。
+                </p>
+              }
+            </div>
+          </div>
+
           {/* Account Phone Number */}
           <div className="flex items-start mt-5">
             <div className="flex min-w-[230px] justify-end pr-5 mt-1">
               <InputLabel htmlFor="phone">電話番号</InputLabel>
-              <RequiredLabel />
             </div>
             <div className="w-full">
-              <InputField id="phone" control={control} placeholder="08011112222" className="w-full" />
+              <InputField id="phone" control={control} placeholder="080-1234-5555" className="w-full" />
               {errors.phone && (
                 <p className="text-sm mt-3 text-m-red">
                   {errors.phone.message}
                 </p>
               )}
               <p className="text-sm mt-4">
-                ※ 携帯番号（SMSが届きますので、正しくご入力ください。）<br></br>
-                ※  -（ハイフン）無しで入力してください。
+                ※日程調整予約を行う際にSMSを利用するため、日程調整を利用する場合は必ず「携帯番号」を正しくご入力ください。<br></br>
               </p>
               <p className="text-sm font-bold mt-4">
-                「登録する」ボタンを押すと本人確認のメッセージがSMSで届きますので、URLをクリックし本人確認処理を必ず行なってください。
+                「登録する」ボタンを押すと本人確認のメッセージを入力したメールアドレスに届きます。URLをクリックしメールアドレスの確認処理を行なってください。
               </p>
             </div>
           </div>
@@ -124,8 +149,12 @@ export default function AccountMemberCreatePage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="register_btn"
                 variant="contained"
+                sx={{
+                  padding: "3px 30px",
+                  fontSize: "20px",
+                  borderRadius: "1px",
+                }}
               >
                 登録する
               </Button>

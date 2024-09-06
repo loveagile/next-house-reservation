@@ -1,4 +1,4 @@
-import AccountSelectTypePage from "@/features/accounts/select-type/AccountSelectTypePage";
+import AccountSelectTypePage from "@/features/accounts/AccountSelectTypePage";
 
 export default function page() {
   return (

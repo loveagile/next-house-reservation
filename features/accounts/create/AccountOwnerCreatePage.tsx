@@ -2,47 +2,35 @@
 "use client";
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import CheckBox from "@/components/molecules/Input/CheckBox";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import InputField from "@/components/molecules/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import Loading from "@/components/molecules/loading";
 
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
-import { IAccount } from "@/utils/types";
-import "./AccountManagerCreatePage.css";
-
 interface IAccountEditForm {
   name: string;
-  email: string;
-  phone?: string;
+  phone: string;
 }
 
-export default function AccountManagerCreatePage() {
+export default function AccountOwnerCreatePage() {
   const router = useRouter();
   const [error, setError] = useState<string>("");
 
   const schema = yup.object({
     name: yup.string().required("入力してください。"),
-    email: yup
-      .string()
-      .required("入力してください。")
-      .email("メールアドレスを正しく入力してください")
-      .max(80, "80字以内で入力してください"),
     phone: yup
-      .string()
+      .string().required("入力してください。")
       .transform((value) => (value ? value.replaceAll("-", "") : value))
       .test("is-valid-phone", "電話番号を正しく入力してください", (value) => {
-        if (!value) return true;
         return /(\d{2,3})\-?(\d{3,4})\-?(\d{4})/g.test(value);
       }),
   });
@@ -52,21 +40,20 @@ export default function AccountManagerCreatePage() {
   });
 
   const onSubmit = async (data: IAccountEditForm) => {
-    const { name, email, phone } = data;
+    const { name, phone } = data;
     const res = await axios.post("/api/accounts/detail", {
-      field_name: "email",
-      field_value: email,
+      field_name: "phone",
+      field_value: phone,
     });
     const isExist = res.data.length > 0;
     if (isExist) {
-      setError("エラーがあります。確認してください。");
+      setError("電話番号はすでに存在します。");
       return;
     }
     await axios.post("/api/accounts/create", {
       name,
-      email,
       phone,
-      privilege: "管理者",
+      privilege: "施主・OB",
     })
     router.push("/accounts/list");
   }
@@ -78,7 +65,8 @@ export default function AccountManagerCreatePage() {
           アカウント管理
         </h1>
         <p className="text-sm">
-          社内のアカウントを作成します
+          社外の関係者アカウントを作成します。<br></br>
+          日程調整予約イベントに申し込みが入った時や予約日確定の連絡は、登録された電話番号にショートメッセージが届きます。
         </p>
       </div>
 
@@ -105,44 +93,25 @@ export default function AccountManagerCreatePage() {
             </div>
           </div>
 
-          {/* Account Email Address */}
-          <div className="flex items-start mt-5">
-            <div className="flex min-w-[230px] justify-end pr-5 mt-1">
-              <InputLabel htmlFor="email">メールアドレス</InputLabel>
-              <RequiredLabel />
-            </div>
-            <div className="w-full">
-              <InputField id="email" control={control} placeholder="taro@biz-creation.co.jp" className="w-full" />
-              {errors.email && (
-                <p className="text-sm mt-3 text-m-red">
-                  {errors.email.message}
-                </p>
-              )}
-              {error &&
-                <p className="text-sm mt-3 text-m-red">
-                  既に招待済みのメールアドレスです。
-                </p>
-              }
-            </div>
-          </div>
-
           {/* Account Phone Number */}
           <div className="flex items-start mt-5">
             <div className="flex min-w-[230px] justify-end pr-5 mt-1">
               <InputLabel htmlFor="phone">電話番号</InputLabel>
+              <RequiredLabel />
             </div>
             <div className="w-full">
-              <InputField id="phone" control={control} placeholder="080-1234-5555" className="w-full" />
+              <InputField id="phone" control={control} placeholder="08011112222" className="w-full" />
               {errors.phone && (
                 <p className="text-sm mt-3 text-m-red">
                   {errors.phone.message}
                 </p>
               )}
               <p className="text-sm mt-4">
-                ※日程調整予約を行う際にSMSを利用するため、日程調整を利用する場合は必ず「携帯番号」を正しくご入力ください。<br></br>
+                ※ 携帯番号（SMSが届きますので、正しくご入力ください。）<br></br>
+                ※  -（ハイフン）無しで入力してください。
               </p>
               <p className="text-sm font-bold mt-4">
-                「登録する」ボタンを押すと本人確認のメッセージを入力したメールアドレスに届きます。URLをクリックしメールアドレスの確認処理を行なってください。
+                「登録する」ボタンを押すと本人確認のメッセージがSMSで届きますので、URLをクリックし本人確認処理を必ず行なってください。
               </p>
             </div>
           </div>
@@ -153,8 +122,12 @@ export default function AccountManagerCreatePage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="register_btn"
                 variant="contained"
+                sx={{
+                  padding: "3px 30px",
+                  fontSize: "20px",
+                  borderRadius: "1px",
+                }}
               >
                 登録する
               </Button>

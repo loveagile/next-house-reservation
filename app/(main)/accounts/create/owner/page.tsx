@@ -1,4 +1,4 @@
-import AccountOwnerCreatePage from "@/features/accounts/create/owner/AccountOwnerCreatePage";
+import AccountOwnerCreatePage from "@/features/accounts/create/AccountOwnerCreatePage";
 
 export default function page() {
   return (

@@ -1,4 +1,4 @@
-import AccountViewPage from "@/features/accounts/view/AccountViewPage";
+import AccountViewPage from "@/features/accounts/AccountViewPage";
 
 export default function page() {
   return (

@@ -1,4 +1,4 @@
-import CustomerCreatePage from "@/features/customers/create/CustomerCreatePage";
+import CustomerCreatePage from "@/features/customers/CustomerCreatePage";
 
 export default function page() {
   return (

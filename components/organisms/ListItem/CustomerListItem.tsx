@@ -1,16 +1,10 @@
 import Link from "next/link";
-
+import { FaMapMarker, FaPhoneAlt, FaPencilAlt } from "react-icons/fa";
 import Button from "@mui/material/Button";
-import PlaceIcon from '@mui/icons-material/Place';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
-
 import CustomerDelBtn from "@/components/atoms/Button/CustomerDelBtn";
 
 import { formatReservationDateToJapaneseString } from "@/utils/convert";
 import { ICustomer } from "@/utils/types";
-
-import "./CustomerListItem.css";
 
 interface ThisFCProps {
   item: ICustomer;
@@ -43,12 +37,14 @@ const CustomerListItem: React.FC<ThisFCProps> = ({ item, setDeleteItemId }) => {
       </td>
       <td className="px-2 py-8">
         <p className="flex items-center">
-          <PlaceIcon className="mr-1" />
-          <span>{prefecture || ""}{city || ""}{street || ""}{building || ""}</span>
+          <FaMapMarker />
+          <span className="ml-1">
+            {prefecture || ""}{city || ""}{street || ""}{building || ""}
+          </span>
         </p>
         <p className="flex items-center mt-1">
-          <LocalPhoneIcon className="mr-1" />
-          <span>{phone}</span>
+          <FaPhoneAlt />
+          <span className="ml-1">{phone}</span>
         </p>
       </td>
       <td className="p-2 text-center">{delivery}</td>
@@ -58,10 +54,25 @@ const CustomerListItem: React.FC<ThisFCProps> = ({ item, setDeleteItemId }) => {
       </td>
       <td className="p-2 text-center">
         <Button
-          className="w-full flex items-center bg-link-color hover:bg-link-color hover:opacity-80 pt-[2px] pb-1 text-xs rounded-sm mb-3"
           href={`/customers/${id}/edit`}
-          variant="contained">
-          <ModeEditRoundedIcon className="mr-1" />編集
+          variant="contained"
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "#2296f3",
+            padding: "3px",
+            fontSize: "12px",
+            marginBottom: "12px",
+            borderRadius: "1px",
+            '&:hover': {
+              backgroundColor: "#2296f3",
+              opacity: 0.9,
+            }
+          }}
+        >
+          <FaPencilAlt className="text-sm" />
+          <span className="ml-[6px]">編集</span>
         </Button>
         <CustomerDelBtn id={id} setDeleteItemId={setDeleteItemId} />
       </td>

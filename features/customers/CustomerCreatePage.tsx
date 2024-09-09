@@ -8,8 +8,7 @@ import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+import { Button, InputLabel } from "@mui/material";
 
 import SelectBox from "@/components/molecules/SelectBox";
 import InputField from "@/components/molecules/InputField";
@@ -18,8 +17,6 @@ import MultilineField from "@/components/molecules/MultilineField";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { customerStatus } from "@/utils/constants";
-
-import "./CustomerCreatePage.css";
 
 interface ICustomerForm {
   customerStatus: string;
@@ -401,8 +398,12 @@ export default function CustomerCreatePage() {
             <div className="w-full">
               <Button
                 type="submit"
-                className="register_btn"
                 variant="contained"
+                sx={{
+                  padding: "5px 30px",
+                  fontSize: "20px",
+                  borderRadius: "1px",
+                }}
               >
                 登録する
               </Button>

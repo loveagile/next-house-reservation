@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 
-import { IoIosAdd, IoIosClose } from "react-icons/io";
+import { FaPlus } from "react-icons/fa6";
+import { CgClose } from "react-icons/cg";
 
 import { Button, Dialog, DialogTitle, DialogContent, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -64,7 +65,7 @@ const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
             variant="contained"
             onClick={handleDelete}
             sx={{
-              padding: "0 5px",
+              padding: "2px 8px",
               borderRadius: "2px",
               marginTop: "10px",
               minWidth: "auto",
@@ -78,7 +79,7 @@ const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
               }
             }}
           >
-            <IoIosClose className="text-xl" />
+            <CgClose />
           </Button>
         </div>
       ) : (
@@ -86,13 +87,13 @@ const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
           variant="contained"
           onClick={() => setOpen(true)}
           sx={{
-            padding: "0 5px",
+            padding: "2px 8px",
             borderRadius: "2px",
             marginTop: "10px",
             minWidth: "auto",
           }}
         >
-          <IoIosAdd className="text-xl" />
+          <FaPlus />
         </Button>
       )}
       <Dialog
@@ -111,7 +112,7 @@ const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
           autoFocus
           onClick={() => setOpen(false)}
         >
-          <IoIosClose className="text-2xl" />
+          <CgClose className="text-xl" />
         </Button>
         <DialogTitle sx={{
           fontWeight: 700,

@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+import { Button, InputLabel } from "@mui/material";
 
+import Loading from "@/components/molecules/loading";
 import SelectBox from "@/components/molecules/SelectBox";
 import InputField from "@/components/molecules/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
@@ -19,9 +18,6 @@ import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { ICustomer } from "@/utils/types";
 import { customerStatus } from "@/utils/constants";
-
-import "./CustomerEditPage.css";
-import Loading from "@/components/molecules/loading";
 
 interface ICustomerForm {
   customerStatus: string;
@@ -55,7 +51,9 @@ export default function CustomerEditPage() {
     const fetchCustomerData = async () => {
       setIsLoading(true);
       const res = await axios.post("/api/customers/detail", { id });
-      if (res.status === 200) setCustomer(res.data[0]);
+      if (res.status === 200) {
+        setCustomer(res.data[0]);
+      }
       setIsLoading(false);
     }
     fetchCustomerData();
@@ -400,7 +398,7 @@ export default function CustomerEditPage() {
               <div className="flex w-full gap-x-2">
                 <SelectBox
                   id="delivery"
-                  names={["未確認", "配信可", "配信不可"]}
+                  names={["配信可", "配信不可", "未確認"]}
                   control={control}
                   value={customer?.delivery}
                   className="max-w-[120px]"
@@ -414,8 +412,12 @@ export default function CustomerEditPage() {
               <div className="w-full">
                 <Button
                   type="submit"
-                  className="register_btn"
                   variant="contained"
+                  sx={{
+                    padding: "3px 30px",
+                    fontSize: "20px",
+                    borderRadius: "1px",
+                  }}
                 >
                   登録する
                 </Button>

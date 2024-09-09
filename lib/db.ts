@@ -77,8 +77,8 @@ async function initializeDatabase(db: Connection) {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS customers (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-      status VARCHAR(255),
-      route VARCHAR(255),
+      status VARCHAR(255) DEFAULT '未設定',
+      route VARCHAR(255) DEFAULT '予約',
 
       lastName VARCHAR(255) NOT NULL,
       firstName VARCHAR(255) NOT NULL,
@@ -100,7 +100,7 @@ async function initializeDatabase(db: Connection) {
       note VARCHAR(255),
       memo VARCHAR(255),
       employee VARCHAR(255),
-      delivery VARCHAR(255) NOT NULL,
+      delivery VARCHAR(255) NOT NULL DEFAULT '未確認',
 
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

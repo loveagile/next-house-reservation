@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { useState } from "react";
-
 import { MdDelete } from "react-icons/md";
 
 import { Button, Dialog, DialogTitle, DialogActions, useMediaQuery } from "@mui/material";

@@ -41,7 +41,7 @@ const NewsDialog: React.FC<ThisFCProps> = ({ date, title, content }) => {
         sx={{
           '& .MuiDialog-paper': {
             minWidth: "700px",
-            padding: "10px",
+            padding: "40px 5px 40px 40px",
           }
         }}
       >
@@ -52,22 +52,15 @@ const NewsDialog: React.FC<ThisFCProps> = ({ date, title, content }) => {
         >
           <IoClose className="text-xl" />
         </Button>
-        <DialogTitle>
-          <h4 className="border-[#35bda1] border-l-[6px] text-xl pl-3 font-semibold  text-[#555]">
-            {title}
-          </h4>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{
-            fontSize: "14px",
-            color: "#2b2e38",
-          }}>
-            <p className="font-medium leading-[21px] break-words overflow-hidden" dangerouslySetInnerHTML={{ __html: content }}></p>
-            <p className="text-right font-semibold mt-8">{date}</p>
-          </DialogContentText>
-        </DialogContent>
+        <h4 className="border-[#35bda1] border-l-[6px] text-xl pl-3 font-semibold  text-[#555] mb-4">
+          {title}
+        </h4>
+        <div className="scrollbar text-sm text-[#2b2e38] overflow-x-hidden overflow-y-auto border-r border-gray-gray pr-6">
+          <p className="font-medium leading-[21px] break-words overflow-hidden" dangerouslySetInnerHTML={{ __html: content }}></p>
+          <p className="text-right font-semibold mt-8">{date}</p>
+        </div>
       </Dialog>
-    </React.Fragment>
+    </React.Fragment >
   );
 }
 

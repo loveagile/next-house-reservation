@@ -1,4 +1,4 @@
-import CustomerViewPage from "@/features/customers/view/CustomerViewPage";
+import CustomerViewPage from "@/features/customers/CustomerViewPage";
 
 export default function page() {
   return (

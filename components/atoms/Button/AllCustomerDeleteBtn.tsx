@@ -1,17 +1,12 @@
 "use client";
 
-import Button from "@mui/material/Button";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import axios from "axios";
+import { MdDelete } from "react-icons/md";
+
+import { Button, Dialog, DialogActions, DialogTitle, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { ICustomer } from "@/utils/types";
-import axios from "axios";
 
 interface ThisFCProps {
   setCustomerItems: (customerItems: ICustomer[]) => void;
@@ -31,38 +26,66 @@ const AllCustomerDeleteBtn: React.FC<ThisFCProps> = ({ setCustomerItems }) => {
   return (
     <>
       <Button
-        className="px-3 py-1 text-xs bg-m-red hover:bg-m-red hover:opacity-80 rounded-sm"
-        variant="contained"
-        onClick={() => setOpen(true)}
+        variant="contained" onClick={() => setOpen(true)} sx={{
+          padding: "2px 8px",
+          backgroundColor: "#e73939",
+          borderRadius: "2px",
+          '&:hover': {
+            backgroundColor: "#e73939",
+            opacity: 0.9,
+          }
+        }}
       >
-        <DeleteRoundedIcon className="mr-1" />
-        お客様情報を全削除
+        <MdDelete className="text-lg" />
+        <span className="ml-[2px] pt-[2px] text-[13px]">お客様情報を全削除</span>
       </Button>
       <Dialog
         fullScreen={fullScreen}
         open={open}
         onClose={() => setOpen(false)}
-        aria-labelledby="responsive-dialog-title"
+        sx={{
+          '& .MuiDialog-paper': {
+            minWidth: "500px",
+          }
+        }}
       >
         <DialogTitle
-          id="responsive-dialog-title"
-          className="text-lg YuGothic text-center font-semibold"
+          sx={{
+            fontWeight: "700",
+            textAlign: "center",
+            paddingTop: "30px",
+            fontSize: "18px",
+            letterSpacing: "1px",
+          }}
         >
           お客様情報をまとめて削除します。<br></br>
           よろしいですか？（予約情報は消えません。）
         </DialogTitle>
-        <DialogActions>
+        <DialogActions sx={{
+          padding: "10px",
+          margin: "5px 10px 10px 0",
+        }}>
           <Button
-            autoFocus
-            className="YuGothic font-semibold text-base"
             onClick={handleDelete}
+            variant="contained"
+            sx={{
+              borderRadius: "1px",
+              padding: "5px 20px",
+            }}
           >
             はい
           </Button>
           <Button
-            autoFocus
-            className="YuGothic font-semibold text-base"
             onClick={() => setOpen(false)}
+            variant="contained"
+            sx={{
+              backgroundColor: "#bcbcbc",
+              padding: "5px 20px",
+              borderRadius: "1px",
+              '&:hover': {
+                backgroundColor: "#bcbcbc",
+              }
+            }}
           >
             いいえ
           </Button>

@@ -1,4 +1,4 @@
-import CustomerEditPage from "@/features/customers/edit/CustomerEditPage";
+import CustomerEditPage from "@/features/customers/CustomerEditPage";
 
 export default function page() {
   return (

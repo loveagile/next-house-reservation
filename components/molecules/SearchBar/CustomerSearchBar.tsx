@@ -1,11 +1,10 @@
 import InputField from "@/components/molecules/InputField";
 import SelectBox from "@/components/molecules/SelectBox";
 import Button from "@mui/material/Button";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { IoSearchSharp } from "react-icons/io5";
 
 import { customerEmployee, customerStatus } from "@/utils/constants";
 import { useForm } from "react-hook-form";
-import "./CustomerSearchBar.css";
 
 export interface ICustomerSearchForm {
   keyword: string;
@@ -37,13 +36,17 @@ const CustomerSearchBar: React.FC<ICustomerSearchBarProps> = ({
           </strong>
           件
         </span>
-        <div className="ml-auto flex gap-1">
+        <div className="ml-auto flex items-center gap-1">
           <InputField id="keyword" placeholder="キーワード" control={control} className="w-[200px]" />
           <SelectBox id="employee" names={customerEmployee} control={control} className="max-w-[200px]" />
           <SelectBox id="status" names={customerStatus} control={control} className="max-w-[200px]" />
-          <Button type="submit" className="search_btn" variant="contained">
-            <SearchRoundedIcon />
-            検索
+          <Button type="submit" variant="contained" sx={{
+            minWidth: '70px',
+            padding: "4px 1px",
+            borderRadius: '1px',
+          }}>
+            <IoSearchSharp className="text-base mr-[2px]" />
+            <span className="text-sm">検索</span>
           </Button>
         </div>
       </div>

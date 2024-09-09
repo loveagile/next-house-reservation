@@ -4,17 +4,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { FaPlus } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
-import CustomerListItem from "@/components/organisms/CustomerListItem/CustomerListItem";
+import CustomerListItem from "@/components/organisms/ListItem/CustomerListItem";
 import AllCustomerDeleteBtn from "@/components/atoms/Button/AllCustomerDeleteBtn";
-import CustomerSearchBar, { ICustomerSearchForm } from "@/components/molecules/CustomerSearchBar/CustomerSearchBar";
+import CustomerSearchBar, { ICustomerSearchForm } from "@/components/molecules/SearchBar/CustomerSearchBar";
 
 import { ICustomer } from "@/utils/types";
-
-import "./CustomerViewPage.css";
 
 export default function CustomerViewPage() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -104,12 +102,16 @@ export default function CustomerViewPage() {
           {/* New Customer */}
           <div className="mb-6">
             <Button
-              className="new_customer_btn"
               variant="contained"
               href="/customers/create"
+              sx={{
+                fontSize: "16px",
+                padding: "5px 15px",
+                borderRadius: "1px",
+              }}
             >
-              <AddRoundedIcon className="plus_sign" />
-              追加
+              <FaPlus />
+              <span className="ml-1">追加</span>
             </Button>
           </div>
 
@@ -126,15 +128,15 @@ export default function CustomerViewPage() {
                 <table className="w-full">
                   <thead>
                     <tr>
-                      <th className="customer_th w-[100px]">ステータス</th>
-                      <th className="customer_th w-[130px]">リスト追加日</th>
-                      <th className="customer_th w-[110px]">追加経路</th>
-                      <th className="customer_th w-[115px]">顧客名</th>
-                      <th className="customer_th">住所 / 電話番号</th>
-                      <th className="customer_th w-[100px]">配信可否</th>
-                      <th className="customer_th w-[180px]">社内向け備考欄</th>
-                      <th className="customer_th w-[180px]">担当スタッフ</th>
-                      <th className="customer_th w-[100px]">変更</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[100px]">ステータス</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[130px]">リスト追加日</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[110px]">追加経路</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[115px]">顧客名</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal">住所 / 電話番号</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[100px]">配信可否</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[180px]">社内向け備考欄</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[180px]">担当スタッフ</th>
+                      <th className="bg-[#2fa8b5] p-3 text-sm text-white font-normal w-[100px]">変更</th>
                     </tr>
                   </thead>
                   <tbody>

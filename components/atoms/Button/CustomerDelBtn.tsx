@@ -2,16 +2,10 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { MdDelete } from "react-icons/md";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Button, Dialog, DialogTitle, DialogActions, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-
 
 interface ThisFCProps {
   id: number;
@@ -19,7 +13,6 @@ interface ThisFCProps {
 }
 
 const CustomerDelBtn: React.FC<ThisFCProps> = ({ id, setDeleteItemId }) => {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -32,34 +25,69 @@ const CustomerDelBtn: React.FC<ThisFCProps> = ({ id, setDeleteItemId }) => {
   return (
     <>
       <Button
-        className="w-full flex items-center bg-m-red hover:bg-m-red hover:opacity-80 pt-[2px] pb-1 text-xs rounded-sm"
-        variant="contained" onClick={() => setOpen(true)}>
-        <DeleteRoundedIcon className="mr-1" />削除
+        variant="contained" onClick={() => setOpen(true)} sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#e73939",
+          padding: "3px",
+          fontSize: "12px",
+          borderRadius: "1px",
+          '&:hover': {
+            backgroundColor: "#e73939",
+            opacity: 0.9,
+          }
+        }}>
+        <MdDelete className="text-[17px]" />
+        <span className="ml-1">削除</span>
       </Button>
       <Dialog
         fullScreen={fullScreen}
         open={open}
         onClose={() => setOpen(false)}
-        aria-labelledby="cancel_dialog_title"
+        sx={{
+          '& .MuiDialog-paper': {
+            minWidth: "500px !important",
+            padding: "0 !important",
+          }
+        }}
       >
         <DialogTitle
-          id="customer_dialog_title"
-          className="text-lg YuGothic text-center font-semibold"
+          sx={{
+            fontWeight: "700",
+            textAlign: "center",
+            paddingTop: "30px",
+            fontSize: "18px",
+            letterSpacing: "1px",
+          }}
         >
           削除してもいいですか？
         </DialogTitle>
-        <DialogActions>
+        <DialogActions sx={{
+          padding: "10px",
+          margin: "5px 10px 10px 0",
+        }}>
           <Button
-            autoFocus
-            className="YuGothic font-semibold text-base"
             onClick={handleDelete}
+            variant="contained"
+            sx={{
+              borderRadius: "1px",
+              padding: "5px 20px",
+            }}
           >
             はい
           </Button>
           <Button
-            autoFocus
-            className="YuGothic font-semibold text-base"
             onClick={() => setOpen(false)}
+            variant="contained"
+            sx={{
+              backgroundColor: "#bcbcbc",
+              padding: "5px 20px",
+              borderRadius: "1px",
+              '&:hover': {
+                backgroundColor: "#bcbcbc",
+              }
+            }}
           >
             いいえ
           </Button>

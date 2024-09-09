@@ -1,4 +1,4 @@
-import CustomerDetailPage from "@/features/customers/detail/CustomerDetailPage";
+import CustomerDetailPage from "@/features/customers/CustomerDetailPage";
 
 export default function page() {
   return (

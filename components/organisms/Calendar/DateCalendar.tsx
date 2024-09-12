@@ -8,12 +8,12 @@ import TableRow from "./TableRow";
 
 import { daysStr } from "@/utils/constants";
 import { dayOfWeek, numberOfDays, eventHoldingPeriod } from "@/utils/convert";
-import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
+import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventDateTimeAtom";
 
 const DateCalendar: React.FC = () => {
-  const eventDates = useRecoilValue(EventDateAtom);
+  const eventDates = useRecoilValue(EventDateTimeAtom);
   const [selectYearMonth, setSelectYearMonth] =
-    useRecoilState(SelectYearMonthAtom);
+    useRecoilState(YearMonthAtom);
 
   const dayOfFirstDay = dayOfWeek(
     new Date(selectYearMonth.year, selectYearMonth.month - 1, 1)

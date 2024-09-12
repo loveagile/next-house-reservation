@@ -33,6 +33,7 @@ const SelectBox: React.FC<ISelectBoxProps> = ({
               '& .MuiSelect-select': {
                 padding: '3px 15px',
                 minWidth: '170px',
+                fontSize: '15px',
               },
             }}
           >

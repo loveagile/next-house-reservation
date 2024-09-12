@@ -172,3 +172,9 @@ export interface IEventDateTime {
   date: string;
   time: number[];
 }
+
+export interface IReserveDateTime {
+  date: string;
+  startTime: string;
+  endTime: string;
+}

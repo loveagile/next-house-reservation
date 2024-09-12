@@ -1,9 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatISO8601TimestampToJapaneseString, formatDateToJapaneseString } from "@/utils/convert";
-
-import "./PublishEventListItem.css";
+import { eventHoldingPeriod } from "@/utils/convert";
 
 export interface IPublishEventListItem {
   id: number;
@@ -27,7 +25,7 @@ const PublishEventListItem: React.FC<{ values: IPublishEventListItem }> = ({ val
   } = values;
 
   const convertEventDate = JSON.parse(eventDate);
-  const mainImg = images ? images.split(",").map((img) => img.trim())[mainIndex] : "/imgs/events/no_image.png";
+  const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
 
   return (
     <div className="w-full h-full flex">
@@ -49,14 +47,9 @@ const PublishEventListItem: React.FC<{ values: IPublishEventListItem }> = ({ val
             </span>
           </div>
           <Link href={`/events/${id}`} className="text-sm mb-5 text-link-color underline">{title}</Link>
-          {convertEventDate && convertEventDate.length > 0 && (
-            <p className="text-sm text-[#ff0000] mt-auto">
-              {formatDateToJapaneseString(new Date(convertEventDate[0].date))}
-              {eventDate.length > 1 && (
-                `〜${formatDateToJapaneseString(new Date(convertEventDate[convertEventDate.length - 1].date))}`
-              )}
-            </p>
-          )}
+          <p className="text-sm text-[#ff0000] mt-auto">
+            {eventHoldingPeriod(JSON.parse(eventDate))}
+          </p>
         </div>
       </div>
     </div>

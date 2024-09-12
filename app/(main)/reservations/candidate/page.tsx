@@ -1,4 +1,4 @@
-import ReservationCandidatePage from "@/features/reservations/candidate/ReservationCandidatePage";
+import ReservationCandidatePage from "@/features/reservations/ReservationCandidatePage";
 
 export default function ReservationCandidate() {
   return (

@@ -1,27 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { Button, Dialog, DialogTitle, DialogContent, useMediaQuery } from "@mui/material";
+import { CgClose } from "react-icons/cg";
 import { useTheme } from "@mui/material/styles";
 
-import InputField from "@/components/molecules/InputField";
-import SelectBox from "@/components/molecules/SelectBox";
-import ReservationDate from "@/components/molecules/ReservationDate/ReservationDate";
-import ReservationTime from "@/components/molecules/ReservationTime/ReservationTime";
+import ReservationDate from "@/components/molecules/Reservation/ReservationDate";
+import ReservationTime from "@/components/molecules/Reservation/ReservationTime";
 
-import { getTimeStr, getFormatDate } from "@/utils/convert";
-import { SelectYearMonthAtom, CandidateReserveDateAtom, CurrentReserveDateAtom } from "@/lib/recoil/EventDateAtom";
-import { IEventDateTime } from "@/utils/types";
-import { IReservationTimeProps } from "@/components/molecules/ReservationTime/ReservationTime";
+import { getCandidateReserveDateTimes } from "@/utils/convert";
+import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
+import { IEventDateTime, IReserveDateTime } from "@/utils/types";
 
 export interface IChangeDateForm {
   reserveDate: string;
@@ -29,165 +21,158 @@ export interface IChangeDateForm {
   endTime: string;
 }
 
-interface IChangeDateBtnProps {
-  reserveDate: string;
-  startTime: string;
-  endTime: string;
-  setCurrentReserveDateAndTime: (currentReserveDateAndTime: IChangeDateForm) => void;
+interface ThisFCPrpos {
+  reserveDateTime: IReserveDateTime;
+  setReserveDateTime: (reserveDateTime: IReserveDateTime) => void;
   reserveId: number;
   eventId: number;
 }
 
-const ChangeDateBtn: React.FC<IChangeDateBtnProps> = ({ reserveDate, startTime, endTime, setCurrentReserveDateAndTime, reserveId, eventId }) => {
+const ChangeDateBtn: React.FC<ThisFCPrpos> = ({ reserveDateTime, setReserveDateTime, reserveId, eventId }) => {
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const [candidateReserveDates, setCandidateReserveDates] = useRecoilState(CandidateReserveDateAtom);
-  const currentReserveDate = useRecoilValue(CurrentReserveDateAtom);
-  const [_, setSelectYearMonth] = useRecoilState(SelectYearMonthAtom);
-  const [currentTime, setCurrentTime] = useState<IReservationTimeProps>({
-    startTime,
-    endTime,
-  });
+  const [_, setCandidateReserveDateTimes] = useRecoilState(CandidateEventDateTimeAtom);
+  const [__, setYearMonth] = useRecoilState(YearMonthAtom);
+  const [reserveDate, setReserveDate] = useRecoilState(ReserveDateAtom);
+  const [reserveTime, setReserveTime] = useRecoilState(ReserveTimeAtom);
 
   useEffect(() => {
+    if (open === false) return;
+
+    setReserveDate({
+      value: reserveDateTime.date,
+      isOpen: false,
+    });
+
+    setReserveTime({
+      startTime: reserveDateTime.startTime,
+      endTime: reserveDateTime.endTime,
+    });
+
+    const [year, month, day] = reserveDateTime.date.split("-").map(Number);
+    setYearMonth({
+      year,
+      month,
+    });
+
     const fetchEventDetail = async () => {
-      setIsLoading(true);
-
-      const currentDate: Date = new Date();
-      setSelectYearMonth({
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-      });
-
       const res = await axios.post("/api/events/detail", { id: eventId });
       if (res.status === 200) {
-        const eventDates = JSON.parse(res.data[0].eventDate);
-        let candidates: IEventDateTime[] = [];
-        for (let i = 0; i < eventDates.length; i++) {
-          const currentEventDate: IEventDateTime = eventDates[i];
-          const { date, time } = currentEventDate;
-          for (let j = 0; j < time.length; j += 2) {
-            if (getFormatDate(date, getTimeStr(time[j])) >= new Date()) {
-              candidates.push({
-                date,
-                time: time.slice(j)
-              });
-              break;
-            }
-          }
-        }
-        if (candidates.length > 0) {
-          const { date, time } = candidates[0];
-          const [year, month, day] = date.split("-");
-          setSelectYearMonth({
-            year: Number(year),
-            month: Number(month),
-          })
-        }
-        setCandidateReserveDates(candidates);
+        const candidates: IEventDateTime[] = getCandidateReserveDateTimes(JSON.parse(res.data[0].eventDate));
+        setCandidateReserveDateTimes(candidates);
       }
-      setIsLoading(false);
     };
     fetchEventDetail();
-  }, []);
-
-  // useEffect(() => {
-  //   for (let i = 0; i < candidateReserveDates.length; i++) {
-  //     const { date, time } = candidateReserveDates[i];
-  //     if (date === reserveDate) {
-  //       for (let j = 0; j < time.length; j += 2) {
-  //         if (getTimeStr(time[j]) === startTime) {
-  //           setCurrentTime({
-  //             startTime,
-  //             endTime: getTimeStr(time[j + 1])
-  //           })
-  //           return;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }, [candidateReserveDates])
+  }, [open]);
 
   const handleChangeDateTime = () => {
-    const date = currentReserveDate.value;
-    const { startTime, endTime } = currentTime;
+    const date = reserveDate.value;
+    const { startTime, endTime } = reserveTime;
 
     const updateDateAndTime = async () => {
       await axios.post("/api/reservations/update", {
         id: reserveId,
-        field_name: 'reserveDate',
-        field_value: date,
-      })
-
-      await axios.post("/api/reservations/update", {
-        id: reserveId,
-        field_name: 'startTime',
-        field_value: startTime,
-      })
-
-      await axios.post("/api/reservations/update", {
-        id: reserveId,
-        field_name: 'endTime',
-        field_value: endTime,
+        field_names: ['reserveDate', 'startTime', 'endTime'],
+        field_values: [date, startTime, endTime],
       })
     }
-
     updateDateAndTime();
 
-    setCurrentReserveDateAndTime({
-      reserveDate: date,
+    setReserveDateTime({
+      date,
       startTime,
-      endTime
+      endTime,
     })
-
     setOpen(false)
   }
 
   return (
     <>
-      <Button className="date_change_btn" variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" onClick={() => setOpen(true)} sx={{
+        width: "100%",
+        display: "block",
+        backgroundColor: "#2296f3",
+        textAlign: "center",
+        fontSize: "12px",
+        padding: "4px 5px 2px",
+        borderRadius: "1px",
+        '&:hover': {
+          backgroundColor: "#2296f3",
+          opacity: 0.9,
+        }
+      }}>
         日時変更
       </Button >
       <Dialog
         fullScreen={fullScreen}
         open={open}
         onClose={() => setOpen(false)}
-        aria-labelledby="date_change_dialog_title"
+        sx={{
+          '& .MuiDialog-paper': {
+            minWidth: "700px",
+          }
+        }}
       >
         <Button
           className="absolute right-1 top-1 min-w-0 text-[#95979c]"
-          autoFocus
           onClick={() => setOpen(false)}
         >
-          <CloseRoundedIcon />
+          <CgClose className="text-lg" />
         </Button>
-        <DialogTitle className="dialog_title" id="date_change_dialog_title">
+        <DialogTitle sx={{
+          borderLeft: "5px #35bda1 solid",
+          fontWeight: "700",
+          color: "#555",
+          padding: "0 0 0 8px",
+          margin: "30px 30px 0",
+        }}>
           変更する時間を指定してください
         </DialogTitle>
         <DialogContent>
           <div className="flex items-start mt-5">
             <div className="w-full">
-              <ReservationDate id="date" className="min-w-[500px] w-full mt-3" value={reserveDate} />
+              <ReservationDate className="min-w-[500px] w-full mt-3" />
             </div>
           </div>
 
-          <p className="text-sm mt-6 mb-4 font-semibold">予約したい時刻を選択してください。</p>
+          <p className="text-sm mt-5 mb-3 font-semibold">予約したい時刻を選択してください。</p>
 
           {/* Reservation Time */}
           <div className="w-full">
-            <ReservationTime id="time" currentTime={currentTime} setCurrentTime={setCurrentTime} />
+            <ReservationTime />
           </div>
 
-          <p className="text-sm mt-12 mb-10">変更後、予約者にメールが送信されます。</p>
+          <p className="text-sm mt-10 mb-8">変更後、予約者にメールが送信されます。</p>
 
           <div className="flex gap-x-2 mb-5">
-            <Button className="apply_btn" variant="contained" onClick={handleChangeDateTime}>
+            <Button variant="contained" onClick={handleChangeDateTime} sx={{
+              backgroundColor: "#2296f3",
+              textAlign: "center",
+              padding: "6px 20px 4px",
+              fontSize: "14px",
+              borderRadius: "1px",
+              '&:hover': {
+                backgroundColor: "#2296f3",
+                opacity: 0.9,
+              }
+            }}>
               変更
             </Button >
-            <Button className="discard_btn" variant="contained" onClick={() => setOpen(false)}>
+            <Button variant="contained" onClick={() => setOpen(false)} sx={{
+              backgroundColor: "#fff",
+              color: "black",
+              textAlign: "center",
+              padding: "6px 20px 4px",
+              fontSize: "14px",
+              borderRadius: "1px",
+              border: "1px solid #ddd",
+              '&:hover': {
+                backgroundColor: "#fff",
+                opacity: 0.9,
+              }
+            }}>
               閉じる
             </Button >
           </div>

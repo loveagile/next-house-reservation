@@ -15,6 +15,7 @@ import { IEvent } from "@/utils/types";
 import { convEventStatus } from "@/utils/convert";
 
 export default function EventViewPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
   const [eventItems, setEventItems] = useState<IEvent[]>([]);
@@ -24,8 +25,6 @@ export default function EventViewPage() {
     type: "イベント種別 - 全て",
     status: "ステータス - 全て",
   });
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchEvents = async () => {

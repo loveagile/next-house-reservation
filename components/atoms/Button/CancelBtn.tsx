@@ -23,42 +23,80 @@ const CancelBtn: React.FC<ICancelBtnProps> = ({ id, setCurrentStatus }) => {
   const handleUpdate = async () => {
     await axios.post("/api/reservations/update", {
       id,
-      field_name: 'status',
-      field_value: 'canceled',
+      field_names: ['status'],
+      field_values: ['canceled'],
     })
     setOpen(false);
     setCurrentStatus('canceled');
   };
   return (
     <>
-      <Button className="cancel_btn" variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" onClick={() => setOpen(true)} sx={{
+        width: "100%",
+        display: "block",
+        backgroundColor: "#fff",
+        color: "black",
+        textAlign: "center",
+        marginTop: "8px",
+        fontSize: "12px",
+        padding: "3px 5px 1px",
+        borderRadius: "1px",
+        border: "1px solid #ddd",
+        '&:hover': {
+          backgroundColor: "#fff",
+          opacity: "0.9",
+        }
+      }}>
         取り消し
       </Button>
       <Dialog
         fullScreen={fullScreen}
         open={open}
         onClose={() => setOpen(false)}
-        aria-labelledby="cancel_dialog_title"
+        sx={{
+          '& .MuiDialog-paper': {
+            minWidth: "500px",
+          }
+        }}
       >
         <DialogTitle
-          id="cancel_dialog_title"
-          className="text-lg YuGothic font-semibold text-center"
+          sx={{
+            fontWeight: "700",
+            textAlign: "center",
+            paddingTop: "30px",
+            color: "#555",
+            fontSize: "18px",
+            letterSpacing: "1px",
+          }}
         >
           予約を取り消しますか？<br></br>
           取り消した場合、ユーザーにも通知されます。
         </DialogTitle>
-        <DialogActions>
+        <DialogActions sx={{
+          padding: "10px",
+          margin: "5px 10px 10px 0",
+        }}>
           <Button
-            autoFocus
-            className="font-semibold"
             onClick={handleUpdate}
+            variant="contained"
+            sx={{
+              borderRadius: "1px",
+              padding: "5px 20px",
+            }}
           >
             はい
           </Button>
           <Button
-            autoFocus
-            className="font-semibold"
             onClick={() => setOpen(false)}
+            variant="contained"
+            sx={{
+              backgroundColor: "#bcbcbc",
+              padding: "5px 20px",
+              borderRadius: "1px",
+              '&:hover': {
+                backgroundColor: "#bcbcbc",
+              }
+            }}
           >
             いいえ
           </Button>

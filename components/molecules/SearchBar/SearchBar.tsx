@@ -1,6 +1,6 @@
+import Button from "@mui/material/Button";
 import InputField from "@/components/molecules/InputField";
 import SelectBox from "@/components/molecules/SelectBox";
-import Button from "@mui/material/Button";
 import { IoSearchSharp } from "react-icons/io5";
 
 import { types, status } from "@/utils/constants";
@@ -12,12 +12,12 @@ export interface ISearchForm {
   status: string;
 }
 
-interface ISearchBarProps {
+interface ThisFCProps {
   totalCounts: number;
   setSearchData: (value: ISearchForm) => void;
 }
 
-const SearchBar: React.FC<ISearchBarProps> = ({
+const SearchBar: React.FC<ThisFCProps> = ({
   totalCounts,
   setSearchData,
 }) => {

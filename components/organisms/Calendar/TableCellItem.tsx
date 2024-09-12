@@ -10,14 +10,14 @@ import { useTheme } from "@mui/material/styles";
 import TimeSetDialog from "../../molecules/Dialog/TimeSetDialog";
 
 import { includeEventDate, getTimeStr, getDateStr } from "@/utils/convert";
-import { EventDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
+import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventDateTimeAtom";
 
 const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
-  const selectYearMonth = useRecoilValue(SelectYearMonthAtom);
+  const [eventDates, setEventDates] = useRecoilState(EventDateTimeAtom);
+  const selectYearMonth = useRecoilValue(YearMonthAtom);
 
   const { status, time, index } = includeEventDate(
     eventDates,

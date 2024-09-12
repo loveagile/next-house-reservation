@@ -19,7 +19,9 @@ export async function POST(req: NextRequest) {
 
   let queryStr = `
   SELECT 
-    r.id, c.lastName, c.firstName, r.customerId, c.employee, r.reserveDate, r.startTime, r.endTime, r.receptionAt, e.type, e.format, e.title, r.eventId, r.status,
+    r.id, r.customerId, r.eventId, r.reserveDate, r.startTime, r.endTime, r.status, r.receptionAt,
+    e.title, e.type, e.format, 
+    c.lastName, c.firstName, c.employee, c.seiName, c.meiName, c.prefecture, c.city, c.street, c.building, c.email, c.phone, c.memo, c.note,
     (SELECT COUNT(eventId) FROM reservations WHERE customerId = r.customerId) AS reservationTimes
   FROM 
     reservations r 

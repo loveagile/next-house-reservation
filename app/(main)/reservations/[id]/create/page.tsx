@@ -1,8 +1,9 @@
-import ReservationNewPage from "@/features/reservations/new/ReservationNewPage"
+import ReservationCreatePage from "@/features/reservations/ReservationCreatePage"
+
 export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
-      <ReservationNewPage />
+      <ReservationCreatePage />
     </main>
   )
 }

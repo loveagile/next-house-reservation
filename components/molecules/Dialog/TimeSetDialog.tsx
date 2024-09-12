@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 import { timesStr } from "@/utils/constants";
-import { EventDateAtom } from "@/lib/recoil/EventDateAtom";
+import { EventDateTimeAtom } from "@/lib/recoil/EventDateTimeAtom";
 import { getTimeArray, getTimeNumber, getTimeStr } from "@/utils/convert";
 
 
@@ -26,7 +26,7 @@ export interface IStartEndTimeProps {
 }
 
 const TimeSetDialog: React.FC<ITimeSetDialogProps> = ({ time, date, setOpen, index }) => {
-  const [eventDates, setEventDates] = useRecoilState(EventDateAtom);
+  const [eventDates, setEventDates] = useRecoilState(EventDateTimeAtom);
   const [startEndTime, setStartEndTime] = useState<IStartEndTimeProps[]>([]);
   const [timeError, setTimeError] = useState<string>("");
 

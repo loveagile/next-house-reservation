@@ -8,7 +8,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import Button from "@mui/material/Button";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import Loading from "@/components/molecules/loading";
-import ReservationListItem, { IReservationListItem } from "@/components/organisms/ReservationListItem/ReservationListItem";
+import ReservationListItem, { IReservationListItem } from "@/components/organisms/ListItem/ReservationListItem";
 import { ICustomer } from "@/utils/types";
 
 export default function CustomerDetailPage() {
@@ -21,7 +21,10 @@ export default function CustomerDetailPage() {
     const fetchCustomerData = async () => {
       setIsLoading(true);
 
-      const res = await axios.post("/api/customers/detail", { id });
+      const res = await axios.post("/api/customers/detail", {
+        field_name: "id",
+        field_value: id.toString(),
+      });
       if (res.status === 200) {
         setCustomer(res.data[0]);
       }

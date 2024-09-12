@@ -50,7 +50,10 @@ export default function CustomerEditPage() {
   useEffect(() => {
     const fetchCustomerData = async () => {
       setIsLoading(true);
-      const res = await axios.post("/api/customers/detail", { id });
+      const res = await axios.post("/api/customers/detail", {
+        field_name: "id",
+        field_value: id.toString(),
+      });
       if (res.status === 200) {
         setCustomer(res.data[0]);
       }
@@ -148,6 +151,8 @@ export default function CustomerEditPage() {
     let month = -1;
     let date = -1;
 
+    const phoneNumber = phone?.replaceAll("-", "");
+
     if (birthYear && birthMonth && birthDate) {
       year = Number(birthYear);
       month = Number(birthMonth.slice(0, -1));
@@ -164,7 +169,8 @@ export default function CustomerEditPage() {
       status: customerStatus,
       lastName, firstName, seiName, meiName,
       zipCode, prefecture, city, street, building,
-      phone, email,
+      phone: phoneNumber,
+      email,
       birthYear: year,
       birthMonth: month,
       birthDate: date,

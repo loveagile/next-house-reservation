@@ -2,17 +2,15 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 import Button from "@mui/material/Button";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-
 import Loading from "@/components/molecules/loading";
-import PublishEventListItem, { IPublishEventListItem } from "@/components/organisms/PublishEventListItem/PublishEventListItem";
-
+import PublishEventListItem, { IPublishEventListItem } from "@/components/organisms/ListItem/PublishEventListItem";
+import { convEventStatus } from "@/utils/convert";
 import { IEvent } from "@/utils/types";
-import "./ReservationCreatePage.css";
 
-export default function ReservationCreatePage() {
+export default function ReservationSelectEventPage() {
   const [publishEventItems, setPublishEventItems] = useState<IPublishEventListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -22,7 +20,11 @@ export default function ReservationCreatePage() {
       const res = await axios.post("/api/events/view");
       if (res.status === 200) {
         const events = res.data;
-        const publishEvents = events.filter((event: IEvent) => event.status === "公開")
+        const publishEvents = events.filter((event: IEvent) => {
+          const { status, eventDate } = event;
+          const convStatus = convEventStatus(status, JSON.parse(eventDate));
+          return convStatus === "公開" || convStatus === "限定公開";
+        })
         setPublishEventItems(publishEvents);
       }
       setIsLoading(false);
@@ -45,8 +47,8 @@ export default function ReservationCreatePage() {
           <table className="w-full">
             <thead>
               <tr>
-                <th>イベント内容</th>
-                <th className="w-[200px]"></th>
+                <th className="bg-[#2fa8b5] p-[10px] text-white font-medium">イベント内容</th>
+                <th className="bg-[#2fa8b5] p-[10px] text-white font-medium w-[200px]"></th>
               </tr>
             </thead>
             <tbody>
@@ -56,9 +58,15 @@ export default function ReservationCreatePage() {
                     <PublishEventListItem values={item} />
                   </td>
                   <td className="align-middle p-2 min-w-[250px]">
-                    <Button href={`/reservations/${item.id}/new`} className="edit_btn" variant="contained">
-                      <EditRoundedIcon className="mr-1" />
-                      このイベントに登録する
+                    <Button href={`/reservations/${item.id}/create`} variant="contained" sx={{
+                      width: "100%",
+                      padding: "8px 20px",
+                      marginBottom: 0,
+                      fontSize: "14px",
+                      borderRadius: "1px",
+                    }}>
+                      <FaPencilAlt className="text-sm" />
+                      <span className="ml-[6px]">このイベントに登録する</span>
                     </Button>
                   </td>
                 </tr>

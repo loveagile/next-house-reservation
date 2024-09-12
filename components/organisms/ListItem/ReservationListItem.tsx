@@ -1,33 +1,44 @@
 import Link from "next/link";
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 import Button from "@mui/material/Button";
 
 import CancelBtn from "@/components/atoms/Button/CancelBtn";
-import ChangeDateBtn, { IChangeDateForm } from "@/components/atoms/Button/ChangeDateBtn";
 import NotVisitedBtn from "@/components/atoms/Button/NotVisitedBtn";
+import ChangeDateBtn from "@/components/atoms/Button/ChangeDateBtn";
 
-import { formatReservationDateToJapaneseString, formatSlashSplitDateString } from "@/utils/convert";
-
-import "./ReservationListItem.css";
+import { IReserveDateTime } from "@/utils/types";
+import { formatReservationDateToJapaneseString, formatSlashSplitDateString, getFormatDate } from "@/utils/convert";
 
 export interface IReservationListItem {
   id: number;
-  lastName: string;
-  firstName: string;
   customerId: string;
-  employee: string;
+  eventId: number;
   reserveDate: string;
   startTime: string;
   endTime: string;
-  reservationTimes: number;
-  receptionAt: string;
-  type: string;
-  format: string;
-  title: string;
-  eventId: number;
   status: string;
+  reservationTimes: number;
+  receptionAt: string;          // Reservation
+
+  title: string;
+  type: string;
+  format: string;               // Event
+
+  lastName: string;
+  firstName: string;
+  employee: string;
+  seiName: string;
+  meiName: string;
+  prefecture: string;
+  city: string;
+  street: string;
+  building: string;
+  email: string;
+  phone: string;
+  memo: string;
+  note: string;                 // Customer
 }
 
 interface ThisFCProps {
@@ -43,20 +54,20 @@ const ReservationListItem: React.FC<ThisFCProps> = ({ values }) => {
   } = values;
 
   const [currentStatus, setCurrentStatus] = useState<string>(status);
-  const [currentReserveDateAndTime, setCurrentReserveDateAndTime] = useState<IChangeDateForm>({
-    reserveDate,
+  const [reserveDateTime, setReserveDateTime] = useState<IReserveDateTime>({
+    date: reserveDate,
     startTime,
     endTime,
-  })
-  const { date: receptionDate, time: receptionTime } = formatReservationDateToJapaneseString(receptionAt);
+  });
 
-  const reservationTime = new Date(`${reserveDate} ${startTime}:00`);
-  if (new Date() > reservationTime && currentStatus === "active") {
+  // Check if reservation was passed
+  const { date: receptionDate, time: receptionTime } = formatReservationDateToJapaneseString(receptionAt);
+  if (new Date() > getFormatDate(reserveDate, startTime) && currentStatus === "active") {
     const handleVisited = async () => {
       await axios.post("/api/reservations/update", {
         id,
-        field_name: 'status',
-        field_value: 'visited',
+        field_names: ['status'],
+        field_values: ['visited'],
       })
       setCurrentStatus("visited");
     };
@@ -65,13 +76,24 @@ const ReservationListItem: React.FC<ThisFCProps> = ({ values }) => {
 
   return (
     <tr className={`w-full ${currentStatus === 'active' ? "" : "bg-[#d6d6d6]"}`}>
-      <td className="detail_column p-2">
-        <Button href={`/reservations/${id}`} className="detail_btn" variant="contained">
+      <td className="w-[90px] p-2">
+        <Button href={`/reservations/${id}`} variant="contained" sx={{
+          display: "block",
+          backgroundColor: "#ea9b54",
+          fontSize: "12px",
+          padding: "4px 5px 2px",
+          textAlign: "center",
+          borderRadius: "1px",
+          '&:hover': {
+            backgroundColor: "#ea9b54",
+            opacity: 0.9,
+          }
+        }}>
           予約詳細
         </Button>
       </td>
-      <td className="p-3 date_column font-bold text-[15px]">
-        {formatSlashSplitDateString(currentReserveDateAndTime.reserveDate)}<br></br>{currentReserveDateAndTime.startTime}
+      <td className="p-3 w-[135px] font-bold text-[15px]">
+        {formatSlashSplitDateString(reserveDateTime.date)}<br></br>{reserveDateTime.startTime}
       </td>
       <td className="p-3 text-[15px]">
         <p>
@@ -89,22 +111,20 @@ const ReservationListItem: React.FC<ThisFCProps> = ({ values }) => {
           {format}
         </span>
         <p className="mt-2 text-[15px]">
-          <Link href={`/events/${eventId}`} className="text-m-blue underline font-semibold">{title}</Link>
+          <Link href={`/events/${eventId}`} className="text-m-blue text-sm underline font-semibold">{title}</Link>
         </p>
       </td>
-      <td className="method_column p-2">
+      <td className="w-20 p-2">
         <p className="text-xs text-white bg-[#29ac6d] px-2 py-[3px] text-center">
           手入力
         </p>
       </td>
-      <td className="status_column p-2">
+      <td className="w-[120px] p-2">
         {currentStatus === "active" && (
           <div className="p-2">
             <ChangeDateBtn
-              reserveDate={currentReserveDateAndTime.reserveDate}
-              startTime={currentReserveDateAndTime.startTime}
-              endTime={currentReserveDateAndTime.endTime}
-              setCurrentReserveDateAndTime={setCurrentReserveDateAndTime}
+              reserveDateTime={reserveDateTime}
+              setReserveDateTime={setReserveDateTime}
               reserveId={id}
               eventId={eventId}
             />

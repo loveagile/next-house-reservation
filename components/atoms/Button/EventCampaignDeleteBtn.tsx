@@ -4,12 +4,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogActions from "@mui/material/DialogActions";
+import { Button, Dialog, DialogTitle, DialogActions, useMediaQuery } from "@mui/material";
 import { MdDelete } from "react-icons/md";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
 interface ThisFCProps {

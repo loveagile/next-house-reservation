@@ -4,6 +4,7 @@ import {
   IReservationGroupedEvent,
 } from "@/utils/types";
 import { IStartEndTimeProps } from "@/components/molecules/Dialog/TimeSetDialog";
+import { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
 
 // ex: (2024, 8, 12)  =>  "月"
 export const dayStrOfWeek = (specificDate: Date) => {
@@ -162,6 +163,44 @@ export const includeEventDate = (
     time: [600, 1020],
     index: -1,
   };
+};
+
+// get candidate reservation date if the date is later than current date and time
+export const getCandidateReserveDateTimes = (eventDates: IEventDateTime[]) => {
+  let candidates: IEventDateTime[] = [];
+  for (let i = 0; i < eventDates.length; i++) {
+    const { date, time } = eventDates[i] as IEventDateTime;
+    for (let j = 0; j < time.length; j += 2) {
+      if (getFormatDate(date, getTimeStr(time[j])) >= new Date()) {
+        candidates.push({
+          date,
+          time: time.slice(j),
+        });
+        break;
+      }
+    }
+  }
+  return candidates;
+};
+
+export const getCandidateReserveTimes = (
+  candidateReserveDateTimes: IEventDateTime[],
+  selectedDate: string
+) => {
+  let times: IReservationTimeProps[] = [];
+
+  candidateReserveDateTimes.forEach(({ date, time }) => {
+    if (date === selectedDate) {
+      for (let i = 0; i < time.length; i += 2) {
+        times.push({
+          startTime: getTimeStr(time[i]),
+          endTime: getTimeStr(time[i + 1]),
+        });
+      }
+    }
+  });
+
+  return times;
 };
 
 // ex: [{"date":"2024-08-03","time":[120,150,240, 300]},{"date":"2024-08-05","time":[300,420]}]  =>  2024年08月03日(土)〜2024年08月05日(月)

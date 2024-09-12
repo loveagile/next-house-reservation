@@ -1,18 +1,14 @@
 "use client";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-
 import Button from "@mui/material/Button";
-import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
-import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
-
-import ReservationTableRow from "@/components/molecules/ReservationTableRow/ReservationTableRow";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import ReservationTableRow from "@/components/organisms/Calendar/Reservation/ReservationTableRow";
 
 import { daysStr } from "@/utils/constants";
-import { CandidateReserveDateAtom, SelectYearMonthAtom } from "@/lib/recoil/EventDateAtom";
+import { CandidateEventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
 import { dayOfWeek, numberOfDays } from "@/utils/convert";
-
-import "./ReservationDateCalendar.css";
+import { useEffect } from "react";
 
 interface ThisFCProps {
   className?: string;
@@ -36,18 +32,11 @@ const isLastMonth = (
 };
 
 const ReservationDateCalendar: React.FC<ThisFCProps> = ({ className }) => {
-  const candidateReserveDates = useRecoilValue(CandidateReserveDateAtom);
-  const [selectYearMonth, setSelectYearMonth] =
-    useRecoilState(SelectYearMonthAtom);
+  const candidateReserveDates = useRecoilValue(CandidateEventDateTimeAtom);
+  const [selectYearMonth, setSelectYearMonth] = useRecoilState(YearMonthAtom);
 
-  const dayOfFirstDay = dayOfWeek(
-    new Date(selectYearMonth.year, selectYearMonth.month - 1, 1)
-  );
-  const countsOfDays = numberOfDays(
-    selectYearMonth.year,
-    selectYearMonth.month
-  );
-
+  const dayOfFirstDay = dayOfWeek(new Date(selectYearMonth.year, selectYearMonth.month - 1, 1));
+  const countsOfDays = numberOfDays(selectYearMonth.year, selectYearMonth.month);
   const numberInFirstRow = 7 - dayOfFirstDay;
 
   const handlePreviousMonth = () => {
@@ -81,36 +70,46 @@ const ReservationDateCalendar: React.FC<ThisFCProps> = ({ className }) => {
       <div>
         <div className="w-full flex items-center justify-between">
           {isFirstMonth(selectYearMonth.year, selectYearMonth.month) ? (
-            <div className="empty_div"></div>
+            <div className="w-[calc(100%/7)]"></div>
           ) : (
-            <Button
-              className="date_btn"
-              variant="outlined"
-              onClick={handlePreviousMonth}
+            <Button variant="outlined" onClick={handlePreviousMonth} sx={{
+              padding: "10px 20px",
+              fontSize: "20px",
+              border: "none",
+              width: "calc(100%/7)",
+              '&:hover': {
+                border: 'none',
+              }
+            }}
             >
-              <KeyboardArrowLeftRoundedIcon className="arrow_icon" />
+              <MdKeyboardArrowLeft className="text-2xl" />
             </Button>
           )}
           <p className="font-semibold p-1">
             {selectYearMonth.year} 年 {selectYearMonth.month} 月
           </p>
-          {isLastMonth(selectYearMonth.year, selectYearMonth.month, candidateReserveDates[candidateReserveDates.length - 1].date) ? (
-            <div className="empty_div"></div>
+          {isLastMonth(selectYearMonth.year, selectYearMonth.month, candidateReserveDates.at(-1)!.date) ? (
+            <div className="w-[calc(100%/7)]"></div>
           ) : (
-            <Button
-              className="date_btn"
-              variant="outlined"
-              onClick={handleNextMonth}
+            <Button variant="outlined" onClick={handleNextMonth} sx={{
+              padding: "10px 20px",
+              fontSize: "20px",
+              border: "none",
+              width: "calc(100%/7)",
+              '&:hover': {
+                border: 'none',
+              }
+            }}
             >
-              <KeyboardArrowRightRoundedIcon className="arrow_icon" />
+              <MdKeyboardArrowRight className="text-2xl" />
             </Button>
           )}
         </div>
-        <table className="calendar_table">
+        <table className="w-full">
           <thead>
             <tr>
               {daysStr.map((day, index) => (
-                <th key={index} className="calendar_th">{day}</th>
+                <th key={index} className="text-sm p-1 bg-white">{day}</th>
               ))}
             </tr>
           </thead>

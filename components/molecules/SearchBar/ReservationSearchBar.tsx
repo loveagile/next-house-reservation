@@ -1,11 +1,10 @@
+import Button from "@mui/material/Button";
 import InputField from "@/components/molecules/InputField";
 import SelectBox from "@/components/molecules/SelectBox";
-import Button from "@mui/material/Button";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { IoSearchSharp } from "react-icons/io5";
 
 import { types, sortMethods } from "@/utils/constants";
 import { useForm } from "react-hook-form";
-// import "./ReservationSearchBar.css";
 
 export interface IReservationSearchForm {
   sortMethod: string;
@@ -13,13 +12,15 @@ export interface IReservationSearchForm {
   type: string;
 }
 
-interface IReservationSearchBarProps {
+interface ThisFCProps {
   totalCounts: number;
-  setSearchData: (value: IReservationSearchForm) => void;
+  searchData: IReservationSearchForm;
+  setSearchData: (searchData: IReservationSearchForm) => void;
 }
 
-const ReservationSearchBar: React.FC<IReservationSearchBarProps> = ({
+const ReservationSearchBar: React.FC<ThisFCProps> = ({
   totalCounts,
+  searchData,
   setSearchData,
 }) => {
   const { control, handleSubmit } = useForm<IReservationSearchForm>();
@@ -31,23 +32,19 @@ const ReservationSearchBar: React.FC<IReservationSearchBarProps> = ({
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex border-b-[1px] pb-3 border-[#eee] mb-5">
         <span>
-          全
-          <strong className="text-xl mx-1 text-[#1976d2]">
-            {totalCounts}
-          </strong>
-          件
+          全<strong className="text-xl mx-1 text-[#1976d2]">{totalCounts}</strong>件
         </span>
         <div className="ml-auto flex items-center gap-1">
-          <SelectBox id="sortMethod" names={sortMethods} control={control} className="max-w-[150px]" />
-          <InputField id="keyword" placeholder="キーワード" control={control} className="max-w-[200px]" />
-          <SelectBox id="type" names={types} control={control} className="max-w-[200px]" />
+          <SelectBox id="sortMethod" names={sortMethods} control={control} value={searchData.sortMethod} className="max-w-[150px]" />
+          <InputField id="keyword" placeholder="キーワード" control={control} value={searchData.keyword} className="max-w-[200px]" />
+          <SelectBox id="type" names={types} control={control} value={searchData.type} className="max-w-[200px]" />
           <Button type="submit" variant="contained" sx={{
             minWidth: '70px',
-            padding: "2px 0",
+            padding: "4px 1px",
             borderRadius: '1px',
           }}>
-            <SearchRoundedIcon />
-            検索
+            <IoSearchSharp className="text-base mr-[2px]" />
+            <span className="text-sm">検索</span>
           </Button>
         </div>
       </div>

@@ -10,7 +10,7 @@ import { useTheme } from "@mui/material/styles";
 import TimeSetDialog from "../../molecules/Dialog/TimeSetDialog";
 
 import { includeEventDate, getTimeStr, getDateStr } from "@/utils/convert";
-import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventDateTimeAtom";
+import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
 
 const TableCellItem: React.FC<{ day: number }> = ({ day }) => {
   const [open, setOpen] = useState(false);

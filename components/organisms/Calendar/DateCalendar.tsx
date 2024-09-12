@@ -8,7 +8,7 @@ import TableRow from "./TableRow";
 
 import { daysStr } from "@/utils/constants";
 import { dayOfWeek, numberOfDays, eventHoldingPeriod } from "@/utils/convert";
-import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventDateTimeAtom";
+import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
 
 const DateCalendar: React.FC = () => {
   const eventDates = useRecoilValue(EventDateTimeAtom);

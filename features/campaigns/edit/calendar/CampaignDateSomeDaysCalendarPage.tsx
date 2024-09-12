@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/molecules/loading";
 import DateCalendar from "@/components/organisms/Calendar/DateCalendar";
 
-import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventDateTimeAtom";
+import { EventDateTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
 
 const CampaignDateSomeDaysCalendarPage: React.FC = () => {
   const router = useRouter();

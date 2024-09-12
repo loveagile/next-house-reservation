@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 import { timesStr } from "@/utils/constants";
-import { EventDateTimeAtom } from "@/lib/recoil/EventDateTimeAtom";
+import { EventDateTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
 import { getTimeArray, getTimeNumber, getTimeStr } from "@/utils/convert";
 
 

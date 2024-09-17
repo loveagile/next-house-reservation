@@ -9,7 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 
 import Loading from "@/components/molecules/loading";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
-import SelectBox from "@/components/molecules/SelectBox";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 interface IPropertyTypeProps {

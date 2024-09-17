@@ -10,7 +10,7 @@ import CheckBox from "@/components/molecules/Input/CheckBox";
 import DetailBackBtn from "@/components/atoms/Button/DetailBackBtn";
 import EditBtn from "@/components/atoms/Button/EditBtn";
 import Loading from "@/components/molecules/loading";
-import ItemField from "@/components/molecules/ItemField";
+import ItemField from "@/components/molecules/Field/ItemField";
 import NoInputLabel from "@/components/atoms/Label/NoInputLabel";
 import EventStatusSideBar from "@/components/molecules/SideBar/EventStatusSideBar";
 import HTMLContent from "@/components/atoms/HTMLContent";

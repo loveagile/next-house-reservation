@@ -13,9 +13,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Loading from "@/components/molecules/loading";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import MultilineField from "@/components/molecules/MultilineField";
+import MultilineField from "@/components/molecules/Input/MultilineField";
 
 interface IContactForm {
   detail: string;

@@ -1,8 +1,7 @@
 import Link from "next/link";
 
-import { IReservationGroupedEvent } from "@/utils/types";
+import { IReservationGroupedEvent } from "../Calendar/Month/CalendarBody";
 import { formatSlashSplitDateString } from "@/utils/convert";
-import "./ReservationGroupEvent.css";
 
 interface ThisFCProps {
   event: IReservationGroupedEvent;
@@ -25,9 +24,9 @@ const ReservationGroupEvent: React.FC<ThisFCProps> = ({ event }) => {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="reserve_th">時刻</th>
+              <th className="bg-[#868686] p-2 font-medium text-white text-sm">時刻</th>
               {startTimes.map((time, index) => (
-                <th key={index} className="reserve_th reserve_time">{time}</th>
+                <th key={index} className="bg-[#868686] p-2 font-medium text-white text-sm w-[300px]">{time}</th>
               ))}
             </tr>
           </thead>
@@ -44,7 +43,7 @@ const ReservationGroupEvent: React.FC<ThisFCProps> = ({ event }) => {
                 </td>
                 {startTimes.map((time, index) => {
                   const bgColor = time === customer.startTime ? "bg-[#f2cf01]" : "";
-                  return <td key={index} className={`reserve_time ${bgColor}`}></td>
+                  return <td key={index} className={`w-[300px] ${bgColor}`}></td>
                 })}
               </tr>
             ))}

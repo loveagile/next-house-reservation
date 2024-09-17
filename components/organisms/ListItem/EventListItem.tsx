@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import { FaPencilAlt } from "react-icons/fa";
 
-import StatusField from "@/components/molecules/StatusField";
+import StatusField from "@/components/molecules/Field/StatusField";
 
 import { IEvent } from "@/utils/types";
 import { formatISO8601TimestampToJapaneseString, eventHoldingPeriod, convEventStatus } from "@/utils/convert";

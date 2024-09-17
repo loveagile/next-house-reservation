@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 } from "uuid";
 
 import Button from "@mui/material/Button";

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 
 import InputLabel from "@mui/material/InputLabel";

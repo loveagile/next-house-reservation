@@ -30,5 +30,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(row);
   } catch (error) {
     console.error("Error connecting to database:", error);
+    return NextResponse.error();
   }
 }

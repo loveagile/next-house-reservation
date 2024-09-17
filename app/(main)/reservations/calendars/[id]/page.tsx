@@ -1,9 +1,9 @@
-import ReservationCalendarDateDetailPage from "@/features/reservations/calendar-date-detail/ReservationCalendarDateDetailPage";
+import ReservationCalendarDatePage from "@/features/reservations/ReservationCalendarDatePage";
 
 export default function page() {
   return (
     <main className="flex min-h-screen grow ml-[240px]">
-      <ReservationCalendarDateDetailPage />
+      <ReservationCalendarDatePage />
     </main>
   );
 }

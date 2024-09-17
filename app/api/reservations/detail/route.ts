@@ -7,13 +7,12 @@ export async function POST(req: NextRequest) {
   let queryStr = `
   SELECT 
     e.id as eventId, c.id as customerId, 
-    e.title, e.type, e.format,
-    r.reserveDate, r.startTime, r.endTime,
+    e.title, e.type, e.format, e.eventDate, e.images, e.mainIndex,
+    r.reserveDate, r.startTime, r.endTime, r.receptionAt,
     c.note, c.memo,
     c.lastName, c.firstName, c.seiName, c.meiName,
     c.zipCode, c.prefecture, c.city, c.street, c.building,
-    c.email, c.phone, c.employee,
-    r.receptionAt
+    c.email, c.phone, c.employee
   FROM 
     reservations r 
   JOIN

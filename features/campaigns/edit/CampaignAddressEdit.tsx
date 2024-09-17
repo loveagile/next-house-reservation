@@ -7,9 +7,9 @@ import { useRouter, useParams } from "next/navigation";
 
 import InputLabel from "@mui/material/InputLabel";
 
-import SelectBox from "@/components/molecules/SelectBox";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/molecules/Input/InputField";
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";

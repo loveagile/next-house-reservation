@@ -10,7 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import MultilineField from "@/components/molecules/MultilineField";
+import MultilineField from "@/components/molecules/Input/MultilineField";
 
 interface INoteProps {
   note: string;

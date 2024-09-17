@@ -7,8 +7,8 @@ import { useRouter, useParams } from "next/navigation";
 
 import Loading from "@/components/molecules/loading";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
-import InputField from "@/components/molecules/InputField";
-import SelectBox from "@/components/molecules/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 

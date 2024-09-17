@@ -9,11 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 
-import SelectBox from "@/components/molecules/SelectBox";
-import InputField from "@/components/molecules/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import MultilineField from "@/components/molecules/MultilineField";
+import MultilineField from "@/components/molecules/Input/MultilineField";
 
 import { types, formats } from "@/utils/constants";
 

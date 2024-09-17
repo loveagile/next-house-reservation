@@ -1,5 +1,5 @@
-import InputField from "@/components/molecules/InputField";
-import SelectBox from "@/components/molecules/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import Button from "@mui/material/Button";
 import { IoSearchSharp } from "react-icons/io5";
 

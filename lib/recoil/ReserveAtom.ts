@@ -6,6 +6,9 @@ interface IReserveItemProps {
   title: string;
   type: string;
   format: string;
+  eventDate: string;
+  images: string;
+  mainIndex: number;
 
   reserveDate: string;
   startTime: string;
@@ -30,11 +33,15 @@ interface IReserveItemProps {
 }
 
 const initialReserveItem: IReserveItemProps = {
-  eventId: 1,
-  customerId: 1,
+  eventId: -1,
+  customerId: -1,
   title: "",
   type: "",
   format: "",
+  eventDate: "",
+  images: "",
+  mainIndex: 0,
+
   reserveDate: "",
   startTime: "",
   endTime: "",

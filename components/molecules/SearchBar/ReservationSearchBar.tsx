@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
-import InputField from "@/components/molecules/InputField";
-import SelectBox from "@/components/molecules/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import { IoSearchSharp } from "react-icons/io5";
 
 import { types, sortMethods } from "@/utils/constants";

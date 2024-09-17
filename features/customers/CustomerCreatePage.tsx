@@ -10,10 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button, InputLabel } from "@mui/material";
 
-import SelectBox from "@/components/molecules/SelectBox";
-import InputField from "@/components/molecules/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import MultilineField from "@/components/molecules/MultilineField";
+import MultilineField from "@/components/molecules/Input/MultilineField";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { customerStatus } from "@/utils/constants";

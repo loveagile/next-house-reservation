@@ -9,7 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import SelectBox from "@/components/molecules/SelectBox";
+import SelectBox from "@/components/molecules/Input/SelectBox";
 import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 

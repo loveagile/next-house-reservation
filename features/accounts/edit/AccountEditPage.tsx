@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Loading from "@/components/molecules/loading";
 import CheckBox from "@/components/molecules/Input/CheckBox";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 
 import InputLabel from "@mui/material/InputLabel";

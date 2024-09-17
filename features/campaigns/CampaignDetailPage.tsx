@@ -11,7 +11,7 @@ import Loading from "@/components/molecules/loading";
 import NoInputLabel from "@/components/atoms/Label/NoInputLabel";
 import EventCampaignDeleteBtn from "@/components/atoms/Button/EventCampaignDeleteBtn";
 import DetailBackBtn from "@/components/atoms/Button/DetailBackBtn";
-import ItemField from "@/components/molecules/ItemField";
+import ItemField from "@/components/molecules/Field/ItemField";
 import HTMLContent from "@/components/atoms/HTMLContent";
 import GoogleMapFC from "@/components/atoms/GoogleMapFC";
 import CampaignStatusSideBar from "@/components/molecules/SideBar/CampaignStatusSideBar";

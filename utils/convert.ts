@@ -1,10 +1,10 @@
-import {
-  IEventDateTime,
-  IReservationEvent,
-  IReservationGroupedEvent,
-} from "@/utils/types";
+import { IEventDateTime } from "@/utils/types";
 import { IStartEndTimeProps } from "@/components/molecules/Dialog/TimeSetDialog";
 import { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
+import {
+  IReservationEvent,
+  IReservationGroupedEvent,
+} from "@/components/organisms/Calendar/Month/CalendarBody";
 
 // ex: (2024, 8, 12)  =>  "月"
 export const dayStrOfWeek = (specificDate: Date) => {

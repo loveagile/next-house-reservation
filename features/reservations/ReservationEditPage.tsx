@@ -18,9 +18,10 @@ import MultilineField from "@/components/molecules/Input/MultilineField";
 import ReservationDate from "@/components/molecules/Reservation/ReservationDate";
 import ReservationTime, { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
 
-import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
-import { getCandidateReserveDateTimes, eventHoldingPeriod, getTimeStr, getCandidateReserveTimes } from "@/utils/convert";
-import { IEvent, initialEvent, IEventDateTime, IReserveDateTime } from "@/utils/types";
+import { ReserveAtom } from "@/lib/recoil/ReserveAtom";
+import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom, YearMonthAtom } from "@/lib/recoil/EventReserveDateAtom";
+import { getCandidateReserveDateTimes, eventHoldingPeriod } from "@/utils/convert";
+import { IEventDateTime } from "@/utils/types";
 
 interface IReservationForm {
   lastName: string;
@@ -40,39 +41,46 @@ interface IReservationForm {
 
 const hiraganaRegex = /^[\u3040-\u309Fー]+$/;
 
-export default function ReservationCreatePage() {
+export default function ReservationEditPage() {
   const router = useRouter();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const [eventItem, setEventItem] = useState<IEvent>(initialEvent);
+  const [_, setYearMonth] = useRecoilState(YearMonthAtom);
+  const [reserveAtom, setReserveAtom] = useRecoilState(ReserveAtom);
   const [candidateReserveDateTimes, setCandidateReserveDateTimes] = useRecoilState(CandidateEventDateTimeAtom);
   const [reserveDate, setReserveDate] = useRecoilState(ReserveDateAtom);
   const [reserveTime, setReserveTime] = useRecoilState(ReserveTimeAtom);
 
   useEffect(() => {
-    const fetchEventDetail = async () => {
+    const fetchReservationDetail = async () => {
       setIsLoading(true);
+      const res = await axios.post("/api/reservations/detail", { id });
 
-      const res = await axios.post("/api/events/detail", { id, });
       if (res.status === 200) {
         const data = res.data[0];
-        setEventItem(data);
+        setReserveAtom(data);
         const candidates: IEventDateTime[] = getCandidateReserveDateTimes(JSON.parse(data.eventDate));
+        setCandidateReserveDateTimes(candidates);
         setReserveDate({
-          value: candidates[0]?.date || "",
+          value: data.reserveDate,
           isOpen: false,
         });
         setReserveTime({
-          startTime: getTimeStr(candidates[0]?.time[0]) || "",
-          endTime: getTimeStr(candidates[0]?.time[1]) || "",
+          startTime: data.startTime,
+          endTime: data.endTime,
         });
-        setCandidateReserveDateTimes(candidates);
+
+        const [year, month, day] = data.reserveDate.split("-").map(Number);
+        setYearMonth({
+          year,
+          month,
+        });
       }
       setIsLoading(false);
     };
-    fetchEventDetail();
-  }, []);
+    fetchReservationDetail();
+  }, [id]);
 
   const schema = yup.object().shape({
     lastName: yup.string().required("入力してください。")
@@ -136,43 +144,33 @@ export default function ReservationCreatePage() {
       phone, email, note, memo
     } = data;
 
-    let customerId = -1;
-    const customer = await axios.post("/api/customers/detail", {
-      field_name: "phone",
-      field_value: phone.replaceAll("-", ""),
+    await axios.post('/api/customers/update', {
+      id: customerId,
+      field_names: ["lastName", "firstName", "seiName", "meiName",
+        "zipCode", "prefecture", "city", "street", "building",
+        "phone", "email", "note", "memo",
+      ],
+      field_values: [lastName, firstName, seiName, meiName,
+        zipCode, prefecture, city, street, building,
+        phone, email, note, memo,
+      ],
     });
 
-    if (customer.status === 200) {
-      const customerData = customer.data;
-      if (customerData.length > 0) {
-        customerId = customerData[0].id;
-      } else {
-        const res = await axios.post('/api/customers/create', {
-          status: "未設定", route: "予約",
-          lastName, firstName, seiName, meiName,
-          zipCode, prefecture, city, street, building,
-          phone: phone.replaceAll("-", ""),
-          email, note, memo,
-          delivery: "未設定",
-        });
-        const { lastCustomerId } = res.data;
-        customerId = lastCustomerId;
-      }
-    }
-
-    await axios.post('/api/reservations/create', {
-      customerId,
-      eventId: id,
-      reserveDate: reserveDate.value,
-      startTime: reserveTime.startTime,
-      endTime: reserveTime.endTime,
-      status: "active",
+    await axios.post('/api/reservations/update', {
+      id,
+      field_names: ["reserveDate", "startTime", "endTime"],
+      field_values: [reserveDate.value, reserveTime.startTime, reserveTime.endTime],
     });
 
-    router.push("/reservations/list");
+    router.push(`/reservations/${id}`);
   };
 
-  const { title, type, format, eventDate, images, mainIndex } = eventItem;
+  const { customerId,
+    eventId, title, type, format, eventDate, images, mainIndex,
+    lastName, firstName, seiName, meiName,
+    zipCode: zip, prefecture, city, street, building,
+    email, phone, note, memo,
+  } = reserveAtom;
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
 
   return (
@@ -180,9 +178,11 @@ export default function ReservationCreatePage() {
       <div className="flex flex-col p-10 w-full">
         <div className="mb-6">
           <h1 className="border-m-green border-l-[6px] mb-2 text-xl p-0 pl-2 font-bold ">
-            予約入力
+            予約編集
           </h1>
-          <p className="text-sm">予約情報の登録ができます</p>
+          <p className="text-sm">
+            予約情報の編集ができます<br />※変更は顧客情報にも反映されます。
+          </p>
         </div>
         <div className="bg-white w-full p-5">
           {/* Reservation Event Info */}
@@ -204,7 +204,7 @@ export default function ReservationCreatePage() {
                 </span>
               </div>
               <p className="mt-2 text-[15px]">
-                <Link href={`/events/${id}`} className="text-m-blue underline">{title}</Link>
+                <Link href={`/events/${eventId}`} className="text-m-blue underline">{title}</Link>
               </p>
               <p className="text-sm text-[#ff0000] mt-auto">
                 {eventHoldingPeriod(JSON.parse(eventDate))}
@@ -247,8 +247,8 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="lastName" control={control} className="w-1/4" placeholder="例）見学" />
-                  <InputField id="firstName" control={control} className="w-1/4" placeholder="例）太郎" />
+                  <InputField id="lastName" control={control} value={lastName} className="w-1/4" placeholder="例）見学" />
+                  <InputField id="firstName" control={control} value={firstName} className="w-1/4" placeholder="例）太郎" />
                 </div>
                 {(errors.lastName || errors.firstName) && (
                   <p className="text-sm mt-3 text-m-red">
@@ -270,8 +270,8 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="seiName" control={control} className="w-1/4" placeholder="例）けんがく" />
-                  <InputField id="meiName" control={control} className="w-1/4" placeholder="例）たろう" />
+                  <InputField id="seiName" control={control} value={seiName} className="w-1/4" placeholder="例）けんがく" />
+                  <InputField id="meiName" control={control} value={meiName} className="w-1/4" placeholder="例）たろう" />
                 </div>
                 {(errors.seiName || errors.meiName) && (
                   <p className="text-sm mt-3 text-m-red">
@@ -292,8 +292,8 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="zipCode" control={control} className="w-1/4" placeholder="例）000-0000" />
-                  <InputField id="prefecture" control={control} className="w-1/4" placeholder="例）鹿児島県" />
+                  <InputField id="zipCode" control={control} value={zip} className="w-1/4" placeholder="例）000-0000" />
+                  <InputField id="prefecture" control={control} value={prefecture} className="w-1/4" placeholder="例）鹿児島県" />
                 </div>
                 <p className="text-sm mt-2">
                   郵便番号を入力いただくと自動で住所が入力されます
@@ -308,7 +308,7 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="city" control={control} className="w-2/5" placeholder="例）姶良市加治木町" />
+                  <InputField id="city" value={city} control={control} className="w-2/5" placeholder="例）姶良市加治木町" />
                 </div>
                 <p className="text-sm mt-2">
                   空白は自動的に除去されます。
@@ -323,7 +323,7 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="street" control={control} className="w-2/5" placeholder="例）〇〇町1丁目23-45" />
+                  <InputField id="street" control={control} value={street} className="w-2/5" placeholder="例）〇〇町1丁目23-45" />
                 </div>
                 <p className="text-sm mt-2">
                   空白は自動的に除去されます。全角英数字は自動的に半角に変換されます
@@ -338,7 +338,7 @@ export default function ReservationCreatePage() {
               </div>
               <div className="w-full">
                 <div className="flex gap-x-4">
-                  <InputField id="building" control={control} className="w-2/5" placeholder="例）〇〇マンション〇号室" />
+                  <InputField id="building" control={control} value={building} className="w-2/5" placeholder="例）〇〇マンション〇号室" />
                 </div>
                 <p className="text-sm mt-2">
                   空白は自動的に除去されます。全角英数字は自動的に半角に変換されます
@@ -354,7 +354,7 @@ export default function ReservationCreatePage() {
               </div>
 
               <div className="w-full">
-                <InputField id="phone" control={control} className="w-2/5" />
+                <InputField id="phone" control={control} value={phone} className="w-2/5" />
                 {errors.phone && (
                   <p className="text-sm mt-3 text-m-red">
                     {errors.phone?.message}
@@ -369,7 +369,7 @@ export default function ReservationCreatePage() {
                 <InputLabel htmlFor="email">メールアドレス</InputLabel>
               </div>
               <div className="w-full">
-                <InputField id="email" control={control} className="w-2/5" />
+                <InputField id="email" control={control} value={email} className="w-2/5" />
               </div>
             </div>
 
@@ -381,7 +381,7 @@ export default function ReservationCreatePage() {
                 </InputLabel>
               </div>
               <div className="w-full">
-                <MultilineField id="note" control={control} />
+                <MultilineField id="note" control={control} value={note} />
               </div>
             </div>
 
@@ -393,7 +393,7 @@ export default function ReservationCreatePage() {
                 </InputLabel>
               </div>
               <div className="w-full">
-                <MultilineField id="memo" control={control} />
+                <MultilineField id="memo" control={control} value={memo} />
               </div>
             </div>
 

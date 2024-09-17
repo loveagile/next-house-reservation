@@ -10,10 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, InputLabel } from "@mui/material";
 
 import Loading from "@/components/molecules/loading";
-import SelectBox from "@/components/molecules/SelectBox";
-import InputField from "@/components/molecules/InputField";
+import SelectBox from "@/components/molecules/Input/SelectBox";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import MultilineField from "@/components/molecules/MultilineField";
+import MultilineField from "@/components/molecules/Input/MultilineField";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { ICustomer } from "@/utils/types";
@@ -166,15 +166,15 @@ export default function CustomerEditPage() {
 
     const res = await axios.post('/api/customers/update', {
       id,
-      status: customerStatus,
-      lastName, firstName, seiName, meiName,
-      zipCode, prefecture, city, street, building,
-      phone: phoneNumber,
-      email,
-      birthYear: year,
-      birthMonth: month,
-      birthDate: date,
-      note, memo, delivery,
+      field_names: ["status", "lastName", "firstName", "seiName", "meiName",
+        "zipCode", "prefecture", "city", "street", "building",
+        "phone", "email", "birthYear", "birthMonth", "birthDate",
+        "note", "memo", "delivery"],
+      field_values: [customerStatus, lastName, firstName, seiName, meiName,
+        zipCode, prefecture, city, street, building,
+        phoneNumber, email, year, month, date,
+        note, memo, delivery,
+      ]
     });
 
     router.push(`/customers/${id}`);

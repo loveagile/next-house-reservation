@@ -120,3 +120,7 @@ td {
 .MuiMenu-list {
   padding: 0;
 }
+
+.MuiMenu-list li {
+  min-height: 30px;
+}

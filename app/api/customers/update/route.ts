@@ -12,56 +12,28 @@ interface ResultSetHeader {
 }
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const {
-    id,
-    status,
-    lastName,
-    firstName,
-    seiName,
-    meiName,
-    zipCode,
-    prefecture,
-    city,
-    street,
-    building,
-    phone,
-    email,
-    birthYear,
-    birthMonth,
-    birthDate,
-    note,
-    memo,
-    delivery,
-  } = data;
-
-  let queryStr = `UPDATE customers SET
-    status = '${status || ""}', 
-    lastName = '${lastName || ""}', 
-    firstName = '${firstName || ""}', 
-    seiName = '${seiName || ""}', 
-    meiName = '${meiName || ""}', 
-    zipCode = '${zipCode || ""}',
-    prefecture = '${prefecture || ""}',
-    city = '${city || ""}',
-    street = '${street || ""}',
-    building = '${building || ""}',
-    phone = '${phone || ""}',
-    email = '${email || ""}', 
-    note = '${note || ""}', 
-    memo = '${memo || ""}', 
-    birthYear = ${birthYear || -1}, 
-    birthMonth = ${birthMonth || -1}, 
-    birthDate = ${birthDate || -1}, 
-    delivery = '${delivery || ""}'
-    WHERE id = ${id};`;
-
   try {
+    const { id, field_names, field_values } = await req.json();
+
+    if (field_names.length !== field_values.length) {
+      throw new Error(
+        "The length of field_names and field_values must be the same."
+      );
+    }
+
+    const updates = field_names
+      .map(
+        (field: string, index: number) => `${field} = '${field_values[index]}'`
+      )
+      .join(", ");
+
+    const queryStr = `UPDATE customers SET ${updates} WHERE id = ${id}`;
     const db = await connectToDatabase();
-    const [result] = (await db.query(queryStr)) as ResultSetHeader[];
-    const lastCustomerId = result.insertId;
-    return NextResponse.json({ lastCustomerId });
+    const [result] = await db.query(queryStr);
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error:", error);
+    return NextResponse.error();
   }
 }

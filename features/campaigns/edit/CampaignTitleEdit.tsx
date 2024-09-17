@@ -9,7 +9,7 @@ import { useRouter, useParams } from "next/navigation";
 
 import InputLabel from "@mui/material/InputLabel";
 
-import InputField from "@/components/molecules/InputField";
+import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import Loading from "@/components/molecules/loading";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";

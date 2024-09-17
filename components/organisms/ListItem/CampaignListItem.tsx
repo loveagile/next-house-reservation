@@ -4,7 +4,7 @@ import { FaPencilAlt } from "react-icons/fa";
 
 import Button from "@mui/material/Button";
 
-import StatusField from "@/components/molecules/StatusField";
+import StatusField from "@/components/molecules/Field/StatusField";
 
 import { ICampaign } from "@/utils/types";
 import { formatISO8601TimestampToJapaneseString, eventHoldingPeriod, convEventStatus } from "@/utils/convert";

@@ -100,30 +100,6 @@ export const initialCampaign: ICampaign = {
   deletedAt: new Date(),
 };
 
-export interface IReservationEvent {
-  eventId: number;
-  customerId: number;
-  title: string;
-  reserveDate: string;
-  startTime: string;
-  endTime: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface IReservationGroupedEvent {
-  eventId: number;
-  title: string;
-  customers: {
-    customerId: number;
-    firstName: string;
-    lastName: string;
-    reserveDate: string;
-    startTime: string;
-    endTime: string;
-  }[];
-}
-
 export interface ICustomer {
   id: number;
   status: string;

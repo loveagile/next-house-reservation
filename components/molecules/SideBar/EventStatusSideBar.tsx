@@ -11,10 +11,13 @@ import CheckIcon from "@mui/icons-material/Check";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Button from "@mui/material/Button";
 
+import { convEventStatus } from "@/utils/convert";
+
 interface ThisFCProps {
   id: number;
   status: string;
   statusBit: number;
+  eventDate: string;
 }
 
 export interface IStatusProps {
@@ -23,12 +26,14 @@ export interface IStatusProps {
   isIemiru: boolean;
 }
 
-const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) => {
+const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, eventDate }) => {
   const [eventStatus, setEventStatus] = useState<IStatusProps>({
     status: (statusBit === 0 && status === "公開") ? "限定公開" : status, // 公開, 限定公開, or 非公開
     isEmbed: statusBit >= 2,
     isIemiru: statusBit % 2 === 1,
-  })
+  });
+
+  const convStatus = convEventStatus(eventStatus.status, JSON.parse(eventDate));
 
   return (
     <div className="float-right pt-5 w-[270px]">
@@ -39,15 +44,27 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) =>
         {eventStatus.status === "公開" && (
           <div>
             <div className="border-[1px] rounded border-[#eee] relative">
-              <div className="flex items-center absolute left-[15px] top-[-15px] bg-white px-1">
-                <RemoveRedEyeIcon sx={{
-                  color: "#2aac6d",
-                  marginRight: "4px",
-                  fontSize: "24px",
-                  margin: "4px 0",
-                }} />
-                <span className="ml-1">公開</span>
-              </div>
+              {convStatus === "公開" ? (
+                <div className="flex items-center absolute left-[15px] top-[-15px] bg-white px-1">
+                  <RemoveRedEyeIcon sx={{
+                    color: "#2aac6d",
+                    marginRight: "4px",
+                    fontSize: "24px",
+                    margin: "4px 0",
+                  }} />
+                  <span className="ml-1">公開</span>
+                </div>
+              ) : (
+                <div className="flex items-center absolute left-[15px] top-[-15px] bg-white px-1">
+                  <RemoveRedEyeIcon sx={{
+                    color: "#737373",
+                    fontSize: "20px",
+                    margin: "4px 0",
+                  }} />
+                  <span className="ml-2 ">公開終了</span>
+                </div>
+              )
+              }
               <div className="px-5 pt-5 pb-3">
                 <p className="relative">
                   {eventStatus.isEmbed && <CheckIcon sx={{

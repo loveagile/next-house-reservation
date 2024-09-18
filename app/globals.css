@@ -124,3 +124,125 @@ td {
 .MuiMenu-list li {
   min-height: 30px;
 }
+
+/* CKEditor CSS */
+.ck.ck-editor {
+  width: 100% !important;
+}
+
+.ck-content {
+  height: 400px;
+}
+
+.ck-content.ck-editor__editable {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+.ck-content {
+  line-height: 1.5;
+  color: #20232D;
+}
+
+/* .ck-content a,
+.ck-content a:visited {
+  color: #0088ff;
+  text-decoration: underline;
+} */
+
+.ck-content p {
+  margin-top: 5px !important;
+}
+
+.ck-content p:first-child {
+  margin-top: 0;
+}
+
+.ck-content h2 {
+  font-size: 2rem;
+  line-height: 1.27em;
+  font-weight: 600;
+  margin-top: 1em;
+}
+
+.ck-content h2:first-child {
+  margin-top: 0;
+}
+
+.ck-content h3 {
+  font-size: 1.625rem;
+  line-height: 1.27em;
+  font-weight: 600;
+  margin-top: 1em;
+}
+
+.ck-content h3:first-child {
+  margin-top: 0;
+}
+
+.ck-content h4 {
+  font-size: 1.375rem;
+  line-height: 1.27em;
+  font-weight: 600;
+  margin-top: 1em;
+  color: #0088ff;
+}
+
+.ck-content h4:first-child {
+  margin-top: 0;
+}
+
+.ck-content ul,
+.ck-content ol {
+  margin-top: 1em;
+}
+
+.ck-content ul {
+  list-style: disc;
+  margin-left: 1.1em;
+}
+
+.ck-content ol {
+  list-style-type: decimal;
+  margin-left: 1.1em;
+}
+
+.ck-content li:first-child {
+  margin-top: 0;
+}
+
+.ck-content li {
+  margin: 5px 0 10px !important;
+}
+
+.ck-content .table {
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.ck-content .table table {
+  height: auto !important;
+}
+
+.ck-content td {
+  border: 1px solid #ddd;
+  padding: 1em;
+  background-color: white;
+}
+
+.ck-content p:first-child,
+.ck-content h2:first-child,
+.ck-content h3:first-child,
+.ck-content h4:first-child,
+.ck-content ul:first-child,
+.ck-content ol:first-child,
+.ck-content table:first-child {
+  margin-top: 0;
+}
+
+.ck-content hr {
+  background: #dedede;
+  height: 2px !important;
+  border: 0;
+  margin: 15px 0;
+}

@@ -14,7 +14,7 @@ import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 const CKEditorFC = dynamic(
-  () => import("@/components/molecules/CKEditor/CKEditorFC"),
+  () => import("@/components/molecules/CKEditorFC"),
   {
     ssr: false,
     loading: () => (

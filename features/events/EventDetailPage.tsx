@@ -18,7 +18,6 @@ import GoogleMapFC from "@/components/atoms/GoogleMapFC";
 import EventCampaignDeleteBtn from "@/components/atoms/Button/EventCampaignDeleteBtn";
 
 import { EventAtom } from "@/lib/recoil/EventAtom";
-import { IEventDateTime } from "@/utils/types";
 import { eventHoldingPeriod } from "@/utils/convert";
 
 const EventDetailPage: React.FC = () => {
@@ -74,7 +73,7 @@ const EventDetailPage: React.FC = () => {
           <div className="bg-white p-5 text-2xl my-5 font-semibold">{title}</div>
 
           {/* Event Status Sidebar */}
-          <EventStatusSideBar status={status} statusBit={statusBit} id={Number(id)} />
+          <EventStatusSideBar id={Number(id)} status={status} statusBit={statusBit} eventDate={eventDate} />
 
           <div className="pt-5 px-5 mr-[275px]">
             {/* Event Note */}
@@ -227,10 +226,10 @@ const EventDetailPage: React.FC = () => {
                       >
                         <Image
                           src={url}
-                          width={80}
-                          height={60}
+                          width={100}
+                          height={75}
                           objectFit="cover"
-                          className="w-full h-auto aspect-[4/3]"
+                          className="aspect-[4/3] border-[#ddd] border-[1px] rounded-[2px]"
                           alt="参考画像"
                         />
                       </div>
@@ -330,10 +329,10 @@ const EventDetailPage: React.FC = () => {
                       >
                         <Image
                           src={url}
-                          width={80}
-                          height={60}
+                          width={100}
+                          height={75}
                           objectFit="cover"
-                          className="w-full h-auto aspect-[4/3]"
+                          className="aspect-[4/3] border-[#ddd] border-[1px] rounded-[2px]"
                           alt="間取り画像"
                         />
                       </div>

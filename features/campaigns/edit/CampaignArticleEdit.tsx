@@ -13,7 +13,7 @@ import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import UpdateBtn from "@/components/atoms/Button/UpdateBtn";
 
 const CKEditorFC = dynamic(
-  () => import("@/components/molecules/CKEditor/CKEditorFC"),
+  () => import("@/components/molecules/CKEditorFC"),
   {
     ssr: false,
     loading: () => (

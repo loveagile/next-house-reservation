@@ -33,8 +33,9 @@ export default function EventViewPage() {
       if (res.status === 200) {
         const events = res.data;
         events.sort((lhs: IEvent, rhs: IEvent) => {
-          return rhs.priority - lhs.priority;
-        })
+          if (rhs.priority !== lhs.priority) return rhs.priority - lhs.priority;
+          return new Date(rhs.updatedAt).getTime() - new Date(lhs.updatedAt).getTime();
+        });
         setAllEvents(events);
         setEventItems(events);
       }

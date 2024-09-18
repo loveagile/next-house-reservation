@@ -13,7 +13,6 @@ const GoogleMapFC: React.FC<ThisFCProps> = ({ width, height, address }) => {
       height={height}
       loading="lazy"
       allowFullScreen
-      className="w-full"
       src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAP_API_KEY}&q=${address}&zoom=15`}
     ></iframe>
   )

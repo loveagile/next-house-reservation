@@ -97,6 +97,7 @@ async function initializeDatabase(db: Connection) {
       birthMonth INT,
       birthDate INT,
 
+      moment VARCHAR(255),
       note VARCHAR(255),
       memo VARCHAR(255),
       employee VARCHAR(255),

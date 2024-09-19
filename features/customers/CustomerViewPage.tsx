@@ -115,10 +115,10 @@ export default function CustomerViewPage() {
             </Button>
           </div>
 
-          {selectedCustomerItems.length ? (
+          {customerItems.length ? (
             <div className="flex flex-col grow">
               <PaginationItem
-                totalPages={Math.ceil(selectedCustomerItems.length / 20)}
+                totalPages={Math.ceil(customerItems.length / 20)}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
@@ -151,7 +151,7 @@ export default function CustomerViewPage() {
               </div>
 
               <PaginationItem
-                totalPages={Math.ceil(selectedCustomerItems.length / 20)}
+                totalPages={Math.ceil(customerItems.length / 20)}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />

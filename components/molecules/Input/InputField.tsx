@@ -10,7 +10,7 @@ interface ThisFCProps {
   isPassword?: boolean;
   className?: string;
   disabled?: boolean;
-  control: Control<any>;
+  control?: Control<any>;
 }
 
 const InputField: React.FC<ThisFCProps> = ({
@@ -33,7 +33,7 @@ const InputField: React.FC<ThisFCProps> = ({
           id={id}
           disabled={disabled}
           sx={{
-            maxWidth: '500px',
+            maxWidth: '640px',
             color: "black",
             '& .MuiInputBase-input': {
               padding: '5px 12px 3px',
@@ -41,6 +41,7 @@ const InputField: React.FC<ThisFCProps> = ({
             },
             '& .Mui-disabled': {
               background: '#e6e6e6',
+              fontWeight: 700,
             }
           }}
           className={className}

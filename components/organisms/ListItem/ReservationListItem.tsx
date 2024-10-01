@@ -19,6 +19,7 @@ export interface IReservationListItem {
   startTime: string;
   endTime: string;
   status: string;
+  route: string;
   reservationTimes: number;
   receptionAt: string;          // Reservation
 
@@ -50,7 +51,7 @@ const ReservationListItem: React.FC<ThisFCProps> = ({ values }) => {
     id, reserveDate, startTime, endTime,
     lastName, firstName, customerId, employee,
     reservationTimes, receptionAt,
-    type, format, title, eventId, status
+    type, format, title, eventId, status, route,
   } = values;
 
   const [currentStatus, setCurrentStatus] = useState<string>(status);
@@ -116,7 +117,7 @@ const ReservationListItem: React.FC<ThisFCProps> = ({ values }) => {
       </td>
       <td className="w-20 p-2">
         <p className="text-xs text-white bg-[#29ac6d] px-2 py-[3px] text-center">
-          手入力
+          {route}
         </p>
       </td>
       <td className="w-[120px] p-2">

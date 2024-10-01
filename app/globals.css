@@ -118,7 +118,7 @@ td {
 }
 
 .MuiMenu-list {
-  padding: 0;
+  padding: 0 !important;
 }
 
 .MuiMenu-list li {

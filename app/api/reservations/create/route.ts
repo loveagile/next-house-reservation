@@ -13,9 +13,20 @@ interface ResultSetHeader {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { customerId, eventId, reserveDate, startTime, endTime, status } = data;
+  const {
+    customerId,
+    eventId,
+    reserveDate,
+    startTime,
+    endTime,
+    status,
+    route,
+  } = data;
 
-  let queryStr = `INSERT INTO reservations (customerId, eventId, reserveDate, startTime, endTime, status) VALUES (${customerId}, ${eventId}, '${reserveDate}', '${startTime}', '${endTime}', '${status}');`;
+  let queryStr = `INSERT INTO reservations 
+    (customerId, eventId, reserveDate, startTime, endTime, status, route) VALUES 
+    (${customerId}, ${eventId}, '${reserveDate}', '${startTime}', '${endTime}', '${status}', '${route}')
+  `;
 
   try {
     const db = await connectToDatabase();

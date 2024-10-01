@@ -8,9 +8,10 @@ interface ICheckBoxProps {
   setChecked: (checked: boolean) => void;
   className?: string;
   text: string;
+  disabled?: boolean;
 }
 
-const CheckBox: React.FC<ICheckBoxProps> = ({ checked, setChecked, className, text }) => {
+const CheckBox: React.FC<ICheckBoxProps> = ({ checked, setChecked, className, text, disabled }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -21,6 +22,7 @@ const CheckBox: React.FC<ICheckBoxProps> = ({ checked, setChecked, className, te
         id={text}
         checked={checked}
         onChange={handleChange}
+        disabled={disabled}
         inputProps={{ "aria-label": "controlled" }}
       />
       <InputLabel htmlFor={text}>

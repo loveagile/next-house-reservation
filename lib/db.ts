@@ -119,6 +119,7 @@ async function initializeDatabase(db: Connection) {
       startTime VARCHAR(255),
       endTime VARCHAR(255),
       status VARCHAR(255),
+      route VARCHAR(255) DEFAULT '手入力',
       receptionAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       canceledAt TIMESTAMP NULL
     )

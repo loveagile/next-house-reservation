@@ -23,6 +23,13 @@ const TableRow: React.FC<ITableRowProps> = ({
           </td>
         )
       )}
+      {0 < emptyCount + count && emptyCount + count < 7 && (
+        Array.from({ length: 7 - count }, (_, i) => i + 1).map(
+          (index) => (
+            <td key={index} className="font-bold w-[calc(100%/7)]"></td>
+          )
+        )
+      )}
     </tr>
   );
 };

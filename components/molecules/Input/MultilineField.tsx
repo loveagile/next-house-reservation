@@ -6,13 +6,15 @@ interface IMultilineFieldProps {
   value?: string;
   control: Control<any>;
   className?: string;
+  disabled?: boolean;
 }
 
 const MultilineField: React.FC<IMultilineFieldProps> = ({
   id,
   value,
   control,
-  className
+  className,
+  disabled
 }) => {
   return (
     <Controller
@@ -23,13 +25,18 @@ const MultilineField: React.FC<IMultilineFieldProps> = ({
         <TextField
           {...field}
           id={id}
-          className={`w-full max-w-[500px] ${className}`}
+          className={`w-full max-w-[640px] ${className}`}
+          disabled={disabled}
           rows={5}
           multiline
           variant="outlined"
           sx={{
             '& .MuiInputBase-input': {
               fontSize: "15px",
+            },
+            '& .Mui-disabled': {
+              background: '#e6e6e6',
+              fontWeight: 700,
             }
           }}
         />

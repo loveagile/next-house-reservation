@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -167,6 +167,7 @@ export default function ReservationCreatePage() {
       startTime: reserveTime.startTime,
       endTime: reserveTime.endTime,
       status: "active",
+      route: "手入力",
     });
 
     router.push("/reservations/list");

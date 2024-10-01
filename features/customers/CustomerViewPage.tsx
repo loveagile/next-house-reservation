@@ -45,15 +45,15 @@ export default function CustomerViewPage() {
     let filteredItems = allCustomers;
     if (keyword) {
       filteredItems = filteredItems.filter(item => {
-        const fullName = item.lastName + item.firstName;
-        const furiName = item.seiName + item.meiName;
-        const fullAddress = item.prefecture + item.city + item.street + item.building;
+        const fullName = item.lastName + item.firstName || "";
+        const furiName = item.seiName + item.meiName || "";
+        const fullAddress = item.prefecture + item.city + item.street + item.building || "";
 
         if (fullName.includes(keyword) || furiName.includes(keyword)) return true;
         if (fullAddress.includes(keyword)) return true;
-        if (item.phone.includes(keyword)) return true;
-        if (item.email.includes(keyword)) return true;
-        if (item.memo.includes(keyword) || item.note.includes(keyword)) return true;
+        if (item.phone?.includes(keyword)) return true;
+        if (item.email?.includes(keyword)) return true;
+        if (item.memo?.includes(keyword) || item.note?.includes(keyword)) return true;
         return false;
       })
     }

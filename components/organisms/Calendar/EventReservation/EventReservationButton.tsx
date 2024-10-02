@@ -11,9 +11,10 @@ import { ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateA
 
 interface ThisFCProps {
   id: number;
+  isExist: boolean;
 }
 
-const EventReservationButton: React.FC<ThisFCProps> = ({ id }) => {
+const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -36,65 +37,81 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id }) => {
   }
 
   return (
-    <>
-      <Button onClick={handleReserveClick} sx={{
+    isExist ? (
+      <>
+        <Button onClick={handleReserveClick} sx={{
+          width: "100%",
+          maxWidth: "640px",
+          fontWeight: "600",
+          backgroundColor: "#E7625F",
+          color: "white",
+          fontSize: "18px",
+          padding: "8px",
+          '&:hover': {
+            backgroundColor: "#E7625F",
+            opacity: 0.9,
+          }
+        }}>予約する</Button>
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={() => setOpen(false)}
+          sx={{
+            '& .MuiDialog-paper': {
+              minWidth: "600px",
+            }
+          }}
+        >
+          <DialogTitle
+            sx={{
+              fontWeight: "700",
+              textAlign: "center",
+              paddingTop: "30px",
+              color: "#555",
+              fontSize: "18px",
+              letterSpacing: "1px",
+            }}
+          >
+            予約日時を選択してください
+          </DialogTitle>
+          <DialogActions sx={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "10px 0 30px",
+          }}>
+            <Button
+              onClick={() => setOpen(false)}
+              variant="contained"
+              sx={{
+                borderRadius: "1px",
+                padding: "5px 20px",
+                backgroundColor: "#E7625F",
+                '&:hover': {
+                  backgroundColor: "#E7625F",
+                  opacity: 0.8,
+                }
+              }}
+            >
+              閉じる
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    ) : (
+      <Button sx={{
         width: "100%",
         maxWidth: "640px",
         fontWeight: "600",
-        backgroundColor: "#E7625F",
+        backgroundColor: "#EA9B54",
         color: "white",
         fontSize: "18px",
         padding: "8px",
         '&:hover': {
-          backgroundColor: "#E7625F",
-          opacity: 0.8,
+          backgroundColor: "#EA9B54",
+          opacity: 0.9,
         }
-      }}>予約する</Button>
-      <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={() => setOpen(false)}
-        sx={{
-          '& .MuiDialog-paper': {
-            minWidth: "600px",
-          }
-        }}
-      >
-        <DialogTitle
-          sx={{
-            fontWeight: "700",
-            textAlign: "center",
-            paddingTop: "30px",
-            color: "#555",
-            fontSize: "18px",
-            letterSpacing: "1px",
-          }}
-        >
-          予約日時を選択してください
-        </DialogTitle>
-        <DialogActions sx={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "10px 0 30px",
-        }}>
-          <Button
-            onClick={() => setOpen(false)}
-            variant="contained"
-            sx={{
-              borderRadius: "1px",
-              padding: "5px 20px",
-              backgroundColor: "#E7625F",
-              '&:hover': {
-                backgroundColor: "#E7625F",
-                opacity: 0.8,
-              }
-            }}
-          >
-            閉じる
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+      }}>終了しました</Button>
+    )
   );
 };
 

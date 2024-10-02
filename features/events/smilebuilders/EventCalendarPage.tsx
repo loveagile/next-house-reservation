@@ -121,7 +121,7 @@ const EventCalendarPage: React.FC = () => {
           </Select>
         </div>
         <div className="mt-4">
-          <EventReservationButton id={Number(id)} />
+          <EventReservationButton id={Number(id)} isExist={candidateReserveDateTimes.length > 0} />
         </div>
       </section>
     )

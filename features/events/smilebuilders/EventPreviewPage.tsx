@@ -11,6 +11,7 @@ import { AiFillHome } from "react-icons/ai";
 
 import { Button } from "@mui/material";
 
+import EventCalendarPage from "./EventCalendarPage";
 import Loading from "@/components/molecules/loading";
 import HTMLContent from "@/components/atoms/HTMLContent";
 import CustomSlider from "@/components/molecules/CustomSlider/CustomSlider";
@@ -104,7 +105,7 @@ const EventPreviewPage: React.FC = () => {
               <BsFillCheckCircleFill className="mr-2" />
               <span>予約可能日時</span>
             </h2>
-
+            <EventCalendarPage />
           </section>
 
           {feature && (

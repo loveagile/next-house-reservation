@@ -65,20 +65,21 @@ const EventCompletePage: React.FC = () => {
     const eventReserveData = localStorage.getItem("eventReserveData");
     if (eventReserveData) {
       setReserveDateTime(JSON.parse(eventReserveData));
+
+      const fetchEventDetail = async () => {
+        setIsLoading(true);
+        const res = await axios.post("/api/events/detail", { id });
+        if (res.status === 200) {
+          const data = res.data[0];
+          setEvent(data);
+        }
+        setIsLoading(false);
+      };
+      fetchEventDetail();
+
     } else {
       router.push(`/smilebuilders/events/${id}/`);
     }
-
-    const fetchEventDetail = async () => {
-      setIsLoading(true);
-      const res = await axios.post("/api/events/detail", { id });
-      if (res.status === 200) {
-        const data = res.data[0];
-        setEvent(data);
-      }
-      setIsLoading(false);
-    };
-    fetchEventDetail();
   }, []);
 
   const {
@@ -89,11 +90,6 @@ const EventCompletePage: React.FC = () => {
 
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
-
-  const handleCompletePage = () => {
-    localStorage.clear();
-    router.push("/reservations/list");
-  }
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (
@@ -149,7 +145,7 @@ const EventCompletePage: React.FC = () => {
           {/* Register Button */}
           <div className="w-full mt-10 flex justify-center">
             <Button
-              onClick={handleCompletePage}
+              href="/reservations/list"
               variant="contained"
               sx={{
                 width: "80%",

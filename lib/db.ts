@@ -143,4 +143,27 @@ async function initializeDatabase(db: Connection) {
       deletedAt TIMESTAMP NULL
     )
   `);
+
+  // Create 'companies' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS companies (
+      id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      name VARCHAR(255),
+      abbreviation VARCHAR(255),
+      type VARCHAR(255),
+      email VARCHAR(255),
+      zipCode VARCHAR(255),
+      prefecture VARCHAR(255),
+      address VARCHAR(255),
+      phone VARCHAR(255),
+      fax VARCHAR(255),
+      holidays VARCHAR(255),
+      websiteURL VARCHAR(255),
+      password VARCHAR(255),
+
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+      deletedAt TIMESTAMP NULL
+    )
+  `);
 }

@@ -25,6 +25,7 @@ export default function ReservationViewPage() {
   });
 
   useEffect(() => {
+    localStorage.clear();
     const fetchReservations = async () => {
       setIsLoading(true);
       const res = await axios.post("/api/reservations/view", { customerId: -1 });

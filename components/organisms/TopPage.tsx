@@ -354,8 +354,7 @@ const news = [
   },
 ];
 
-export default function TopPage() {
-
+const TopPage = () => {
   return (
     <div className="flex p-10 w-full">
       <div className="flex flex-col justify-center items-center p-10 bg-[#ea9b54]">
@@ -376,3 +375,5 @@ export default function TopPage() {
     </div>
   );
 }
+
+export default TopPage;

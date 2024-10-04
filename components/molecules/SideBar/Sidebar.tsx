@@ -211,7 +211,7 @@ const menues = [
       },
       {
         label: "ログアウト",
-        link: "/staff/sign_out",
+        link: "/logout",
       },
     ],
   },
@@ -236,6 +236,7 @@ export default function Sidebar() {
                 padding: "4px 0",
                 '&:hover': {
                   backgroundColor: '#0098ba',
+                  padding: "4px 0",
                 }
               }}
               onMouseEnter={() => setHoveredItem(index)}
@@ -283,6 +284,7 @@ export default function Sidebar() {
                           padding: "4px 0",
                           '&:hover': {
                             backgroundColor: '#0098ba',
+                            padding: "4px 0",
                           }
                         }}
                         onMouseEnter={() => setHoveredSubItem(subindex)}
@@ -321,6 +323,8 @@ export default function Sidebar() {
                                     padding: "4px 0",
                                     '&:hover': {
                                       backgroundColor: '#0098ba',
+
+                                      padding: "4px 0",
                                     }
                                   }}
                                 >

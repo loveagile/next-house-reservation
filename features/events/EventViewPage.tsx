@@ -14,7 +14,7 @@ import { FaPlus } from "react-icons/fa6";
 import { IEvent } from "@/utils/types";
 import { convEventStatus } from "@/utils/convert";
 
-export default function EventViewPage() {
+const EventViewPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
@@ -156,3 +156,5 @@ export default function EventViewPage() {
     )
   );
 }
+
+export default EventViewPage;

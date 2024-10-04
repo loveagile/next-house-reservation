@@ -1,15 +1,15 @@
-"use client";
+// "use client";
 
 import * as React from "react";
+import Link from "next/link";
+
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import Link from "@mui/material/Link";
 
 import PhotoSizeSelectActualRoundedIcon from "@mui/icons-material/PhotoSizeSelectActualRounded";
 import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
@@ -233,17 +233,15 @@ export default function Sidebar() {
             <ListItem
               disablePadding
               sx={{
-                padding: "4px 0",
                 '&:hover': {
                   backgroundColor: '#0098ba',
-                  padding: "4px 0",
                 }
               }}
               onMouseEnter={() => setHoveredItem(index)}
               onMouseLeave={() => setHoveredItem(-1)}
             >
-              <ListItemButton
-                className="button"
+              <Link
+                className="w-full flex items-center p-3"
                 href={item.link ? item.link : "#"}
               >
                 <ListItemIcon sx={{
@@ -273,7 +271,7 @@ export default function Sidebar() {
                     <ArrowForwardIosRoundedIcon />
                   </ListItemIcon>
                 )}
-              </ListItemButton>
+              </Link>
               {hoveredItem === index && (
                 <List className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
                   {item.submenues.map((subitem, subindex) => (
@@ -281,16 +279,14 @@ export default function Sidebar() {
                       <ListItem
                         disablePadding
                         sx={{
-                          padding: "4px 0",
                           '&:hover': {
                             backgroundColor: '#0098ba',
-                            padding: "4px 0",
                           }
                         }}
                         onMouseEnter={() => setHoveredSubItem(subindex)}
                         onMouseLeave={() => setHoveredSubItem(-1)}
                       >
-                        <ListItemButton className="button" href={subitem.link}>
+                        <Link className="w-full flex items-center p-3" href={subitem.link}>
                           <ListItemText primary={subitem.label} sx={{
                             '& .MuiListItemText-primary': {
                               fontSize: "15px",
@@ -308,36 +304,32 @@ export default function Sidebar() {
                               <ArrowForwardIosRoundedIcon />
                             </ListItemIcon>
                           )}
-                        </ListItemButton>
+                        </Link>
                         {hoveredSubItem === subindex && (
                           <List className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
                             {subitem.submenues?.map((sub_subitem, index) => (
-                              <Link
-                                href={sub_subitem.link}
-                                key={index}
-                                className="text-light-gray no-underline"
-                              >
+                              <div key={index}>
                                 <ListItem
                                   disablePadding
                                   sx={{
-                                    padding: "4px 0",
                                     '&:hover': {
                                       backgroundColor: '#0098ba',
-
-                                      padding: "4px 0",
                                     }
                                   }}
                                 >
-                                  <ListItemButton className="button">
+                                  <Link
+                                    href={sub_subitem.link}
+                                    className="w-full flex items-center p-3"
+                                  >
                                     <ListItemText primary={sub_subitem.label} sx={{
                                       '& .MuiListItemText-primary': {
                                         fontSize: "15px",
                                       }
                                     }} />
-                                  </ListItemButton>
+                                  </Link>
                                 </ListItem>
                                 <Divider className="border-border-gray" />
-                              </Link>
+                              </div>
                             ))}
                           </List>
                         )}
@@ -352,6 +344,6 @@ export default function Sidebar() {
           </div>
         ))}
       </List>
-    </Box>
+    </Box >
   );
 }

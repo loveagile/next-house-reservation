@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/molecules/loading";
 
-export default function page() {
+export default function LogOut() {
   const { setUser } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,7 +17,6 @@ export default function page() {
       router.push("/login");
     }, 200);
 
-    // Cleanup the timeout when the component unmounts
     return () => clearTimeout(timeout);
   }, [setUser]);
 

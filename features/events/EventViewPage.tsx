@@ -20,6 +20,7 @@ const EventViewPage = () => {
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
   const [eventItems, setEventItems] = useState<IEvent[]>([]);
   const [selectedEventItems, setSelectedEventItems] = useState<IEvent[]>([]);
+
   const [searchData, setSearchData] = useState<ISearchForm>({
     keyword: "",
     type: "イベント種別 - 全て",

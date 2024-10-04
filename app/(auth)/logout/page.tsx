@@ -4,21 +4,18 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/molecules/loading";
+import { useCookies } from "react-cookie";
 
 export default function LogOut() {
-  const { setUser } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-      setUser(null);
-      router.push("/login");
-    }, 200);
-
-    return () => clearTimeout(timeout);
-  }, [setUser]);
+    setIsLoading(false);
+    removeCookie('user', { path: '/' });
+    router.push("/login");
+  }, []);
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (

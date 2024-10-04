@@ -1,27 +1,21 @@
 "use client";
 
 import axios from "axios";
+import Link from "next/link";
 import { useState } from "react";
+import { useCookies } from 'react-cookie';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Link from "next/link";
 
 import { FaArrowRightLong } from "react-icons/fa6";
 
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 
-import SelectBox from "@/components/molecules/Input/SelectBox";
 import InputField from "@/components/molecules/Input/InputField";
-import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
-import MultilineField from "@/components/molecules/Input/MultilineField";
-
-import { types, formats } from "@/utils/constants";
-import { comparePassword } from "@/utils/auth";
-import { useAuth } from "@/context/AuthContext";
 
 interface ILogInForm {
   email: string;
@@ -31,7 +25,7 @@ interface ILogInForm {
 export default function LogInPage() {
   const router = useRouter();
   const [error, setError] = useState<string>("");
-  const { user, setUser } = useAuth();
+  const [cookies, setCookie] = useCookies(['user']);
 
   const schema = yup.object().shape({
     email: yup.string().required('メールアドレスは必須です').email('メールアドレスを正しく入力してください'),
@@ -49,21 +43,21 @@ export default function LogInPage() {
   const onSubmit = async (data: ILogInForm) => {
     const { email, password } = data;
 
-    const res = await axios.post('/api/auth/detail', {
+    const res = await axios.post('/api/auth/login', {
       email,
+      password
     });
 
     if (res.status === 200) {
-      if (res.data.length === 0) {
+      if (res.data.error === "Invalid email") {
         setError("メールアドレスは存在しません。");
         return;
-      }
-      const hashedPassword = res.data[0].password;
-      if (await comparePassword(password, hashedPassword)) {
-        setUser(res.data[0]);
-        router.push("/home");
-      } else {
+      } else if (res.data.error === "Invalid password") {
         setError("パスワード が違います。");
+        return;
+      } else {
+        setCookie('user', res.data);
+        router.push("/home");
       }
     } else {
       setError("メールアドレス か パスワード が違います。");
@@ -109,7 +103,7 @@ export default function LogInPage() {
             </div>
           </div>
 
-          {error && (
+          {!errors.email && !errors.password && error && (
             <p className="text-sm mt-3 text-m-red">
               {error}
             </p>

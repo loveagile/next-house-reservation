@@ -1,21 +1,36 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import axios from "axios";
+import { useEffect, ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useCookies } from "react-cookie";
+
 import Sidebar from "@/components/molecules/SideBar/Sidebar";
-import { useAuth } from "@/context/AuthContext";
-import Loading from "@/components/molecules/loading";
 
 const Middleware = ({ children }: { children: ReactNode }) => {
-  const { user } = useAuth();
   const router = useRouter();
-  const pathName = usePathname()
+  const pathName = usePathname();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
+    const isAuthenticatedUser = async () => {
+      if (!cookies['user']) {
+        router.push("/login");
+        return;
+      }
+      const res = await axios.post("/api/auth/verify", {
+        id: cookies['user'].id,
+        name: cookies['user'].name,
+        email: cookies['user'].email,
+        accessToken: cookies['user'].accessToken,
+      });
+      if (!res.data.isAuthenticated) {
+        router.push("/login");
+        return;
+      }
     }
-  }, [user, router]);
+    isAuthenticatedUser();
+  }, [router, pathName]);
 
   return (
     <>

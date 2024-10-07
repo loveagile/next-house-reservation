@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { email, password } = data;
 
-  let queryStr = `SELECT * FROM companies WHERE email = ?`; // Use parameterized query for security
+  let queryStr = `SELECT * FROM users WHERE email = ?`; // Use parameterized query for security
 
   try {
     const db = await connectToDatabase();

@@ -144,9 +144,9 @@ async function initializeDatabase(db: Connection) {
     )
   `);
 
-  // Create 'companies' table if it doesn't exist
+  // Create 'users' table if it doesn't exist
   await db.execute(`
-    CREATE TABLE IF NOT EXISTS companies (
+    CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
       name VARCHAR(255),
       abbreviation VARCHAR(255),

@@ -149,7 +149,6 @@ async function initializeDatabase(db: Connection) {
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
       name VARCHAR(255),
-      abbreviation VARCHAR(255),
       type VARCHAR(255),
       email VARCHAR(255),
       zipCode VARCHAR(255),

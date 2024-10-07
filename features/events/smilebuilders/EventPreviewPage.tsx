@@ -91,22 +91,26 @@ const EventPreviewPage: React.FC = () => {
                 <FaMapMarker className="mr-1" />
                 <span className="text-sm">{webAddress}</span>
               </p>
-              <p className="flex items-center mt-1">
-                <FaCalendar className="mr-1" />
-                <span className="text-sm">
-                  {eventHoldingPeriod(JSON.parse(eventDate))}
-                </span>
-              </p>
+              {eventDate && (
+                <p className="flex items-center mt-1">
+                  <FaCalendar className="mr-1" />
+                  <span className="text-sm">
+                    {eventHoldingPeriod(JSON.parse(eventDate))}
+                  </span>
+                </p>
+              )}
             </div>
           </section>
 
-          <section className="mt-10" id="reservation">
-            <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-              <BsFillCheckCircleFill className="mr-2" />
-              <span>予約可能日時</span>
-            </h2>
-            <EventCalendarPage />
-          </section>
+          {eventDate && (
+            <section className="mt-10" id="reservation">
+              <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
+                <BsFillCheckCircleFill className="mr-2" />
+                <span>予約可能日時</span>
+              </h2>
+              <EventCalendarPage />
+            </section>
+          )}
 
           {feature && (
             <section className="mt-10">

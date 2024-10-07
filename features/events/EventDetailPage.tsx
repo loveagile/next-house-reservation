@@ -59,7 +59,7 @@ const EventDetailPage: React.FC = () => {
   } = eventAtom;
 
   const imgs = images?.split(",").map((img) => img.trim()) || [];
-  const FPImgs = FPImages?.split(",").map((img) => img.trim()) || [];
+  const FPImgs = FPImages?.trim() ? FPImages.split(",").map((img) => img.trim()) : [];
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
   const mapAddress = webAddress + (hiddenAddress || "");
   const splitTags = tag?.split(",").map(item => item.trim()) || [];

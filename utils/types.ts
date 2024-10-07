@@ -127,6 +127,24 @@ export interface ICustomer {
   deletedAt?: Date;
 }
 
+export interface IGroup {
+  id: number;
+  name: string;
+  type: string;
+  email: string;
+  zipCode: string;
+  prefecture: string;
+  address: string;
+  phone: string;
+  fax: string | null;
+  holidays: string | null;
+  websiteURL: string | null;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+}
+
 export interface IAccount {
   id: number;
   approved: number;

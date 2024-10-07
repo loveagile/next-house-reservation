@@ -3,22 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { userID } = data;
-  let queryStr = `
-  SELECT 
-    e.*,
-    COUNT(r.eventId) AS attend
-  FROM 
-    events e
-  LEFT JOIN
-    reservations r ON r.eventId = e.id
-  WHERE e.userID = ${userID}
-  GROUP By e.id`;
+  const { groupID, userID } = data;
+
+  let queryStr = `DELETE FROM groups WHERE groupID = ${groupID} AND userID = ${userID}`;
 
   try {
     const db = await connectToDatabase();
-    const [rows] = await db.query(queryStr);
-    return NextResponse.json(rows);
+    const [result] = await db.query(queryStr);
+    return NextResponse.json(result);
   } catch (error) {
     console.error("Error connecting to database:", error);
   }

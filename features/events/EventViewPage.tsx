@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
@@ -20,6 +21,7 @@ const EventViewPage = () => {
   const [allEvents, setAllEvents] = useState<IEvent[]>([]);
   const [eventItems, setEventItems] = useState<IEvent[]>([]);
   const [selectedEventItems, setSelectedEventItems] = useState<IEvent[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const [searchData, setSearchData] = useState<ISearchForm>({
     keyword: "",
@@ -30,7 +32,9 @@ const EventViewPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       setIsLoading(true);
-      const res = await axios.post("/api/events/view");
+      const res = await axios.post("/api/events/view", {
+        userID: cookies['user'].id,
+      });
       if (res.status === 200) {
         const events = res.data;
         events.sort((lhs: IEvent, rhs: IEvent) => {

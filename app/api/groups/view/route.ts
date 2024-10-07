@@ -3,17 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { userID } = data;
+  const { id } = data;
   let queryStr = `
   SELECT 
-    e.*,
-    COUNT(r.eventId) AS attend
+    u.*,
+    g.createdAt,
+    g.updatedAt,
+    g.id AS groupPrimaryID
   FROM 
-    events e
+    users u
   LEFT JOIN
-    reservations r ON r.eventId = e.id
-  WHERE e.userID = ${userID}
-  GROUP By e.id`;
+    groups g ON g.userID = u.id
+  WHERE
+    g.groupID = ${id}`;
 
   try {
     const db = await connectToDatabase();

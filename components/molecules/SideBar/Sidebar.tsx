@@ -143,28 +143,28 @@ const menues = [
       },
     ],
   },
-  // {
-  //   label: "グループ管理",
-  //   icon: <Diversity3RoundedIcon />,
-  //   submenues: [
-  //     {
-  //       label: "所属会社管理",
-  //       link: "/group",
-  //     },
-  //     {
-  //       label: "掲載イベント管理",
-  //       link: "/managed_group_events",
-  //     },
-  //     {
-  //       label: "予約確認",
-  //       link: "/managed_group_reserve_events",
-  //     },
-  //     {
-  //       label: "顧客確認",
-  //       link: "/managed_group_customers",
-  //     },
-  //   ],
-  // },
+  {
+    label: "グループ管理",
+    icon: <Diversity3RoundedIcon />,
+    submenues: [
+      {
+        label: "所属会社管理",
+        link: "/group",
+      },
+      {
+        label: "掲載イベント管理",
+        link: "/managed_group_events",
+      },
+      {
+        label: "予約確認",
+        link: "/managed_group_reserve_events",
+      },
+      {
+        label: "顧客確認",
+        link: "/managed_group_customers",
+      },
+    ],
+  },
   {
     label: "アカウント管理",
     icon: <PersonAddAltRoundedIcon />,

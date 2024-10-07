@@ -17,12 +17,12 @@ export async function POST(req: NextRequest) {
 
   let queryStr = `
     INSERT INTO events (
-      title, type, format, note, status, statusBit, priority, 
+      userID, title, type, format, note, status, statusBit, priority, 
       prefecture, address1, address2, hiddenAddress, mapFormat, mailFormat,
       images, mainIndex, FPImages, 
       tag, feature, benefit, propertyType) 
     SELECT 
-      title, type, format, note, status, statusBit, priority, 
+      userID, title, type, format, note, status, statusBit, priority, 
       prefecture, address1, address2, hiddenAddress, mapFormat, mailFormat,
       images, mainIndex, FPImages, 
       tag, feature, benefit, propertyType

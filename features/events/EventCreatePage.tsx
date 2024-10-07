@@ -3,6 +3,7 @@
 import axios from "axios";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -26,6 +27,7 @@ interface IEventCreateForm {
 
 export default function EventCreatePage() {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const schema = yup.object().shape({
     title: yup.string().required("入力してください。"),
@@ -43,6 +45,7 @@ export default function EventCreatePage() {
     const { title, type, format, note } = data;
 
     const res = await axios.post('/api/events/create', {
+      userID: cookies['user'].id,
       title,
       type,
       format,

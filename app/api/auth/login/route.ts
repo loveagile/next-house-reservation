@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
             email: user.email,
           },
           "access_token",
-          { expiresIn: 60 * 60 }
+          { expiresIn: 24 * 60 * 60 }
         );
 
         const refreshToken = sign(

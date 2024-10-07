@@ -21,6 +21,7 @@ async function initializeDatabase(db: Connection) {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS events (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      userID INT NOT NULL,
       title VARCHAR(255) NOT NULL,
       type VARCHAR(255) NOT NULL,
       format VARCHAR(255) NOT NULL,
@@ -159,6 +160,19 @@ async function initializeDatabase(db: Connection) {
       holidays VARCHAR(255),
       websiteURL VARCHAR(255),
       password VARCHAR(255),
+
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+      deletedAt TIMESTAMP NULL
+    )
+  `);
+
+  // Create 'groups' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS groups (
+      id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      groupID INT NOT NULL,
+      userID INT NOT NULL,
 
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

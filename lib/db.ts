@@ -169,7 +169,7 @@ async function initializeDatabase(db: Connection) {
 
   // Create 'groups' table if it doesn't exist
   await db.execute(`
-    CREATE TABLE IF NOT EXISTS groups (
+    CREATE TABLE IF NOT EXISTS usersgroup (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
       groupID INT NOT NULL,
       userID INT NOT NULL,

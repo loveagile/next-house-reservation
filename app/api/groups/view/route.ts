@@ -8,11 +8,11 @@ export async function POST(req: NextRequest) {
   SELECT 
     u.*,
     g.createdAt,
-    g.updatedAt,
+    g.updatedAt
   FROM 
     users u
   LEFT JOIN
-    groups g ON g.userID = u.id
+    usersgroup g ON g.userID = u.id
   WHERE
     g.groupID = ${id}`;
 

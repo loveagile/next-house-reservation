@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const { groupID, userID } = data;
 
-  let queryStr = `DELETE FROM groups WHERE groupID = ${groupID} AND userID = ${userID}`;
+  let queryStr = `DELETE FROM usersgroup WHERE groupID = ${groupID} AND userID = ${userID}`;
 
   try {
     const db = await connectToDatabase();

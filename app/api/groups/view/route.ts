@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
     u.*,
     g.createdAt,
     g.updatedAt,
-    g.id AS groupPrimaryID
   FROM 
     users u
   LEFT JOIN

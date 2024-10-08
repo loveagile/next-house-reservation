@@ -31,7 +31,7 @@ const UsersGroupPage = () => {
       const res = await axios.post("/api/groups/view", {
         id: cookies['user'].id,
       });
-      console.log("here => ", res);
+      console.log("here => ", res, cookies['user'].id);
       if (res.status === 200) {
         const groups = res.data;
         setAllGroups(groups);

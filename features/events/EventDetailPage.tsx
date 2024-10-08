@@ -62,7 +62,7 @@ const EventDetailPage: React.FC = () => {
   const FPImgs = FPImages?.trim() ? FPImages.split(",").map((img) => img.trim()) : [];
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
   const mapAddress = webAddress + (hiddenAddress || "");
-  const splitTags = tag?.split(",").map(item => item.trim()) || [];
+  const splitTags = tag?.trim() ? tag.split(",").map(item => item.trim()) : [];
   const convEventDate = eventDate ? JSON.parse(eventDate) : [];
 
   return (
@@ -251,7 +251,7 @@ const EventDetailPage: React.FC = () => {
               </div>
               <div className="flex items-center p-5 w-full">
                 {splitTags.length > 0 ? (
-                  <div className="flex gap-x-2">
+                  <div className="flex flex-wrap gap-2">
                     {splitTags.map((splitTag, index) => (
                       <span className="text-sm text-white bg-[#EA9B54] p-1" key={index}>{splitTag}</span>
                     ))}

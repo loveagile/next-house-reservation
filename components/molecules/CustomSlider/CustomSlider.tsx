@@ -62,7 +62,7 @@ const CustomSlider: React.FC<CustomCarouselProps> = ({ imgs }) => {
             width={640}
             height={480}
             objectFit="cover"
-            className="w-full h-auto aspect-[4/3]"
+            className="aspect-[4/3] object-cover object-center w-full h-auto"
             alt={`img-${index}`}
           />
         </div>

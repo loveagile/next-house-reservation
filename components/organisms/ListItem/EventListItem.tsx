@@ -55,7 +55,7 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
           src={mainImg}
           width={160}
           height={120}
-          className="w-[160px] h-[120px]"
+          className="aspect-[4/3] object-cover object-center w-[160px] h-[120px]"
           alt="イベント画像"
         />
         <div className="ml-10">

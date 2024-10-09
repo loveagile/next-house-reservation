@@ -88,7 +88,7 @@ const RegisteredImage: React.FC<IRegistereProps> = ({
               src={img}
               width={120}
               height={90}
-              className="border-[#ddd] border-[1px] rounded-[2px]"
+              className="aspect-[4/3] border-[#ddd] border-[1px] rounded-[2px] object-cover object-center"
               alt="登録済み画像"
               objectFit="cover"
             ></Image>

@@ -218,7 +218,7 @@ const EventDetailPage: React.FC = () => {
                 {imgs.length === 0 ? (
                   <NoInputLabel />
                 ) : (
-                  <div className="flex gap-2">
+                  <div className="flex gap-1">
                     {imgs.map((url, index) => (
                       <div
                         className="border-[#ddd] border-[1px] rounded bg-cover bg-center"
@@ -229,7 +229,8 @@ const EventDetailPage: React.FC = () => {
                           width={100}
                           height={75}
                           objectFit="cover"
-                          className="aspect-[4/3] border-[#ddd] border-[1px] rounded-[2px]"
+                          objectPosition="center"
+                          className="aspect-[4/3] object-cover object-center border-[#ddd] border-[1px] rounded-[2px]"
                           alt="参考画像"
                         />
                       </div>

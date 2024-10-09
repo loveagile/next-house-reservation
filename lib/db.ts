@@ -36,7 +36,7 @@ async function initializeDatabase(db: Connection) {
       hiddenAddress VARCHAR(255),
       mapFormat VARCHAR(255) DEFAULT '地図にピンを表示する',
       mailFormat VARCHAR(255) DEFAULT '住所を全て記載する',
-      images VARCHAR(255),
+      images LONGTEXT,
       mainIndex INT DEFAULT 0,
       FPImages VARCHAR(255),
       tag VARCHAR(255),

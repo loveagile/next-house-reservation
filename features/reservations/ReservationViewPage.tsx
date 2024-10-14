@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { v4 } from "uuid";
 
 import Button from "@mui/material/Button";
@@ -11,7 +12,7 @@ import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
 import ReservationListItem, { IReservationListItem } from "@/components/organisms/ListItem/ReservationListItem";
 import ReservationSearchBar, { IReservationSearchForm } from "@/components/molecules/SearchBar/ReservationSearchBar";
-import { getFormatDate } from "@/utils/convert";
+import { formatISO8601TimestampToJapaneseString, getFormatDate } from "@/utils/convert";
 
 export default function ReservationViewPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,6 +24,7 @@ export default function ReservationViewPage() {
     keyword: "",
     type: "イベント種別 - 全て",
   });
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
     localStorage.clear();
@@ -91,6 +93,63 @@ export default function ReservationViewPage() {
     setSelectedReservationItems(selectedItems);
   }, [reservationItems, currentPage]);
 
+  const handleReservationDownloadCSV = async () => {
+    const res = await axios.post("/api/reservations/view", { customerId: -1 });
+    if (res.status === 200) {
+      const data = res.data;
+      const csvHeader = [
+        '会社名（店舗名）', '予約日時', 'お客様名', '住所',
+        '電話番号', 'メールアドレス', '備考欄',
+        'イベントID', 'イベント名', 'イベントの種類',
+        '申込日時', '配信可否', 'ステータス', 'お客様ID',
+      ];
+      const csvRows = data.map((c: IReservationListItem) => {
+        const {
+          reserveDate, startTime,
+          lastName, firstName,
+          prefecture, city, street, building,
+          phone, email, note, eventId, title, type, receptionAt, delivery,
+          status, customerId
+        } = c;
+
+        return [
+          cookies['user'].name,
+          `${reserveDate} ${startTime}`,
+          lastName + firstName,
+          (prefecture || "") + (city || "") + (street || "") + (building || ""),
+          phone,
+          email,
+          note,
+          eventId,
+          title,
+          type,
+          formatISO8601TimestampToJapaneseString(receptionAt),
+          delivery,
+          status === "visited" ? "来場済み" : status === "canceled" ? "キャンセル済" : "来場確認できず",
+          customerId,
+        ]
+      });
+
+      const csvString = [
+        csvHeader.join(','),
+        ...csvRows.map((row: string[]) => row.join(','))
+      ].join('\n');
+      const bom = "\uFEFF";
+
+      const blob = new Blob([bom + csvString], { type: 'text/csv; charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'reserve_events.csv');
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+  }
+
   return (
     isLoading ? <Loading /> : (
       <div className="flex flex-col p-10 w-full">
@@ -107,7 +166,7 @@ export default function ReservationViewPage() {
           </p>
         </div>
 
-        <div className="bg-white grow w-full p-5">
+        <div className="flex flex-col bg-white grow w-full p-5">
           <ReservationSearchBar totalCounts={reservationItems.length}
             searchData={searchData} setSearchData={setSearchData}
           />
@@ -129,7 +188,7 @@ export default function ReservationViewPage() {
           </div>
 
           {selectedReservationItems.length ? (
-            <div className="flex flex-col">
+            <div className="flex flex-col grow">
               <PaginationItem
                 totalPages={Math.ceil(reservationItems.length / 20)}
                 currentPage={currentPage}
@@ -137,7 +196,7 @@ export default function ReservationViewPage() {
               />
 
               {/* Reservation List */}
-              <div className="grow bg-white w-full p-5">
+              <div className="grow bg-white w-full py-5">
                 <table className="w-full">
                   <thead>
                     <tr>
@@ -162,6 +221,25 @@ export default function ReservationViewPage() {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
+
+              <div className="flex justify-end">
+                <Button
+                  variant="contained"
+                  onClick={handleReservationDownloadCSV}
+                  sx={{
+                    fontSize: "15px",
+                    padding: "3px 15px",
+                    borderRadius: "1px",
+                    backgroundColor: "#BCBCBC",
+                    '&:hover': {
+                      backgroundColor: "#BCBCBC",
+                      opacity: 0.9,
+                    }
+                  }}
+                >
+                  <span>CSVファイルをダウンロードする</span>
+                </Button>
+              </div>
             </div>
           ) : (
             <p className="bg-[#fcf8e3] border-[#faebcc] border-[1px] p-4 rounded-sm">

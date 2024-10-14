@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import { useCookies } from "react-cookie";
 
 import Button from "@mui/material/Button";
 import Loading from "@/components/molecules/loading";
@@ -13,11 +14,14 @@ import { IEvent } from "@/utils/types";
 export default function ReservationSelectEventPage() {
   const [publishEventItems, setPublishEventItems] = useState<IPublishEventListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
     setIsLoading(true);
     const fetchPublishEvents = async () => {
-      const res = await axios.post("/api/events/view");
+      const res = await axios.post("/api/events/view", {
+        userID: cookies['user'].id,
+      });
       if (res.status === 200) {
         const events = res.data;
         const publishEvents = events.filter((event: IEvent) => {

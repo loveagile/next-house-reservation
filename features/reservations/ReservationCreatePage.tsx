@@ -114,8 +114,8 @@ export default function ReservationCreatePage() {
             const { address1, address2, address3 } = data.results[0]
 
             setValue("prefecture", address1);
-            setValue("city", address2);
-            setValue("street", address3);
+            setValue("city", address2 + address3);
+            // setValue("street", address3);
           } else {
             console.log("Address not found")
           }

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   SELECT 
     r.id, r.customerId, r.eventId, r.reserveDate, r.startTime, r.endTime, r.status, r.route, r.receptionAt,
     e.title, e.type, e.format, 
-    c.lastName, c.firstName, c.employee, c.seiName, c.meiName, c.prefecture, c.city, c.street, c.building, c.email, c.phone, c.memo, c.note,
+    c.lastName, c.firstName, c.employee, c.seiName, c.meiName, c.prefecture, c.city, c.street, c.building, c.email, c.phone, c.memo, c.note, c.delivery,
     (SELECT COUNT(eventId) FROM reservations WHERE customerId = r.customerId) AS reservationTimes
   FROM 
     reservations r 

@@ -39,7 +39,8 @@ export interface IReservationListItem {
   email: string;
   phone: string;
   memo: string;
-  note: string;                 // Customer
+  note: string;
+  delivery: string;             // Customer
 }
 
 interface ThisFCProps {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,7 @@ import AllCustomerDeleteBtn from "@/components/atoms/Button/AllCustomerDeleteBtn
 import CustomerSearchBar, { ICustomerSearchForm } from "@/components/molecules/SearchBar/CustomerSearchBar";
 
 import { ICustomer } from "@/utils/types";
+import { formatISO8601TimestampToJapaneseString, splitDate } from "@/utils/convert";
 
 export default function CustomerViewPage() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -77,6 +79,65 @@ export default function CustomerViewPage() {
     setSelectedCustomerItems(selectedItems);
   }, [customerItems, currentPage]);
 
+  const handleCustomerDownloadCSV = () => {
+    const data = allCustomers;
+    const csvHeader = ['登録日', 'ステータス', '顧客名', '顧客名(姓)', '顧客名(名)',
+      'ふりがな', 'ふりがな(せい)', 'ふりがな(めい)', 'メールアドレス', '郵便番号',
+      '住所', '都道府県', '市区町村', '番地', '建物名/部屋番号',
+      '連絡先電話番号', '生年月日', '配信可否', '社内向け備考', '担当スタッフ', '追加経路'];
+    const csvRows = data.map((c: ICustomer) => {
+      const { createdAt, status, lastName, firstName, seiName, meiName,
+        email, zipCode, prefecture, city, street, building,
+        phone, birthYear, birthMonth, birthDate, delivery, note, employee, route
+      } = c;
+
+      return [
+        formatISO8601TimestampToJapaneseString(createdAt.toString()),
+        status,
+        lastName + firstName,
+        lastName,
+        firstName,
+        seiName + meiName,
+        seiName,
+        meiName,
+        email,
+        zipCode,
+        (prefecture || "") + (city || "") + (street || "") + (building || ""),
+        prefecture,
+        city,
+        street,
+        building,
+        phone,
+        birthYear !== -1 ? `${birthYear}-${birthMonth.toString().padStart(2, '0')}-${birthDate.toString().padStart(2, '0')}` : "",
+        delivery,
+        note,
+        employee,
+        route
+      ]
+    });
+
+    const csvString = [
+      csvHeader.join(','),
+      ...csvRows.map((row: string[]) => row.join(','))
+    ].join('\n');
+    const bom = "\uFEFF";
+
+    const blob = new Blob([bom + csvString], { type: 'text/csv; charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const { year, month, day } = splitDate(new Date());
+    const fileName = `管理客リスト_${year}-${month}-${day}`;
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   const handleDeleteItem = (id: number) => {
     const filteredItems = customerItems.filter(item => item.id !== id);
     setCustomerItems(filteredItems);
@@ -100,18 +161,30 @@ export default function CustomerViewPage() {
           <CustomerSearchBar totalCounts={customerItems.length} setSearchData={setSearchData} />
 
           {/* New Customer */}
-          <div className="mb-6">
-            <Button
-              variant="contained"
-              href="/customers/create"
-              sx={{
-                fontSize: "16px",
-                padding: "5px 15px",
-                borderRadius: "1px",
-              }}
+          <div className="flex mb-6">
+            <Link href="/customers/create"
+              className="flex items-center px-4 py-2 bg-[#2296f3] text-white hover:opacity-90"
             >
               <FaPlus />
               <span className="ml-1">追加</span>
+            </Link>
+            <Button
+              variant="contained"
+              onClick={handleCustomerDownloadCSV}
+              sx={{
+                fontSize: "16px",
+                padding: "5px 15px",
+                borderRadius: "0",
+                backgroundColor: "#ea9b54",
+                boxShadow: "none",
+                '&:hover': {
+                  backgroundColor: "#ea9b54",
+                  boxShadow: "none",
+                  opacity: 0.9
+                }
+              }}
+            >
+              <span className="ml-1">CSVエクスポート</span>
             </Button>
           </div>
 

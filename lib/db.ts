@@ -160,6 +160,7 @@ async function initializeDatabase(db: Connection) {
       holidays VARCHAR(255),
       websiteURL VARCHAR(255),
       password VARCHAR(255),
+      isParent INT DEFAULT 0 NOT NULL,
 
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

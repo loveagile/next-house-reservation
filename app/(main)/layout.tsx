@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
 
 import Sidebar from "@/components/molecules/SideBar/Sidebar";
+import ChildSidebar from "@/components/molecules/SideBar/ChildSidebar";
 
 const Middleware = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -44,11 +45,11 @@ export default function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   return (
     <Middleware>
       <div className="flex" >
-        <Sidebar />
+        {cookies['user'].isParent === 1 ? <Sidebar /> : <ChildSidebar />}
         {children}
       </div >
     </Middleware >

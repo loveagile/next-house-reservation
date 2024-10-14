@@ -1,24 +1,13 @@
-// "use client";
-
 import * as React from "react";
+import { useState } from "react";
 import Link from "next/link";
 
-import { useState } from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-
-import PhotoSizeSelectActualRoundedIcon from "@mui/icons-material/PhotoSizeSelectActualRounded";
-import SourceRoundedIcon from "@mui/icons-material/SourceRounded";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import EditCalendarRoundedIcon from "@mui/icons-material/EditCalendarRounded";
-import ContactMailRoundedIcon from "@mui/icons-material/ContactMailRounded";
-import Diversity3RoundedIcon from "@mui/icons-material/Diversity3Rounded";
-import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
-import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import { AiFillPicture } from "react-icons/ai";
+import { BsPersonPlusFill } from "react-icons/bs";
+import { FaCalendarAlt, FaAddressCard } from "react-icons/fa";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { MdInfo } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
 const menues = [
   {
@@ -37,11 +26,12 @@ const menues = [
   },
   {
     label: "イベント作成",
-    icon: <PhotoSizeSelectActualRoundedIcon />,
+    icon: <AiFillPicture />,
     submenues: [
       {
         label: "新規作成",
         link: "/events/create",
+        submenues: [],
       },
       {
         label: "イベント一覧",
@@ -97,7 +87,7 @@ const menues = [
   // },
   {
     label: "予約確認",
-    icon: <EditCalendarRoundedIcon />,
+    icon: <FaCalendarAlt />,
     submenues: [
       {
         label: "予約一覧",
@@ -121,7 +111,7 @@ const menues = [
   },
   {
     label: "問い合わせ確認",
-    icon: <ContactMailRoundedIcon />,
+    icon: <FaAddressCard />,
     submenues: [
       {
         label: "問い合わせ",
@@ -135,7 +125,7 @@ const menues = [
   },
   {
     label: "顧客管理",
-    icon: <ContactMailRoundedIcon />,
+    icon: <FaAddressCard />,
     submenues: [
       {
         label: "顧客一覧",
@@ -145,7 +135,7 @@ const menues = [
   },
   {
     label: "グループ管理",
-    icon: <Diversity3RoundedIcon />,
+    icon: <HiMiniUserGroup />,
     submenues: [
       {
         label: "所属会社管理",
@@ -167,13 +157,13 @@ const menues = [
   },
   {
     label: "アカウント管理",
-    icon: <PersonAddAltRoundedIcon />,
+    icon: <BsPersonPlusFill />,
     submenues: [],
     link: "/accounts/list",
   },
   {
     label: "サポートに問い合わせ",
-    icon: <InfoRoundedIcon />,
+    icon: <MdInfo />,
     submenues: [
       {
         label: "オンラインマニュアル",
@@ -187,7 +177,7 @@ const menues = [
   },
   {
     label: "その他",
-    icon: <InfoRoundedIcon />,
+    icon: <MdInfo />,
     submenues: [
       {
         label: "システム設定",
@@ -222,21 +212,11 @@ export default function Sidebar() {
   const [hoveredSubItem, setHoveredSubItem] = useState<number>(-1);
 
   return (
-    <Box className="fixed h-full w-[240px] bg-dark-gray z-50">
-      <List sx={{
-        color: "#cfd8dc",
-        position: "relative",
-        padding: 0,
-      }}>
+    <div className="fixed h-full w-[240px] bg-dark-gray z-50">
+      <ul className="p-0 relative text-[#cfd8dc]">
         {menues.map((item, index) => (
           <div key={index}>
-            <ListItem
-              disablePadding
-              sx={{
-                '&:hover': {
-                  backgroundColor: '#0098ba',
-                }
-              }}
+            <li className="py-1 hover:bg-[#0098ba] relative"
               onMouseEnter={() => setHoveredItem(index)}
               onMouseLeave={() => setHoveredItem(-1)}
             >
@@ -244,106 +224,63 @@ export default function Sidebar() {
                 className="w-full flex items-center p-3"
                 href={item.link ? item.link : "#"}
               >
-                <ListItemIcon sx={{
-                  minWidth: "auto",
-                  color: "#cfd8dc",
-                  marginRight: "8px",
-                  '& .MuiSvgIcon-root': {
-                    fontSize: "18px",
-                  }
-                }}>
+                <span className="mr-2 text-xl">
                   {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} sx={{
-                  '& .MuiListItemText-primary': {
-                    fontSize: "15px",
-                  }
-                }} />
+                </span>
+                <span className="text-[15px]">
+                  {item.label}
+                </span>
                 {!item.link && (
-                  <ListItemIcon sx={{
-                    minWidth: "auto",
-                    color: "#cfd8dc",
-                    marginRight: "8px",
-                    '& .MuiSvgIcon-root': {
-                      fontSize: "18px",
-                    }
-                  }}>
-                    <ArrowForwardIosRoundedIcon />
-                  </ListItemIcon>
+                  <IoIosArrowForward className="text-xl ml-auto" />
                 )}
               </Link>
               {hoveredItem === index && (
-                <List className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
+                <ul className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
                   {item.submenues.map((subitem, subindex) => (
                     <div key={subindex}>
-                      <ListItem
-                        disablePadding
-                        sx={{
-                          '&:hover': {
-                            backgroundColor: '#0098ba',
-                          }
-                        }}
+                      <li className="py-1 hover:bg-[#0098ba]"
                         onMouseEnter={() => setHoveredSubItem(subindex)}
                         onMouseLeave={() => setHoveredSubItem(-1)}
                       >
                         <Link className="w-full flex items-center p-3" href={subitem.link}>
-                          <ListItemText primary={subitem.label} sx={{
-                            '& .MuiListItemText-primary': {
-                              fontSize: "15px",
-                            }
-                          }} />
+                          <span className="text-[15px]">
+                            {subitem.label}
+                          </span>
                           {subitem.submenues && (
-                            <ListItemIcon sx={{
-                              minWidth: "auto",
-                              color: "#cfd8dc",
-                              marginRight: "8px",
-                              '& .MuiSvgIcon-root': {
-                                fontSize: "18px",
-                              }
-                            }}>
-                              <ArrowForwardIosRoundedIcon />
-                            </ListItemIcon>
+                            <IoIosArrowForward className="text-xl ml-auto" />
                           )}
                         </Link>
                         {hoveredSubItem === subindex && (
-                          <List className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
+                          <ul className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
                             {subitem.submenues?.map((sub_subitem, index) => (
                               <div key={index}>
-                                <ListItem
-                                  disablePadding
-                                  sx={{
-                                    '&:hover': {
-                                      backgroundColor: '#0098ba',
-                                    }
-                                  }}
-                                >
+                                <li className="py-1 hover:bg-[#0098ba]">
                                   <Link
                                     href={sub_subitem.link}
                                     className="w-full flex items-center p-3"
                                   >
-                                    <ListItemText primary={sub_subitem.label} sx={{
-                                      '& .MuiListItemText-primary': {
-                                        fontSize: "15px",
-                                      }
-                                    }} />
+                                    <span className="text-[15px]">
+                                      {sub_subitem.label}
+                                    </span>
                                   </Link>
-                                </ListItem>
-                                <Divider className="border-border-gray" />
+                                </li>
+                                <hr className="border-border-gray" />
                               </div>
                             ))}
-                          </List>
+                          </ul>
                         )}
-                      </ListItem>
-                      <Divider className="border-border-gray" />
+                      </li>
+                      <hr className="border-border-gray" />
                     </div>
                   ))}
-                </List>
+                </ul>
               )}
-            </ListItem>
-            <Divider className="border-border-gray" />
+            </li>
+            <hr className="border-border-gray" />
           </div>
-        ))}
-      </List>
-    </Box >
+        ))
+        }
+      </ul >
+    </div >
   );
 }

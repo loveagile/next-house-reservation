@@ -17,10 +17,12 @@ const menues = [
       {
         label: "利用内容の確認",
         link: "/claim",
+        target: "_self",
       },
       {
         label: "アカウント枠数変更",
         link: "/settings/account_slot_count/edit",
+        target: "_self",
       },
     ],
   },
@@ -32,18 +34,22 @@ const menues = [
         label: "新規作成",
         link: "/events/create",
         submenues: [],
+        target: "_self",
       },
       {
         label: "イベント一覧",
         link: "/events/list",
+        target: "_self",
       },
       {
         label: "まとめページ作成",
         link: "/campaigns/create",
+        target: "_self",
       },
       {
         label: "まとめページ一覧",
         link: "/campaigns/list",
+        target: "_self",
       },
     ],
   },
@@ -92,14 +98,17 @@ const menues = [
       {
         label: "予約一覧",
         link: "#",
+        target: "_self",
         submenues: [
           {
             label: "新着順表示",
             link: "/reservations/list",
+            target: "_self",
           },
           {
             label: "カレンダー表示",
             link: "/reservations/calendars",
+            target: "_self",
           },
         ],
       },
@@ -116,10 +125,12 @@ const menues = [
       {
         label: "問い合わせ",
         link: "/inquiry/contact",
+        target: "_self",
       },
       {
         label: "資料請求",
         link: "/inquiry/information",
+        target: "_self",
       },
     ],
   },
@@ -130,6 +141,7 @@ const menues = [
       {
         label: "顧客一覧",
         link: "/customers/list",
+        target: "_self",
       },
     ],
   },
@@ -140,18 +152,22 @@ const menues = [
       {
         label: "所属会社管理",
         link: "/group",
+        target: "_self",
       },
       {
         label: "掲載イベント管理",
         link: "/group/events",
+        target: "_self",
       },
       {
         label: "予約確認",
         link: "/group/reservations",
+        target: "_self",
       },
       {
         label: "顧客確認",
         link: "/group/customers",
+        target: "_self",
       },
     ],
   },
@@ -168,10 +184,12 @@ const menues = [
       {
         label: "オンラインマニュアル",
         link: "https://help.kengakucloud.jp/",
+        target: "_blank",
       },
       {
         label: "フォームから問い合わせ",
         link: "/contact/create",
+        target: "_self",
       },
     ],
   },
@@ -182,26 +200,32 @@ const menues = [
       {
         label: "システム設定",
         link: "/settings",
+        target: "_self",
       },
       {
         label: "ログイン情報編集",
         link: "/staff/edit",
+        target: "_self",
       },
       {
         label: "LINE通知設定",
         link: "/settings/line",
+        target: "_self",
       },
       {
         label: "利用規約",
         link: "/home/terms_of_service",
+        target: "_blank",
       },
       {
         label: "プライバシーポリシー",
         link: "/home/privacy_policy",
+        target: "_blank",
       },
       {
         label: "ログアウト",
         link: "/logout",
+        target: "_self",
       },
     ],
   },
@@ -242,7 +266,7 @@ export default function Sidebar() {
                         onMouseEnter={() => setHoveredSubItem(subindex)}
                         onMouseLeave={() => setHoveredSubItem(-1)}
                       >
-                        <Link className="w-full flex items-center p-3" href={subitem.link}>
+                        <Link className="w-full flex items-center p-3" href={subitem.link} target={subitem.target}>
                           <span className="text-[15px]">
                             {subitem.label}
                           </span>
@@ -258,6 +282,7 @@ export default function Sidebar() {
                                   <Link
                                     href={sub_subitem.link}
                                     className="w-full flex items-center p-3"
+                                    target={sub_subitem.target}
                                   >
                                     <span className="text-[15px]">
                                       {sub_subitem.label}

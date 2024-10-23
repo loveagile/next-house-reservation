@@ -1,12 +1,14 @@
 import * as React from "react";
 import { useState } from "react";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 import { AiFillPicture } from "react-icons/ai";
 import { BsPersonPlusFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdInfo } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const menues = [
   {
@@ -16,11 +18,13 @@ const menues = [
       {
         label: "利用内容の確認",
         link: "/claim",
+        target: "_self",
         submenues: [],
       },
       {
         label: "アカウント枠数変更",
         link: "/settings/account_slot_count/edit",
+        target: "_self",
         submenues: [],
       },
     ],
@@ -32,11 +36,13 @@ const menues = [
       {
         label: "新規作成",
         link: "/events/create",
+        target: "_self",
         submenues: [],
       },
       {
         label: "イベント一覧",
         link: "/events/list",
+        target: "_self",
         submenues: [],
       },
     ],
@@ -48,14 +54,17 @@ const menues = [
       {
         label: "予約一覧",
         link: "#",
+        target: "_self",
         submenues: [
           {
             label: "新着順表示",
             link: "/reservations/list",
+            target: "_self",
           },
           {
             label: "カレンダー表示",
             link: "/reservations/calendars",
+            target: "_self",
           },
         ],
       },
@@ -64,8 +73,9 @@ const menues = [
   {
     label: "アカウント管理",
     icon: <BsPersonPlusFill />,
-    submenues: [],
     link: "/accounts/list",
+    target: "_self",
+    submenues: [],
   },
   {
     label: "サポートに問い合わせ",
@@ -75,6 +85,7 @@ const menues = [
         label: "オンラインマニュアル",
         link: "https://help.kengakucloud.jp/",
         submenues: [],
+        target: "_blank",
       },
       {
         label: "フォームから問い合わせ",
@@ -106,11 +117,13 @@ const menues = [
         label: "利用規約",
         link: "/home/terms_of_service",
         submenues: [],
+        target: "_blank",
       },
       {
         label: "プライバシーポリシー",
         link: "/home/privacy_policy",
         submenues: [],
+        target: "_blank",
       },
       {
         label: "ログアウト",
@@ -124,6 +137,7 @@ const menues = [
 export default function Sidebar() {
   const [hoveredItem, setHoveredItem] = useState<number>(-1);
   const [hoveredSubItem, setHoveredSubItem] = useState<number>(-1);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   return (
     <div className="fixed h-full w-[240px] bg-dark-gray z-50">
@@ -137,6 +151,7 @@ export default function Sidebar() {
               <Link
                 className="w-full flex items-center p-3"
                 href={item.link ? item.link : "#"}
+                target={item.target}
               >
                 <span className="mr-2 text-xl">
                   {item.icon}
@@ -156,7 +171,10 @@ export default function Sidebar() {
                         onMouseEnter={() => setHoveredSubItem(subindex)}
                         onMouseLeave={() => setHoveredSubItem(-1)}
                       >
-                        <Link className="w-full flex items-center p-3" href={subitem.link}>
+                        <Link className="w-full flex items-center p-3"
+                          href={subitem.link}
+                          target={subitem.target}
+                        >
                           <span className="text-[15px]">
                             {subitem.label}
                           </span>
@@ -172,6 +190,7 @@ export default function Sidebar() {
                                   <Link
                                     href={sub_subitem.link}
                                     className="w-full flex items-center p-3"
+                                    target={sub_subitem.target}
                                   >
                                     <span className="text-[15px]">
                                       {sub_subitem.label}
@@ -195,6 +214,28 @@ export default function Sidebar() {
         ))
         }
       </ul >
+      {cookies['user'].subId !== -1 && (
+        <>
+          <Link
+            className="w-full flex items-center p-3 text-white font-bold bg-[#e99b54] py-4"
+            href="/group"
+            onClick={() => {
+              setCookie('user', {
+                ...cookies['user'],
+                subId: -1,
+              })
+            }}
+          >
+            <span className="mr-2 text-xl">
+              <RiArrowGoBackFill className="font-bold" />
+            </span>
+            <span className="text-[15px]">
+              親アカウントに戻る
+            </span>
+          </Link>
+          <hr className="border-border-gray" />
+        </>
+      )}
     </div >
   );
 }

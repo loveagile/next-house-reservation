@@ -125,7 +125,7 @@ const UsersGroupPage = () => {
                         <tr className="w-full" key={index}>
                           <td className="p-4 text-sm">
                             {name}
-                            <ManageBtn subUser={groupItem} />
+                            <ManageBtn subId={id} name={name} />
                           </td>
                           <td className="p-4 text-sm">
                             {email}

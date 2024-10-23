@@ -3,7 +3,6 @@
 import theme from "@/utils/theme";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from '@mui/material/styles';
-import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 export default function RootLayout({
@@ -14,13 +13,11 @@ export default function RootLayout({
   return (
     <html lang="jp">
       <body>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <RecoilRoot>
-              {children}
-            </RecoilRoot>
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider theme={theme}>
+          <RecoilRoot>
+            {children}
+          </RecoilRoot>
+        </ThemeProvider>
       </body>
     </html>
   );

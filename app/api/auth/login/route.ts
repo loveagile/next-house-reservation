@@ -20,17 +20,17 @@ export async function POST(req: NextRequest) {
       if (!(await comparePassword(password, user.password))) {
         return NextResponse.json({ error: "Invalid password" });
       } else {
-        const accessToken = sign(
+        const access_token = sign(
           {
             id: user.id,
             name: user.name,
             email: user.email,
           },
           "access_token",
-          { expiresIn: 24 * 60 * 60 }
+          { expiresIn: 60 * 60 }
         );
 
-        const refreshToken = sign(
+        const refresh_token = sign(
           {
             id: user.id,
             name: user.name,
@@ -40,9 +40,11 @@ export async function POST(req: NextRequest) {
           { expiresIn: 24 * 60 * 60 }
         );
         return NextResponse.json({
-          ...user,
-          accessToken,
-          refreshToken,
+          id: user.id,
+          isParent: user.isParent,
+          subId: -1,
+          access_token,
+          refresh_token,
         });
       }
     }

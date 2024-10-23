@@ -1,22 +1,32 @@
+import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { verify } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { id, name, email, accessToken } = data;
+  const { access_token } = data;
 
-  if (!accessToken) {
+  if (!access_token) {
     return NextResponse.json({ isAuthenticated: false });
   }
 
   try {
-    const payload = verify(accessToken, "access_token") as any;
-    const isAuthenticated =
-      id === payload.id && name === payload.name && email === payload.email;
+    const payload = verify(access_token, "access_token") as any;
+    const { id, name, email } = payload;
 
-    return NextResponse.json({
-      isAuthenticated,
-    });
+    const db = await connectToDatabase();
+    let queryStr = `SELECT * FROM users WHERE email = ?`;
+    const [rows]: any = await db.query(queryStr, [email]);
+
+    if (rows.length !== 1) {
+      return NextResponse.json({ isAuthenticated: false });
+    } else {
+      const user = rows[0];
+      const isAuthenticated = id === user.id && name === user.name;
+      return NextResponse.json({
+        isAuthenticated,
+      });
+    }
   } catch (error) {
     console.error("JWT verification failed:", error);
     return NextResponse.json({ isAuthenticated: false });

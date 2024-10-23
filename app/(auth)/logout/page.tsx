@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import Loading from "@/components/molecules/loading";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import Loading from "@/components/molecules/loading";
 
 export default function LogOut() {
   const router = useRouter();
@@ -12,9 +11,13 @@ export default function LogOut() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
-    setIsLoading(false);
-    removeCookie('user', { path: '/' });
-    router.push("/login");
+    const removeAndRedirect = async () => {
+      await removeCookie('user');
+      setIsLoading(false);
+      router.push("/login");
+    };
+
+    removeAndRedirect();
   }, []);
 
   return (

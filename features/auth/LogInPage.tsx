@@ -148,11 +148,11 @@ export default function LogInPage() {
               <FaArrowRightLong /><span className="ml-2">パスワードを忘れた方</span>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="#" target="_blank" className="flex items-center text-[15px] text-link-color">
               <FaArrowRightLong /><span className="ml-2">確認メールが届かない方</span>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div >
     </div >

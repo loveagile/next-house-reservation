@@ -29,11 +29,15 @@ const EventViewPage = () => {
     status: "ステータス - 全て",
   });
 
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
   useEffect(() => {
     const fetchEvents = async () => {
       setIsLoading(true);
       const res = await axios.post("/api/events/view", {
-        userID: cookies['user'].id,
+        userID,
       });
       if (res.status === 200) {
         const events = res.data;

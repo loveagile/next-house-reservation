@@ -41,11 +41,15 @@ export default function EventCreatePage() {
     resolver: yupResolver(schema),
   });
 
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
   const onSubmit = async (data: IEventCreateForm) => {
     const { title, type, format, note } = data;
 
     const res = await axios.post('/api/events/create', {
-      userID: cookies['user'].id,
+      userID,
       title,
       type,
       format,

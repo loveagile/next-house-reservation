@@ -2,6 +2,8 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCookies } from "react-cookie";
 import { PiSignInBold } from "react-icons/pi";
 import { CgClose } from "react-icons/cg";
 import { IoWarning } from "react-icons/io5";
@@ -12,19 +14,30 @@ import { useTheme } from "@mui/material/styles";
 import { IGroup } from "@/utils/types";
 
 interface ThisFCProps {
-  subUser: IGroup;
+  subId: number;
+  name: string;
   className?: string;
 }
 
 const ManageBtn: React.FC<ThisFCProps> = ({
-  subUser,
+  subId,
+  name,
   className = "",
 }) => {
+  const router = useRouter()
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [cookies, setCookie] = useCookies(['user']);
 
-  const { name } = subUser;
+  const onManagementAdminPageOpen = () => {
+    setOpen(false);
+    setCookie('user', {
+      ...cookies['user'],
+      subId,
+    });
+    router.push('/');
+  }
 
   return (
     <>
@@ -85,7 +98,7 @@ const ManageBtn: React.FC<ThisFCProps> = ({
           padding: "0",
         }}>
           <Button
-            onClick={() => setOpen(false)}
+            onClick={onManagementAdminPageOpen}
             variant="contained"
             sx={{
               width: "100%",

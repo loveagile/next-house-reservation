@@ -130,16 +130,20 @@ export interface ICustomer {
 export interface IGroup {
   id: number;
   name: string;
+  furiName: string;
+  eventURL: string;
   type: string;
-  email: string;
   zipCode: string;
   prefecture: string;
+  city: string;
   address: string;
   phone: string;
   fax: string | null;
-  holidays: string | null;
-  websiteURL: string | null;
+  email: string;
   password: string;
+  boss: string;
+  websiteURL: string | null;
+  holidays: string | null;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;

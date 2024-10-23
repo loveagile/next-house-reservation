@@ -1,12 +1,14 @@
 export default function TermsOfServicePage() {
   return (
-    <div className="flex flex-col p-10 w-full">
-      <div className="mb-6">
-        <h1 className="border-m-green border-l-[6px] text-xl p-0 pl-2 mb-3 font-bold ">
-          利用規約
-        </h1>
-      </div>
+    <div className="flex flex-col p-10 w-full max-w-[1280px] mx-auto">
       <div className="bg-white w-full p-16">
+
+        <div className="mt-7 mb-4">
+          <h1 className="text-center text-3xl font-bold">
+            利用規約
+          </h1>
+        </div>
+
         <div className="leading-6 indent-4">
           株式会社ビズ・クリエイション（以下「当社」といいます。）は、当社の集客クラウドツールであるＫｅ ｎｇａｋｕＣｌｏｕｄ（以下「本サービス」といいます。）を、不特定多数のお客様にサービス提供するに 当たって、あらかじめ以下の事項（以下「本規約」といいます。）を契約の内容とすることを、お客様に対 して表示します。お客様は、本規約を契約の内容とすることに合意いただいた場合に限り、本サービスを 利用することができます。また、合意いただいた場合には、お客様は、民法（明治２９年法律第８９号。以 下同じ。）５４８条の２第１項に基づき、本規約の個別の条項についても合意をしたものとみなされますの で、本規約の内容をよくご覧くださいませ。
         </div>

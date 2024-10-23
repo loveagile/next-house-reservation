@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { MdDelete } from "react-icons/md";
 import { PiSignInBold } from "react-icons/pi";
 import { CgClose } from "react-icons/cg";
 import { IoWarning } from "react-icons/io5";
@@ -10,18 +9,22 @@ import { IoWarning } from "react-icons/io5";
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import { IGroup } from "@/utils/types";
+
 interface ThisFCProps {
-  name: string;
+  subUser: IGroup;
   className?: string;
 }
 
 const ManageBtn: React.FC<ThisFCProps> = ({
-  name,
+  subUser,
   className = "",
 }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const { name } = subUser;
 
   return (
     <>
@@ -50,7 +53,7 @@ const ManageBtn: React.FC<ThisFCProps> = ({
         }}
       >
         <Button
-          className="absolute right-1 top-1 min-w-0 text-[#95979c]"
+          className="!absolute right-1 top-1 min-w-0 text-[#95979c]"
           onClick={() => setOpen(false)}
         >
           <CgClose className="text-lg" />

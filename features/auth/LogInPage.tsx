@@ -57,7 +57,7 @@ export default function LogInPage() {
         return;
       } else {
         setCookie('user', res.data);
-        router.push("/home");
+        router.push("/");
       }
     } else {
       setError("メールアドレス か パスワード が違います。");

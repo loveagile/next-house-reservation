@@ -1,12 +1,13 @@
 export default function PrivacyPolicyPage() {
   return (
-    <div className="flex flex-col p-10 w-full">
-      <div className="mb-6">
-        <h1 className="border-m-green border-l-[6px] text-xl p-0 pl-2 mb-3 font-bold ">
-          プライバシーポリシー
-        </h1>
-      </div>
+    <div className="flex flex-col p-10 w-full max-w-[1280px] mx-auto">
       <div className="bg-white w-full p-16">
+        <div className="mt-7 mb-4">
+          <h1 className="text-center text-3xl font-bold">
+            プライバシーポリシー
+          </h1>
+        </div>
+
         <div className="leading-6 indent-4">
           株式会社ビズ・クリエイション（以下「当社」といいます。）は、当社が提供するサービス（以下「当社サービス」といいます。）について、個人情報の保護に関する法律（平成１５年法律第５７号。以下単に「法」といいます。)等の遵守を目的として、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます。）を策定します。
         </div>

@@ -13,13 +13,13 @@ interface ResultSetHeader {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { title, type, format } = data;
+  const { userID, title, type, format } = data;
 
   let queryStr = `
     INSERT INTO campaigns 
-      (title, type, format) 
+      (userID, title, type, format) 
     VALUES
-      ('${title}', '${type}', '${format}')`;
+      ('${userID}', '${title}', '${type}', '${format}')`;
 
   try {
     const db = await connectToDatabase();

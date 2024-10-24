@@ -2,7 +2,10 @@ import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  let queryStr = "SELECT * FROM campaigns";
+  const data = await req.json();
+  const { userID } = data;
+
+  let queryStr = `SELECT * FROM campaigns WHERE userID = ${userID}`;
 
   try {
     const db = await connectToDatabase();

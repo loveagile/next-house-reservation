@@ -75,7 +75,7 @@ const CampaignImageUpload: React.FC<IImageUploadProps> = ({
           <InputLabel htmlFor="picture">画像をアップロード</InputLabel>
         </div>
         <div className="flex flex-col w-full">
-          <Box className="border-[1px] border-[#ccc] rounded w-[400px]">
+          <Box className="border-[1px] border-[#ccc] rounded-none w-[400px]">
             <input
               accept=".png, .jpg, .jpeg"
               style={{ display: "none" }}
@@ -88,8 +88,10 @@ const CampaignImageUpload: React.FC<IImageUploadProps> = ({
                 variant="contained"
                 color="primary"
                 component="span"
-                className="rounded-none"
                 startIcon={<IoMdCloudUpload />}
+                sx={{
+                  borderRadius: "0px",
+                }}
               >
                 画像を選択
               </Button>

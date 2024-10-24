@@ -19,6 +19,7 @@ const config: Config = {
         "light-gray": "#cfd8dc",
         "border-gray": "#4b556c",
         "link-color": "#2296f3",
+        "btn-color": "#1976D2",
 
         "m-green": "#0098ba",
         "m-red": "#e73939",

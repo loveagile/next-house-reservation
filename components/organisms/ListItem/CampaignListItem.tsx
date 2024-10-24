@@ -2,8 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaPencilAlt } from "react-icons/fa";
 
-import Button from "@mui/material/Button";
-
 import StatusField from "@/components/molecules/Field/StatusField";
 
 import { ICampaign } from "@/utils/types";
@@ -58,19 +56,12 @@ const CampaignListItem: React.FC<ThisFCProps> = ({ item }) => {
         </div>
       </div>
       <div className="flex flex-col ml-auto p-5 min-w-[25%]">
-        <Button
-          href={`/campaigns/${id}`}
-          variant="contained"
-          sx={{
-            padding: '8px 40px',
-            marginBottom: '12px',
-            borderRadius: '1px',
-            fontSize: '14px',
-          }}
+        <Link href={`/campaigns/${id}`}
+          className="flex items-center justify-center px-10 py-2 rounded-[1px] mb-3 text-sm bg-btn-color text-white hover:opacity-90"
         >
           <FaPencilAlt className="text-sm mr-1" />
           <span className="text-sm">まとめページを編集</span>
-        </Button>
+        </Link>
         <Link
           className="border-[1px] border-[#484848] text-center p-1 hover:bg-[#eee]"
           href={`/smilebuilders/campaigns/${id}`}

@@ -2,8 +2,9 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
-import Button from "@mui/material/Button";
+import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
@@ -19,6 +20,8 @@ export default function CampaignViewPage() {
   const [allCampaigns, setAllCampaigns] = useState<ICampaign[]>([]);
   const [campaignItems, setCampaignItems] = useState<ICampaign[]>([]);
   const [selectedCampaignItems, setSelectedCampaignItems] = useState<ICampaign[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
   const [searchData, setSearchData] = useState<ISearchForm>({
     keyword: "",
     type: "イベント種別 - 全て",
@@ -26,11 +29,17 @@ export default function CampaignViewPage() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       setIsLoading(true);
 
-      const res = await axios.post("/api/campaigns/view");
+      const res = await axios.post("/api/campaigns/view", {
+        userID,
+      });
       if (res.status === 200) {
         const campaigns = res.data;
         setAllCampaigns(campaigns);
@@ -96,19 +105,12 @@ export default function CampaignViewPage() {
         </div>
         {/* New Campaign Create */}
         <div className="flex justify-center mb-6">
-          <Button
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: "5px 30px",
-              borderRadius: "1px",
-            }}
-            variant="contained"
-            href="/campaigns/create"
+          <Link href="/campaigns/create"
+            className="flex items-center px-7 py-[6px] rounded-[1px] bg-btn-color hover:opacity-90 text-white"
           >
             <FaPlus className="text-xl" />
             <span className="text-xl ml-1">新しくまとめページを作成</span>
-          </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col grow bg-white w-full p-5">

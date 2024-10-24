@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -9,7 +10,6 @@ import PaginationItem from "@/components/molecules/PaginationItem";
 import EventListItem from "@/components/organisms/ListItem/EventListItem";
 import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
 
-import Button from "@mui/material/Button";
 import { FaPlus } from "react-icons/fa6";
 
 import { IEvent } from "@/utils/types";
@@ -113,19 +113,12 @@ const EventViewPage = () => {
 
         {/* New Event Create */}
         <div className="flex justify-center mb-6">
-          <Button
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: "5px 30px",
-              borderRadius: "1px",
-            }}
-            variant="contained"
-            href="/events/create"
+          <Link href="/events/create"
+            className="flex items-center px-7 py-[6px] rounded-[1px] bg-btn-color hover:opacity-90 text-white"
           >
             <FaPlus className="text-xl" />
             <span className="text-xl ml-1">新しいイベントを作成</span>
-          </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col w-full bg-white grow p-5">

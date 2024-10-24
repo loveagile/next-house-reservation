@@ -17,11 +17,13 @@ const menues = [
       {
         label: "利用内容の確認",
         link: "/claim",
+        submenues: [],
         target: "_self",
       },
       {
         label: "アカウント枠数変更",
         link: "/settings/account_slot_count/edit",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -39,16 +41,19 @@ const menues = [
       {
         label: "イベント一覧",
         link: "/events/list",
+        submenues: [],
         target: "_self",
       },
       {
         label: "まとめページ作成",
         link: "/campaigns/create",
+        submenues: [],
         target: "_self",
       },
       {
         label: "まとめページ一覧",
         link: "/campaigns/list",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -103,11 +108,13 @@ const menues = [
           {
             label: "新着順表示",
             link: "/reservations/list",
+            submenues: [],
             target: "_self",
           },
           {
             label: "カレンダー表示",
             link: "/reservations/calendars",
+            submenues: [],
             target: "_self",
           },
         ],
@@ -115,6 +122,8 @@ const menues = [
       {
         label: "日程調整中一覧",
         link: "/reservations/candidate",
+        submenues: [],
+        target: "_self",
       },
     ],
   },
@@ -125,11 +134,13 @@ const menues = [
       {
         label: "問い合わせ",
         link: "/inquiry/contact",
+        submenues: [],
         target: "_self",
       },
       {
         label: "資料請求",
         link: "/inquiry/information",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -141,6 +152,7 @@ const menues = [
       {
         label: "顧客一覧",
         link: "/customers/list",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -152,21 +164,25 @@ const menues = [
       {
         label: "所属会社管理",
         link: "/group",
+        submenues: [],
         target: "_self",
       },
       {
         label: "掲載イベント管理",
         link: "/group/events",
+        submenues: [],
         target: "_self",
       },
       {
         label: "予約確認",
         link: "/group/reservations",
+        submenues: [],
         target: "_self",
       },
       {
         label: "顧客確認",
         link: "/group/customers",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -184,11 +200,13 @@ const menues = [
       {
         label: "オンラインマニュアル",
         link: "https://help.kengakucloud.jp/",
+        submenues: [],
         target: "_blank",
       },
       {
         label: "フォームから問い合わせ",
         link: "/contact/create",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -200,31 +218,37 @@ const menues = [
       {
         label: "システム設定",
         link: "/settings",
+        submenues: [],
         target: "_self",
       },
       {
         label: "ログイン情報編集",
         link: "/staff/edit",
+        submenues: [],
         target: "_self",
       },
       {
         label: "LINE通知設定",
         link: "/settings/line",
+        submenues: [],
         target: "_self",
       },
       {
         label: "利用規約",
         link: "/home/terms_of_service",
+        submenues: [],
         target: "_blank",
       },
       {
         label: "プライバシーポリシー",
         link: "/home/privacy_policy",
+        submenues: [],
         target: "_blank",
       },
       {
         label: "ログアウト",
         link: "/logout",
+        submenues: [],
         target: "_self",
       },
     ],
@@ -270,13 +294,13 @@ export default function Sidebar() {
                           <span className="text-[15px]">
                             {subitem.label}
                           </span>
-                          {subitem.submenues && (
+                          {subitem.submenues.length > 0 && (
                             <IoIosArrowForward className="text-xl ml-auto" />
                           )}
                         </Link>
                         {hoveredSubItem === subindex && (
                           <ul className="w-[240px] bg-dark-gray absolute left-[240px] top-0 p-0">
-                            {subitem.submenues?.map((sub_subitem, index) => (
+                            {subitem.submenues.map((sub_subitem, index) => (
                               <div key={index}>
                                 <li className="py-1 hover:bg-[#0098ba]">
                                   <Link

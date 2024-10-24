@@ -73,7 +73,7 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({ setRegisteredImgs }) =>
           <InputLabel htmlFor="picture">画像をアップロード</InputLabel>
         </div>
         <div className="flex flex-col w-full">
-          <Box className="flex items-center border-[1px] border-[#ccc] rounded w-[400px]">
+          <Box className="flex items-center border-[1px] border-[#ccc] rounded-none w-[400px]">
             <input
               accept=".png, .jpg, .jpeg"
               style={{ display: "none" }}
@@ -86,8 +86,10 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({ setRegisteredImgs }) =>
                 variant="contained"
                 color="primary"
                 component="span"
-                className="rounded-none YuGothic"
                 startIcon={<IoMdCloudUpload />}
+                sx={{
+                  borderRadius: 0,
+                }}
               >
                 画像を選択
               </Button>

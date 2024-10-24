@@ -3,6 +3,7 @@
 import axios from "axios";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 
@@ -24,6 +25,7 @@ interface ICampaignCreateForm {
 
 export default function CampaignCreatePage() {
   const router = useRouter();
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const schema = yup.object().shape({
     title: yup.string().required("入力してください。"),
@@ -37,10 +39,15 @@ export default function CampaignCreatePage() {
     resolver: yupResolver(schema),
   });
 
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
   const onSubmit = async (data: ICampaignCreateForm) => {
     const { title, type, format } = data;
 
     const res = await axios.post("/api/campaigns/create", {
+      userID,
       title,
       type,
       format,

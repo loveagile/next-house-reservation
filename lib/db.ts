@@ -53,6 +53,7 @@ async function initializeDatabase(db: Connection) {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS campaigns (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      userID INT NOT NULL,
       title VARCHAR(255) NOT NULL,
       type VARCHAR(255) NOT NULL,
       format VARCHAR(255) NOT NULL,

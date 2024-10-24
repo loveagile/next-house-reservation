@@ -80,19 +80,12 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
         </div>
       </div>
       <div className="flex flex-col ml-auto p-5 w-[25%] min-w-[300px]">
-        <Button
-          href={`/events/${id}`}
-          variant="contained"
-          sx={{
-            padding: '8px 40px',
-            marginBottom: '12px',
-            borderRadius: '1px',
-            fontSize: '14px',
-          }}
+        <Link href={`/events/${id}`}
+          className="flex items-center justify-center px-10 py-2 rounded-[1px] mb-3 text-sm bg-btn-color text-white hover:opacity-90"
         >
           <FaPencilAlt className="text-sm mr-1" />
           <span className="text-sm">イベントを編集</span>
-        </Button>
+        </Link>
         <div className="flex justify-between text-sm">
           <Link
             className="border-[1px] w-[49%] border-[#484848] text-center p-[2px]"

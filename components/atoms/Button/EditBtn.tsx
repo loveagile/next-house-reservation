@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import Link from "next/link";
 
 interface ThisFCProps {
   linkUrl: string;
@@ -12,19 +12,11 @@ const EditBtn: React.FC<ThisFCProps> = ({
   className = "",
 }) => {
   return (
-    <Button
-      href={linkUrl}
-      className={className}
-      variant="contained"
-      sx={{
-        padding: "4px 0",
-        borderRadius: "1px",
-        marginBottom: "12px",
-        marginLeft: "auto",
-      }}
+    <Link href={linkUrl}
+      className={`px-[18px] py-[5px] shrink-0 rounded-[1px] ml-auto bg-[#1976D2] text-white hover:opacity-90 ${className}`}
     >
       {text}
-    </Button>
+    </Link>
   );
 };
 

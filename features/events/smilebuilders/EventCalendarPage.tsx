@@ -92,7 +92,7 @@ const EventCalendarPage: React.FC = () => {
           <p className="flex items-center mt-1">
             <FaPhone className="text-[#2aa6e2] text-lg" />
             <span>：要問い合わせ（TEL：</span>
-            <Link href="tel:0995-45-7777" className="text-[#2aa6e2]">0995-45-7777</Link>
+            <Link href="tel:0995-55-8900" className="text-[#2aa6e2]">0995-55-8900</Link>
             <span>）</span>
           </p>
         </div>

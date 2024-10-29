@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     }
     isAuthenticatedUser();
-  }, [router, pathName]);
+  }, [pathName]);
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (

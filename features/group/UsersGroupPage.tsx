@@ -28,7 +28,9 @@ const UsersGroupPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   useEffect(() => {
-    const fetchGroups = async () => {
+
+    const fetchUsersGroup = async () => {
+      console.log("here => usersgroup");
       setIsLoading(true);
       const res = await axios.post("/api/groups/view", {
         id: cookies['user'].id,
@@ -41,7 +43,7 @@ const UsersGroupPage = () => {
       setCurrentPage(0);
       setIsLoading(false);
     };
-    fetchGroups();
+    fetchUsersGroup();
   }, []);
 
   useEffect(() => {

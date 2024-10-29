@@ -163,7 +163,7 @@ const menues = [
     submenues: [
       {
         label: "所属会社管理",
-        link: "/group",
+        link: "/group/users",
         submenues: [],
         target: "_self",
       },

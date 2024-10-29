@@ -1,5 +1,6 @@
 import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { RiCreativeCommonsZeroLine } from "react-icons/ri";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();

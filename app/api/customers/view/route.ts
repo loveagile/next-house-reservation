@@ -2,7 +2,8 @@ import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  let queryStr = "SELECT * FROM customers";
+  const { userID: groupID } = await req.json();
+  let queryStr = `SELECT * FROM customers WHERE groupID = ${groupID}`;
 
   try {
     const db = await connectToDatabase();

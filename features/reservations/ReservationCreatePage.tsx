@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCookies } from "react-cookie";
 
 import { Button, InputLabel } from "@mui/material";
 import Loading from "@/components/molecules/loading";
@@ -49,6 +50,11 @@ export default function ReservationCreatePage() {
   const [candidateReserveDateTimes, setCandidateReserveDateTimes] = useRecoilState(CandidateEventDateTimeAtom);
   const [reserveDate, setReserveDate] = useRecoilState(ReserveDateAtom);
   const [reserveTime, setReserveTime] = useRecoilState(ReserveTimeAtom);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
 
   useEffect(() => {
     const fetchEventDetail = async () => {
@@ -148,6 +154,7 @@ export default function ReservationCreatePage() {
         customerId = customerData[0].id;
       } else {
         const res = await axios.post('/api/customers/create', {
+          groupID: userID,
           status: "未設定", route: "予約",
           lastName, firstName, seiName, meiName,
           zipCode, prefecture, city, street, building,
@@ -161,6 +168,7 @@ export default function ReservationCreatePage() {
     }
 
     await axios.post('/api/reservations/create', {
+      groupID: userID,
       customerId,
       eventId: id,
       reserveDate: reserveDate.value,

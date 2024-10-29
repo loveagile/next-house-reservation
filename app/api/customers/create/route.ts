@@ -14,6 +14,7 @@ interface ResultSetHeader {
 export async function POST(req: NextRequest) {
   const data = await req.json();
   const {
+    groupID,
     status,
     route,
     lastName,
@@ -37,13 +38,14 @@ export async function POST(req: NextRequest) {
   } = data;
 
   let queryStr = `INSERT INTO customers (
-    status, route, lastName, firstName, seiName, meiName, 
+    groupID, status, route, lastName, firstName, seiName, meiName, 
     zipCode, prefecture, city, street, building, 
     phone, email, note, memo,
     birthYear, birthMonth, birthDate,
     employee, delivery
     ) VALUES (
   `;
+  queryStr += (groupID || -1) + ", ";
   queryStr += "'" + (status || "") + "', ";
   queryStr += "'" + (route || "") + "', ";
   queryStr += "'" + (lastName || "") + "', ";

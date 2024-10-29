@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import { useCookies } from "react-cookie";
 
 import Button from "@mui/material/Button";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
@@ -17,6 +18,11 @@ export default function CustomerDetailPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [reservationItems, setReservationItems] = useState<IReservationListItem[]>([]);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const groupID = subID !== -1 ? subID : mainID;
+
   useEffect(() => {
     const fetchCustomerData = async () => {
       setIsLoading(true);
@@ -29,7 +35,10 @@ export default function CustomerDetailPage() {
         setCustomer(res.data[0]);
       }
 
-      const reservations = await axios.post("/api/reservations/view", { customerId: id });
+      const reservations = await axios.post("/api/reservations/view", {
+        groupID,
+        customerId: id
+      });
       if (reservations.status === 200) {
         setReservationItems(reservations.data);
       }

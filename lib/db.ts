@@ -80,6 +80,7 @@ async function initializeDatabase(db: Connection) {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS customers (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      groupID INT NOT NULL,
       status VARCHAR(255) DEFAULT '未設定',
       route VARCHAR(255) DEFAULT '予約',
 
@@ -116,6 +117,7 @@ async function initializeDatabase(db: Connection) {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS reservations (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      groupID INT NOT NULL,
       customerId INT,
       eventId INT,
       reserveDate VARCHAR(255),

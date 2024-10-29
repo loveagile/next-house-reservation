@@ -30,7 +30,6 @@ const UsersGroupPage = () => {
   useEffect(() => {
 
     const fetchUsersGroup = async () => {
-      console.log("here => usersgroup");
       setIsLoading(true);
       const res = await axios.post("/api/groups/view", {
         id: cookies['user'].id,

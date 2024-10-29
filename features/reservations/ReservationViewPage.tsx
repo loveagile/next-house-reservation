@@ -25,12 +25,18 @@ export default function ReservationViewPage() {
     type: "イベント種別 - 全て",
   });
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const groupID = subID !== -1 ? subID : mainID;
 
   useEffect(() => {
     localStorage.clear();
     const fetchReservations = async () => {
       setIsLoading(true);
-      const res = await axios.post("/api/reservations/view", { customerId: -1 });
+      const res = await axios.post("/api/reservations/view", {
+        groupID,
+        customerId: -1
+      });
       if (res.status === 200) {
         let filteredItems: IReservationListItem[] = res.data;
         const { sortMethod, keyword, type } = searchData;
@@ -94,7 +100,10 @@ export default function ReservationViewPage() {
   }, [reservationItems, currentPage]);
 
   const handleReservationDownloadCSV = async () => {
-    const res = await axios.post("/api/reservations/view", { customerId: -1 });
+    const res = await axios.post("/api/reservations/view", {
+      groupID,
+      customerId: -1
+    });
     if (res.status === 200) {
       const data = res.data;
       const csvHeader = [

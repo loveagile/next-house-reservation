@@ -47,7 +47,8 @@ const EventGroupListItem: React.FC<ThisFCProps> = ({ item, handleNotApprovedEven
             {format}
           </span>
         </p>
-        <Link href={`/smilebuilders/events/${id}`} target="_blank"
+        <Link href={`/smilebuilders/events/${id}`}
+          // target="_blank"
           className="text-sm mt-3 mb-5 text-link-color underline">
           {title}
         </Link>

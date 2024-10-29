@@ -90,7 +90,7 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
           <Link
             className="border-[1px] w-[49%] border-[#484848] text-center p-[2px]"
             href={`/smilebuilders/events/${id}`}
-            target="_blank"
+          // target="_blank"
           >
             <span className="text-sm">プレビュー</span>
           </Link>

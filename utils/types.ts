@@ -1,5 +1,6 @@
 export interface IEvent {
   id: number;
+  userID: number;
   title: string;
   type: string;
   format: string;
@@ -22,6 +23,7 @@ export interface IEvent {
   feature: string;
   benefit: string;
   propertyType: string;
+  isApproved: number;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
@@ -29,6 +31,7 @@ export interface IEvent {
 
 export const initialEvent: IEvent = {
   id: -1,
+  userID: -1,
   title: "",
   type: "",
   format: "",
@@ -51,6 +54,7 @@ export const initialEvent: IEvent = {
   feature: "",
   benefit: "",
   propertyType: "設定しない",
+  isApproved: 1,
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: new Date(),

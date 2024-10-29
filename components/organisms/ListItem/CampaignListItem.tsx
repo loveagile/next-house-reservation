@@ -65,7 +65,7 @@ const CampaignListItem: React.FC<ThisFCProps> = ({ item }) => {
         <Link
           className="border-[1px] border-[#484848] text-center p-1 hover:bg-[#eee]"
           href={`/smilebuilders/campaigns/${id}`}
-          target="_blank"
+        // target="_blank"
         >
           <span className="text-sm">プレビュー</span>
         </Link>

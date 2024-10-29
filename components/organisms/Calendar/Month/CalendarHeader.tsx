@@ -76,7 +76,9 @@ const CalendarHeader: React.FC<ThisFCProps> = ({ currentCalendar, setCurrentCale
 
           return (
             <th key={index} style={{ width: `${100 / currentCalendar.days}%` }} className={`font-medium p-1 text-sm ${bgColor}`}>
-              <Link href={`/reservations/calendars/${dateUrl}`} target="_blank" className="text-[15px] mb-5 text-link-color underline">
+              <Link href={`/reservations/calendars/${dateUrl}`}
+                // target="_blank"
+                className="text-[15px] mb-5 text-link-color underline">
                 {index}
               </Link>
             </th>

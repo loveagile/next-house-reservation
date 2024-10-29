@@ -15,7 +15,7 @@ interface IReservationProps {
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { customerId } = data;
+  const { groupID, customerId } = data;
 
   let queryStr = `
   SELECT 
@@ -28,9 +28,9 @@ export async function POST(req: NextRequest) {
   JOIN
     customers c ON r.customerId = c.id 
   JOIN
-    events e ON r.eventId = e.id`;
+    events e ON r.eventId = e.id WHERE r.groupID = ${groupID}`;
 
-  if (customerId !== -1) queryStr += ` WHERE customerId = ${customerId}`;
+  if (customerId !== -1) queryStr += ` AND customerId = ${customerId}`;
 
   try {
     const db = await connectToDatabase();

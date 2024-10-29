@@ -4,7 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { Button, InputLabel } from "@mui/material";
 
@@ -96,7 +96,7 @@ const EventConfirmPage: React.FC = () => {
   }, []);
 
   const {
-    title, type,
+    userID, title, type,
     prefecture, address1, address2,
     images, mainIndex,
   } = event;
@@ -119,8 +119,10 @@ const EventConfirmPage: React.FC = () => {
         const { lastName, firstName, seiName, meiName,
           zipCode, prefecture, city, street, building,
           phone, email, note,
-        } = data;
+        } = customer;
+
         const res = await axios.post('/api/customers/create', {
+          groupID: userID,
           status: "未設定", route: "予約",
           lastName, firstName, seiName, meiName,
           zipCode, prefecture, city, street, building,
@@ -134,6 +136,7 @@ const EventConfirmPage: React.FC = () => {
     }
 
     await axios.post('/api/reservations/create', {
+      groupID: userID,
       customerId,
       eventId: id,
       reserveDate: reserveDateTime.reserveDate,

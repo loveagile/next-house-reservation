@@ -3,6 +3,7 @@
 import Link from "next/link";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import Button from "@mui/material/Button";
 import { FaPlus } from "react-icons/fa6";
@@ -28,11 +29,18 @@ export default function CustomerViewPage() {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
 
   useEffect(() => {
     const fetchCustomers = async () => {
       setIsLoading(true);
-      const customers = await axios.post("/api/customers/view");
+      const customers = await axios.post("/api/customers/view", {
+        userID,
+      });
       if (customers.status === 200) {
         setAllCustomers(customers.data);
         setCustomerItems(customers.data);

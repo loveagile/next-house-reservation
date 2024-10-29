@@ -3,6 +3,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import { ICalendarProps } from "@/features/reservations/ReservationCalendarMonthPage";
 import { dayStrOfWeek, getDateStr, groupEventsByEventId } from "@/utils/convert";
@@ -47,9 +48,15 @@ const CalendarBody: React.FC<ThisFCProps> = ({ currentCalendar }) => {
 
   const [groupedEvents, setGroupedEvents] = useState<IReservationGroupedEvent[]>([]);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const groupID = subID !== -1 ? subID : mainID;
+
   useEffect(() => {
     const fetchEventData = async () => {
       const res = await axios.post('/api/reservations/search', {
+        groupID,
         searchStr: `${currentCalendar.year}-${String(currentCalendar.month).padStart(2, "0")}`,
       })
       const events: IReservationEvent[] = res.data;
@@ -84,7 +91,7 @@ const CalendarBody: React.FC<ThisFCProps> = ({ currentCalendar }) => {
                 {reservationCounts > 0 && (
                   <Link
                     href={`/reservations/calendars/${itemDayStr}/events/${event.eventId}`}
-                    target="_blank"
+                    // target="_blank"
                     className="text-link-color text-sm underline bg-[#f2cf01] block py-1"
                   >
                     {reservationCounts}

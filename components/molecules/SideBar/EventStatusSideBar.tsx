@@ -83,17 +83,19 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
               </div>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/events/${id}`} target="_blank" variant="contained" sx={{
-                backgroundColor: "white",
-                color: "black",
-                padding: "5px 20px",
-                fontSize: "14px",
-                border: "1px solid #888",
-                borderRadius: "1px",
-                '&:hover': {
+              <Button href={`/smilebuilders/events/${id}`}
+                // target="_blank"
+                variant="contained" sx={{
                   backgroundColor: "white",
-                }
-              }}>
+                  color: "black",
+                  padding: "5px 20px",
+                  fontSize: "14px",
+                  border: "1px solid #888",
+                  borderRadius: "1px",
+                  '&:hover': {
+                    backgroundColor: "white",
+                  }
+                }}>
                 プレビュー
               </Button>
               <EventPublicBtn
@@ -123,17 +125,19 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
               </p>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/events/${id}`} target="_blank" variant="contained" sx={{
-                backgroundColor: "white",
-                color: "black",
-                padding: "5px 20px",
-                fontSize: "14px",
-                border: "1px solid #888",
-                borderRadius: "1px",
-                '&:hover': {
+              <Button href={`/smilebuilders/events/${id}`}
+                // target="_blank"
+                variant="contained" sx={{
                   backgroundColor: "white",
-                }
-              }}>
+                  color: "black",
+                  padding: "5px 20px",
+                  fontSize: "14px",
+                  border: "1px solid #888",
+                  borderRadius: "1px",
+                  '&:hover': {
+                    backgroundColor: "white",
+                  }
+                }}>
                 プレビュー
               </Button>
               <EventPublicBtn

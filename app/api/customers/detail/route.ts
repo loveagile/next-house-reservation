@@ -6,7 +6,9 @@ export async function POST(req: NextRequest) {
 
   const { field_name, field_value } = data;
 
-  let queryStr = `SELECT * FROM customers WHERE ${field_name} = '${field_value}';`;
+  let queryStr = `SELECT * FROM customers WHERE ${field_name} = '${field_value}'`;
+
+  console.log(queryStr);
 
   try {
     const db = await connectToDatabase();

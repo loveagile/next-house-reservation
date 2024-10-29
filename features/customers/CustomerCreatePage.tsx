@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useCookies } from "react-cookie";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -43,6 +44,12 @@ const hiraganaRegex = /^[\u3040-\u309Fー]+$/;
 
 export default function CustomerCreatePage() {
   const router = useRouter();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const groupID = subID !== -1 ? subID : mainID;
 
   // Year, Month, Date
   const tenYearsAgo = new Date().getFullYear() - 10;
@@ -146,6 +153,7 @@ export default function CustomerCreatePage() {
     }
 
     const res = await axios.post('/api/customers/create', {
+      groupID,
       status: customerStatus,
       route: "手入力",
       lastName, firstName, seiName, meiName,

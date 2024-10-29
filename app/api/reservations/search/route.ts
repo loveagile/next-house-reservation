@@ -2,8 +2,7 @@ import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const { searchStr, eventId } = data;
+  const { groupID, searchStr, eventId } = await req.json();
   let queryStr = `
   SELECT 
     e.title,
@@ -21,7 +20,7 @@ export async function POST(req: NextRequest) {
   JOIN
     customers c ON r.customerId = c.id
   WHERE
-    reserveDate LIKE '${searchStr}%'`;
+    reserveDate LIKE '${searchStr}%' AND r.groupID = ${groupID}`;
   if (eventId) queryStr += ` AND eventId = ${eventId}`;
 
   try {

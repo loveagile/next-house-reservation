@@ -66,17 +66,19 @@ const CampaignStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit })
               </div>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/campaigns/${id}`} target="_blank" variant="contained" sx={{
-                backgroundColor: "white",
-                color: "black",
-                padding: "5px 20px",
-                fontSize: "14px",
-                border: "1px solid #888",
-                borderRadius: "1px",
-                '&:hover': {
+              <Button href={`/smilebuilders/campaigns/${id}`}
+                // target="_blank"
+                variant="contained" sx={{
                   backgroundColor: "white",
-                }
-              }}>
+                  color: "black",
+                  padding: "5px 20px",
+                  fontSize: "14px",
+                  border: "1px solid #888",
+                  borderRadius: "1px",
+                  '&:hover': {
+                    backgroundColor: "white",
+                  }
+                }}>
                 プレビュー
               </Button>
               <CampaignPublicBtn
@@ -106,17 +108,19 @@ const CampaignStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit })
               </p>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/campaigns/${id}`} target="_blank" variant="contained" sx={{
-                backgroundColor: "white",
-                color: "black",
-                padding: "5px 20px",
-                fontSize: "14px",
-                border: "1px solid #888",
-                borderRadius: "1px",
-                '&:hover': {
+              <Button href={`/smilebuilders/campaigns/${id}`}
+                // target="_blank"
+                variant="contained" sx={{
                   backgroundColor: "white",
-                }
-              }}>
+                  color: "black",
+                  padding: "5px 20px",
+                  fontSize: "14px",
+                  border: "1px solid #888",
+                  borderRadius: "1px",
+                  '&:hover': {
+                    backgroundColor: "white",
+                  }
+                }}>
                 プレビュー
               </Button>
               <CampaignPublicBtn

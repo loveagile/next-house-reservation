@@ -218,7 +218,7 @@ export default function Sidebar() {
         <>
           <Link
             className="w-full flex items-center p-3 text-white font-bold bg-[#e99b54] py-4"
-            href="/group"
+            href="/group/users"
             onClick={() => {
               setCookie('user', {
                 ...cookies['user'],

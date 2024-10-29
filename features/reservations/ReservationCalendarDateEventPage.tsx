@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import Button from "@mui/material/Button";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -20,10 +21,16 @@ const ReservationCalendarDateEventPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [groupedEvents, setGroupedEvents] = useState<IReservationGroupedEvent[]>([]);
 
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const groupID = subID !== -1 ? subID : mainID;
+
   useEffect(() => {
     const fetchEventData = async () => {
       setIsLoading(true);
       const res = await axios.post('/api/reservations/search', {
+        groupID,
         searchStr: id,
         eventId,
       })

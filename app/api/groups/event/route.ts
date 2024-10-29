@@ -3,19 +3,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  const { id } = data;
+  const { id, isApproved } = data;
 
   let queryStr = `
   SELECT 
-    u.*,
-    g.createdAt,
-    g.updatedAt
+    e.*,
+    u.name AS companyName
   FROM 
-    users u
-  LEFT JOIN
-    usersgroup g ON g.userID = u.id
+    events e
+  JOIN
+    usersgroup g ON g.userID = e.userID
+  JOIN
+    users u ON g.userID = u.id
   WHERE
-    g.groupID = ${id}`;
+    g.groupID = ${id} AND e.isApproved = ${isApproved}`;
 
   try {
     const db = await connectToDatabase();

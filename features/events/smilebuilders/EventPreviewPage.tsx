@@ -130,7 +130,7 @@ const EventPreviewPage: React.FC = () => {
                 <BsFillCheckCircleFill className="mr-2" />
                 <span>イベントタグ</span>
               </h2>
-              <div className="flex gap-x-2 my-4">
+              <div className="flex flex-wrap gap-2 my-4">
                 {splitTags.map((splitTag, index) => (
                   <span className="flex items-center text-[13px] p-1 border-[1px] border-[#777] rounded" key={index}>
                     <AiFillHome className="text-lg mr-1" />{splitTag}

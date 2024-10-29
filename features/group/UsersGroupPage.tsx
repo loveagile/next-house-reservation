@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { FaPlus } from "react-icons/fa6";
 
+import Button from "@mui/material/Button";
+
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
 import GroupSearchBar from "@/components/molecules/SearchBar/GroupSearchBar";
@@ -74,6 +76,52 @@ const UsersGroupPage = () => {
   const handleRemoveGroup = (removeId: number) => {
     const filteredGroups = groupItems.filter(group => group.id !== removeId);
     setGroupItems(filteredGroups);
+  }
+
+  const handleGroupDownloadCSV = async () => {
+    const csvHeader = [
+      '会社名', '形態', 'メールアドレス',
+      '郵便番号', '都道府県', '住所',
+      '電話番号', 'FAX営業時間', '定休日', 'ホームページURL',
+    ];
+    const csvRows = allGroups.map((g: IGroup) => {
+      const {
+        name, type, email,
+        zipCode, prefecture, city, address,
+        phone, fax, holidays, websiteURL,
+      } = g;
+
+      return [
+        name || "",
+        type || "",
+        email || "",
+        zipCode || "",
+        prefecture || "",
+        (city || "") + (address || ""),
+        phone || "",
+        fax || "",
+        holidays || "",
+        websiteURL || "",
+      ]
+    });
+
+    const csvString = [
+      csvHeader.join(','),
+      ...csvRows.map((row: string[]) => row.join(','))
+    ].join('\n');
+    const bom = "\uFEFF";
+
+    const blob = new Blob([bom + csvString], { type: 'text/csv; charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'group.csv');
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -151,6 +199,25 @@ const UsersGroupPage = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
+
+              <div className="flex justify-end">
+                <Button
+                  variant="contained"
+                  onClick={handleGroupDownloadCSV}
+                  sx={{
+                    fontSize: "15px",
+                    padding: "3px 15px",
+                    borderRadius: "1px",
+                    backgroundColor: "#BCBCBC",
+                    '&:hover': {
+                      backgroundColor: "#BCBCBC",
+                      opacity: 0.9,
+                    }
+                  }}
+                >
+                  <span>CSVファイルをダウンロードする</span>
+                </Button>
+              </div>
             </div>
           ) : (
             <p className="bg-[#fcf8e3] border-[#faebcc] border-[1px] p-4 rounded-sm">

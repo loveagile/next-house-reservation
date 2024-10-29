@@ -42,6 +42,7 @@ async function initializeDatabase(db: Connection) {
       tag VARCHAR(255),
       feature LONGTEXT,
       benefit LONGTEXT,
+      isApproved INT DEFAULT 1,
       propertyType VARCHAR(255) DEFAULT '設定しない',
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,

@@ -1,7 +1,6 @@
 "use client";
 
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -54,10 +53,6 @@ const EventGroupPage = () => {
   const handleNotApprovedEvent = (notApprovedId: number) => {
     const filteredEvents = eventItems.filter(event => event.id !== notApprovedId);
     setEventItems(filteredEvents);
-  }
-
-  const handleRemoveGroup = (removeId: number) => {
-
   }
 
   return (

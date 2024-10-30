@@ -77,6 +77,7 @@ export default function CustomerViewPage() {
     }
 
     setCustomerItems(filteredItems);
+    setCurrentPage(0);
   }, [searchData])
 
   useEffect(() => {

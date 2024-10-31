@@ -1,5 +1,4 @@
 import { connectToDatabase } from "@/lib/db";
-import { ICustomer, IEvent } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IReservationProps {

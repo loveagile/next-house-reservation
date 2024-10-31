@@ -45,8 +45,6 @@ const CustomerGroupPage = () => {
   useEffect(() => {
     let filteredItems = allCustomers;
 
-    console.log(keyword);
-
     filteredItems = filteredItems.filter(item => {
       const fullName = item.lastName + item.firstName || "";
       const furiName = item.seiName + item.meiName || "";

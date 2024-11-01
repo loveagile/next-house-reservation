@@ -46,7 +46,8 @@ async function initializeDatabase(db: Connection) {
       propertyType VARCHAR(255) DEFAULT '設定しない',
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-      deletedAt TIMESTAMP NULL
+      deletedAt TIMESTAMP NULL,
+      isApproved INT NOT NULL
     )
 `);
 

@@ -16,7 +16,6 @@ import CustomerSearchBar, { ICustomerSearchForm } from "@/components/molecules/S
 
 import { ICustomer } from "@/utils/types";
 import { formatISO8601TimestampToJapaneseString, splitDate } from "@/utils/convert";
-import { UserContext } from "@/context/AuthContext";
 
 export default function CustomerViewPage() {
   const [currentPage, setCurrentPage] = useState(0);

@@ -17,7 +17,6 @@ import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { types, formats } from "@/utils/constants";
-import { UserContext } from "@/context/AuthContext";
 
 interface ICampaignCreateForm {
   title: string;

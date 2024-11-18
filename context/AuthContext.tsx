@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useRouter, usePathname } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
-import { createContext, useContext, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import Loading from "@/components/molecules/loading";
 import Sidebar from "@/components/molecules/SideBar/Sidebar";

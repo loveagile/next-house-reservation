@@ -116,7 +116,13 @@ const ChangeDateBtn: React.FC<ThisFCPrpos> = ({ reserveDateTime, setReserveDateT
         }}
       >
         <Button
-          className="absolute right-1 top-1 min-w-0 text-[#95979c]"
+          sx={{
+            position: "absolute",
+            right: "4px",
+            top: "4px",
+            color: "#95979c",
+            minWidth: 0,
+          }}
           onClick={() => setOpen(false)}
         >
           <CgClose className="text-lg" />

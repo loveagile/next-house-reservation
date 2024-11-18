@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
         const access_token = sign(
           {
             id: user.id,
-            name: user.name,
             email: user.email,
           },
           "access_token",
@@ -33,7 +32,6 @@ export async function POST(req: NextRequest) {
         const refresh_token = sign(
           {
             id: user.id,
-            name: user.name,
             email: user.email,
           },
           "refresh_token",

@@ -43,8 +43,6 @@ const EventImageUpload: React.FC<IImageUploadProps> = ({ setRegisteredImgs }) =>
 
     const res = await axios.post("/api/events/upload-image", formData);
 
-    console.log("here => ", res);
-
     setErrorMsg("");
     setUploadImg({
       url: res.data.url,

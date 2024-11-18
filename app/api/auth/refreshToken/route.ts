@@ -10,7 +10,6 @@ export async function POST(req: NextRequest) {
   const access_token = sign(
     {
       id: payload.id,
-      name: payload.name,
       email: payload.email,
     },
     "access_token",

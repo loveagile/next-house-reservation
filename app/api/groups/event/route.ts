@@ -8,7 +8,8 @@ export async function POST(req: NextRequest) {
   let queryStr = `
   SELECT 
     e.*,
-    u.name AS companyName
+    u.name AS companyName,
+    u.eventURL
   FROM 
     events e
   JOIN

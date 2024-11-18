@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";

@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-
-  const { field_name, field_value } = data;
-
-  let queryStr = `SELECT * FROM customers WHERE ${field_name} = '${field_value}'`;
+  const { userID } = data;
+  let queryStr = `
+    SELECT * FROM users 
+    WHERE id = ${userID}
+  `;
 
   try {
     const db = await connectToDatabase();

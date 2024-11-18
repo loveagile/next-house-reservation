@@ -53,14 +53,14 @@ export default function LogInPage() {
         setError("メールアドレスは存在しません。");
         return;
       } else if (res.data.error === "Invalid password") {
-        setError("パスワード が違います。");
+        setError("パスワードが違います。");
         return;
       } else {
         setCookie('user', res.data);
         router.push("/");
       }
     } else {
-      setError("メールアドレス か パスワード が違います。");
+      setError("メールアドレスかパスワードが違います。");
     }
   };
 

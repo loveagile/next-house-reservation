@@ -12,9 +12,10 @@ import { ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateA
 interface ThisFCProps {
   id: number;
   isExist: boolean;
+  eventURL: string | string[];
 }
 
-const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist }) => {
+const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -33,7 +34,7 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist }) => {
       startTime: reserveTime.startTime,
       endTime: reserveTime.endTime,
     }));
-    router.push(`/smilebuilders/events/${id}/reserve`);
+    router.push(`/${eventURL}/events/${id}/reserve`);
   }
 
   return (

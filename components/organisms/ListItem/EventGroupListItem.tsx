@@ -19,7 +19,8 @@ const EventGroupListItem: React.FC<ThisFCProps> = ({ item, handleNotApprovedEven
   const {
     id, title, type, format,
     eventDate, status,
-    companyName, updatedAt,
+    companyName, eventURL,
+    updatedAt,
   } = item;
 
   const convStatus = convEventStatus(status, JSON.parse(eventDate));
@@ -47,7 +48,7 @@ const EventGroupListItem: React.FC<ThisFCProps> = ({ item, handleNotApprovedEven
             {format}
           </span>
         </p>
-        <Link href={`/smilebuilders/events/${id}`}
+        <Link href={`/${eventURL}/events/${id}`}
           // target="_blank"
           className="text-sm mt-3 mb-5 text-link-color underline">
           {title}

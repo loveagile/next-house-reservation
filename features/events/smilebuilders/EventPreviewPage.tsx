@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -23,7 +23,8 @@ import { eventHoldingPeriod } from "@/utils/convert";
 import { IEvent, initialEvent } from "@/utils/types";
 
 const EventPreviewPage: React.FC = () => {
-  const { id } = useParams();
+  const { id, event_url } = useParams();
+  const router = useRouter();
   const [event, setEvent] = useState<IEvent>(initialEvent);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [eventStatus, setEventStatus] = useState<IStatusProps>({
@@ -39,6 +40,16 @@ const EventPreviewPage: React.FC = () => {
       if (res.status === 200) {
         const data = res.data[0];
         setEvent(data);
+
+        const userID = data.userID;
+        const { data: user } = await axios.post("/api/auth/detail", {
+          id: userID,
+        });
+        if (user.eventURL !== event_url) {
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
       }
       setIsLoading(false);
     };

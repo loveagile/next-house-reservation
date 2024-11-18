@@ -1,7 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Button from "@mui/material/Button";
+import Link from "next/link";
+
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 const EventCalendarEditPage: React.FC = () => {
@@ -15,52 +16,31 @@ const EventCalendarEditPage: React.FC = () => {
       <p className="mt-2 mb-5 text-sm">どんなイベントですか？</p>
       <div className="bg-white items-start mt-5 p-5 w-full">
         <p className="text-sm">見学会など、土日のみ数日間のイベント</p>
-        <Button
+        <Link
           href={`/events/${id}/calendar/date_somedays`}
-          variant="contained"
-          sx={{
-            padding: "3px 30px",
-            fontSize: "20px",
-            borderRadius: "1px",
-            marginTop: "15px",
-          }}
-        >
+          className="px-8 py-2 text-xl rounded-[1px] mt-4 bg-btn-color text-white hover:opacity-85">
           数日間のイベント
-        </Button>
+        </Link>
       </div>
 
       <div className="bg-white items-start mt-5 p-5 w-full">
-        <p className="text-sm">
+        <p className="text-sm mb-4">
           期間限定モデルハウスなど数週間〜数ヶ月間のイベント
         </p>
-        <Button
-          href={`/events/${id}/calendar/date_period`}
-          variant="contained"
-          sx={{
-            padding: "3px 30px",
-            fontSize: "20px",
-            borderRadius: "1px",
-            marginTop: "15px",
-          }}
-        >
+        <Link
+          href={`/events/${id}/calendar/date_somedays`}
+          className="px-8 py-2 text-xl rounded-[1px] mt-4 bg-btn-color text-white hover:opacity-85">
           数週間〜数ヶ月間のイベント
-        </Button>
+        </Link>
       </div>
 
       <div className="bg-white items-start mt-5 p-5 w-full">
-        <p className="text-sm">ずっと開催、または終了日未定のイベント</p>
-        <Button
-          href={`/events/${id}/calendar/date_endless`}
-          variant="contained"
-          sx={{
-            padding: "3px 30px",
-            fontSize: "20px",
-            borderRadius: "1px",
-            marginTop: "15px",
-          }}
-        >
+        <p className="text-sm mb-4">ずっと開催、または終了日未定のイベント</p>
+        <Link
+          href={`/events/${id}/calendar/date_somedays`}
+          className="px-8 py-2 text-xl rounded-[1px] mt-4 bg-btn-color text-white hover:opacity-85">
           終了日未定のイベント
-        </Button>
+        </Link>
       </div>
       <EditBackBtn className="mt-4" linkUrl={`/events/${id}`} />
     </div>

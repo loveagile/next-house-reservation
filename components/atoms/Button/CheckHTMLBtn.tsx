@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { HiMiniComputerDesktop } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
+import { useCookies } from "react-cookie";
 
 import { Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import { DialogContentText, useMediaQuery, TextField } from "@mui/material";
@@ -19,6 +21,24 @@ const CheckHTMLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [eventURL, setEventURL] = useState<string>("");
+
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
+  useEffect(() => {
+    const getUserDetail = async () => {
+      const { data } = await axios.post('/api/auth/detail', {
+        id: userID,
+      });
+
+      setEventURL(data.eventURL);
+    }
+    getUserDetail();
+  }, []);
 
   return (
     <>
@@ -44,7 +64,13 @@ const CheckHTMLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
         }}
       >
         <Button
-          className="absolute right-1 top-1 min-w-0 text-[#95979c]"
+          sx={{
+            position: "absolute",
+            right: "4px",
+            top: "4px",
+            color: "#95979c",
+            minWidth: 0,
+          }}
           autoFocus
           onClick={() => setOpen(false)}
         >
@@ -63,7 +89,7 @@ const CheckHTMLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
               <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
                 <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">HTML</span>
                 <TextField
-                  value={`<a href='${SITE_URL}/smilebuilders/${type}/${id}' target='_blank'>イベントページへ</a>`}
+                  value={`<a href='${SITE_URL}/${eventURL}/${type}/${id}' target='_blank'>イベントページへ</a>`}
                   sx={{
                     width: "100%",
                     '& .MuiInputBase-input': {
@@ -84,7 +110,7 @@ const CheckHTMLBtn: React.FC<ThisFCProps> = ({ id, type }) => {
                 <div className="flex w-full border-[1px] bg-[#e6e6e6] mt-1 rounded-sm py-[2px]">
                   <span className="border-r-[1px] border-[#ccc] px-3 py-1 text-sm">HTML</span>
                   <TextField
-                    value={`<a href='${SITE_URL}/smilebuilders/${type}/${id}/calendar' target='_blank'>イベント予約ページへ</a>`}
+                    value={`<a href='${SITE_URL}/${eventURL}/${type}/${id}/calendar' target='_blank'>イベント予約ページへ</a>`}
                     sx={{
                       width: "100%",
                       '& .MuiInputBase-input': {

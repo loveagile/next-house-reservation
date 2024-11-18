@@ -4,13 +4,13 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { FaPlus } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
 import PaginationItem from "@/components/molecules/PaginationItem";
 import EventListItem from "@/components/organisms/ListItem/EventListItem";
 import SearchBar, { ISearchForm } from "@/components/molecules/SearchBar/SearchBar";
 
-import { FaPlus } from "react-icons/fa6";
 
 import { IEvent } from "@/utils/types";
 import { convEventStatus } from "@/utils/convert";
@@ -33,6 +33,8 @@ const EventViewPage = () => {
   const subID = cookies['user'].subId;
   const userID = subID !== -1 ? subID : mainID;
 
+  const [eventURL, setEventURL] = useState<string>("");
+
   useEffect(() => {
     const fetchEvents = async () => {
       setIsLoading(true);
@@ -51,6 +53,16 @@ const EventViewPage = () => {
       setCurrentPage(0);
       setIsLoading(false);
     };
+
+    const getUserDetail = async () => {
+      const { data } = await axios.post('/api/auth/detail', {
+        id: userID,
+      });
+
+      setEventURL(data.eventURL);
+    }
+
+    getUserDetail();
     fetchEvents();
   }, []);
 
@@ -138,7 +150,7 @@ const EventViewPage = () => {
               {/* Event List */}
               <div className="grow">
                 {selectedEventItems.map((eventItem, index) => (
-                  <EventListItem key={index} item={eventItem} />
+                  <EventListItem key={index} item={eventItem} eventURL={eventURL} />
                 ))}
               </div>
 

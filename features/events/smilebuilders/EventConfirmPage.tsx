@@ -57,7 +57,7 @@ const initialCustomer: ICustomerForm = {
 }
 
 const EventConfirmPage: React.FC = () => {
-  const { id } = useParams();
+  const { id, event_url } = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<IEvent>(initialEvent);
@@ -80,7 +80,7 @@ const EventConfirmPage: React.FC = () => {
       setCustomer(customerConvData);
       setIsReceiveInfo(customerConvData.isReceiveInfo);
     } else {
-      router.push(`/smilebuilders/events/${id}/`);
+      router.push(`/${event_url}/events/${id}/`);
     }
 
     const fetchEventDetail = async () => {
@@ -89,7 +89,18 @@ const EventConfirmPage: React.FC = () => {
       if (res.status === 200) {
         const data = res.data[0];
         setEvent(data);
+
+        const userID = data.userID;
+        const { data: user } = await axios.post("/api/auth/detail", {
+          id: userID,
+        });
+        if (user.eventURL !== event_url) {
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
       }
+
       setIsLoading(false);
     };
     fetchEventDetail();
@@ -146,7 +157,7 @@ const EventConfirmPage: React.FC = () => {
       route: "KC",
     });
 
-    router.push(`/smilebuilders/events/${id}/complete`);;
+    router.push(`/${event_url}/events/${id}/complete`);;
   }
 
   return (
@@ -353,7 +364,7 @@ const EventConfirmPage: React.FC = () => {
           {/* Backward Button */}
           <div className="w-full mt-5">
             <Button
-              onClick={() => router.push(`/smilebuilders/events/${id}/reserve`)}
+              onClick={() => router.push(`/${event_url}/events/${id}/reserve`)}
               variant="contained"
               sx={{
                 padding: "5px 12px",

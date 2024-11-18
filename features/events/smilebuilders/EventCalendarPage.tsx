@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaPhone } from "react-icons/fa6";
@@ -20,7 +20,8 @@ import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom } from "@/
 import { getCandidateReserveDateTimes, getCandidateReserveTimes } from "@/utils/convert";
 
 const EventCalendarPage: React.FC = () => {
-  const { id } = useParams();
+  const { id, event_url } = useParams();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [candidateReserveDateTimes, setCandidateReserveDateTimes] = useRecoilState(CandidateEventDateTimeAtom);
@@ -28,22 +29,33 @@ const EventCalendarPage: React.FC = () => {
   const reserveDate = useRecoilValue(ReserveDateAtom);
   const [reserveTime, setReserveTime] = useRecoilState(ReserveTimeAtom);
   const [selectTimeStrs, setSelectTimeStrs] = useState<string[]>(['予約したい時刻を選択']);
+  const [phone, setPhone] = useState<string>("");
 
   useEffect(() => {
     const fetchEventDetail = async () => {
       setIsLoading(true);
 
-      const res = await axios.post("/api/events/detail", { id, });
+      const res = await axios.post("/api/events/detail", { id });
       if (res.status === 200) {
         const data = res.data[0];
+
+        const userID = data.userID;
+        const { data: user } = await axios.post("/api/auth/detail", {
+          id: userID,
+        });
+        if (user.eventURL !== event_url) {
+          router.push("/404");
+        }
+
+        setPhone(user.phone);
         const candidates: IEventDateTime[] = getCandidateReserveDateTimes(JSON.parse(data.eventDate));
         setCandidateReserveDateTimes(candidates);
-      }
 
-      setReserveTime({
-        startTime: '予約したい時刻を選択',
-        endTime: '',
-      })
+        setReserveTime({
+          startTime: '予約したい時刻を選択',
+          endTime: '',
+        })
+      }
       setIsLoading(false);
     };
     fetchEventDetail();
@@ -92,7 +104,7 @@ const EventCalendarPage: React.FC = () => {
           <p className="flex items-center mt-1">
             <FaPhone className="text-[#2aa6e2] text-lg" />
             <span>：要問い合わせ（TEL：</span>
-            <Link href="tel:0995-55-8900" className="text-[#2aa6e2]">0995-55-8900</Link>
+            <Link href={`tel:${phone}`} className="text-[#2aa6e2]">{phone}</Link>
             <span>）</span>
           </p>
         </div>
@@ -121,7 +133,7 @@ const EventCalendarPage: React.FC = () => {
           </Select>
         </div>
         <div className="mt-4">
-          <EventReservationButton id={Number(id)} isExist={candidateReserveDateTimes.length > 0} />
+          <EventReservationButton id={Number(id)} isExist={candidateReserveDateTimes.length > 0} eventURL={event_url} />
         </div>
       </section>
     )

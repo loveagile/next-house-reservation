@@ -9,9 +9,10 @@ import { formatISO8601TimestampToJapaneseString, eventHoldingPeriod, convEventSt
 
 interface ThisFCProps {
   item: ICampaign;
+  eventURL: string;
 }
 
-const CampaignListItem: React.FC<ThisFCProps> = ({ item }) => {
+const CampaignListItem: React.FC<ThisFCProps> = ({ item, eventURL }) => {
   const {
     id, title, type, format,
     status, eventDate,
@@ -64,7 +65,7 @@ const CampaignListItem: React.FC<ThisFCProps> = ({ item }) => {
         </Link>
         <Link
           className="border-[1px] border-[#484848] text-center p-1 hover:bg-[#eee]"
-          href={`/smilebuilders/campaigns/${id}`}
+          href={`/${eventURL}/campaigns/${id}`}
         // target="_blank"
         >
           <span className="text-sm">プレビュー</span>

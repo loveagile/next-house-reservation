@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const payload = verify(access_token, "access_token") as any;
-    const { id, name, email } = payload;
+    const { id, email } = payload;
 
     const db = await connectToDatabase();
     let queryStr = `SELECT * FROM users WHERE email = ?`;
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ isAuthenticated: false });
     } else {
       const user = rows[0];
-      const isAuthenticated = id === user.id && name === user.name;
+      const isAuthenticated = id === user.id;
       return NextResponse.json({
         isAuthenticated,
       });

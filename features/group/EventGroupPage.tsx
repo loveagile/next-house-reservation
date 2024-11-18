@@ -12,6 +12,7 @@ import { IEvent } from "@/utils/types";
 
 export interface IGroupEvent extends IEvent {
   companyName: string;
+  eventURL: string;
 }
 
 const EventGroupPage = () => {

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 import CheckURLBtn from "../../atoms/Button/CheckURLBtn";
 import CheckHTMLBtn from "../../atoms/Button/CheckHTMLBtn";
@@ -34,6 +36,23 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
   });
 
   const convStatus = convEventStatus(eventStatus.status, JSON.parse(eventDate));
+
+  const [eventURL, setEventURL] = useState<string>("");
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const mainID = cookies['user'].id;
+  const subID = cookies['user'].subId;
+  const userID = subID !== -1 ? subID : mainID;
+
+  useEffect(() => {
+    const getUserDetail = async () => {
+      const { data } = await axios.post('/api/auth/detail', {
+        id: userID,
+      });
+
+      setEventURL(data.eventURL);
+    }
+    getUserDetail();
+  }, []);
 
   return (
     <div className="float-right pt-5 w-[270px]">
@@ -83,7 +102,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
               </div>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/events/${id}`}
+              <Button href={`/${eventURL}/events/${id}`}
                 // target="_blank"
                 variant="contained" sx={{
                   backgroundColor: "white",
@@ -125,7 +144,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
               </p>
             </div>
             <div className="flex justify-between mt-4">
-              <Button href={`/smilebuilders/events/${id}`}
+              <Button href={`/${eventURL}/events/${id}`}
                 // target="_blank"
                 variant="contained" sx={{
                   backgroundColor: "white",
@@ -162,7 +181,7 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
             </div>
             <Button
               variant="contained"
-              href={`/smilebuilders/events/${id}`}
+              href={`/${eventURL}/events/${id}`}
               sx={{
                 display: "flex",
                 flexDirection: "column",

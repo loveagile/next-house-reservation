@@ -15,9 +15,10 @@ import { formatISO8601TimestampToJapaneseString, eventHoldingPeriod, convEventSt
 
 interface ThisFCProps {
   item: IEvent;
+  eventURL: string;
 }
 
-const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
+const EventListItem: React.FC<ThisFCProps> = ({ item, eventURL }) => {
   const router = useRouter();
   const {
     id, title, type, format,
@@ -89,7 +90,7 @@ const EventListItem: React.FC<ThisFCProps> = ({ item }) => {
         <div className="flex justify-between text-sm">
           <Link
             className="border-[1px] w-[49%] border-[#484848] text-center p-[2px]"
-            href={`/smilebuilders/events/${id}`}
+            href={`/${eventURL}/events/${id}`}
           // target="_blank"
           >
             <span className="text-sm">プレビュー</span>

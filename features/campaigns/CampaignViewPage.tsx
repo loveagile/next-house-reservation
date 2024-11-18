@@ -33,6 +33,8 @@ export default function CampaignViewPage() {
   const subID = cookies['user'].subId;
   const userID = subID !== -1 ? subID : mainID;
 
+  const [eventURL, setEventURL] = useState<string>("");
+
   useEffect(() => {
     const fetchCampaigns = async () => {
       setIsLoading(true);
@@ -48,6 +50,15 @@ export default function CampaignViewPage() {
       setCurrentPage(0);
       setIsLoading(false);
     };
+    const getUserDetail = async () => {
+      const { data } = await axios.post('/api/auth/detail', {
+        id: userID,
+      });
+
+      setEventURL(data.eventURL);
+    }
+
+    getUserDetail();
     fetchCampaigns();
   }, []);
 
@@ -130,7 +141,7 @@ export default function CampaignViewPage() {
               {/* Campaign List */}
               <div className="grow">
                 {selectedCampaignItems.map((campaignItem, index) => (
-                  <CampaignListItem key={index} item={campaignItem} />
+                  <CampaignListItem key={index} item={campaignItem} eventURL={eventURL} />
                 ))}
               </div>
 

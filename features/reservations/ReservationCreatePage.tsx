@@ -22,6 +22,7 @@ import ReservationTime, { IReservationTimeProps } from "@/components/molecules/R
 import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
 import { getCandidateReserveDateTimes, eventHoldingPeriod, getTimeStr, getCandidateReserveTimes } from "@/utils/convert";
 import { IEvent, initialEvent, IEventDateTime, IReserveDateTime } from "@/utils/types";
+import { UserContext } from "@/context/AuthContext";
 
 interface IReservationForm {
   lastName: string;

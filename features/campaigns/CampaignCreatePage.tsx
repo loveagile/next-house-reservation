@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useCookies } from "react-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
@@ -16,6 +17,7 @@ import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 import { types, formats } from "@/utils/constants";
+import { UserContext } from "@/context/AuthContext";
 
 interface ICampaignCreateForm {
   title: string;

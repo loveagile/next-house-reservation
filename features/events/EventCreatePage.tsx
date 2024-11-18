@@ -17,6 +17,7 @@ import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import MultilineField from "@/components/molecules/Input/MultilineField";
 
 import { types, formats } from "@/utils/constants";
+import { UserContext } from "@/context/AuthContext";
 
 interface IEventCreateForm {
   title: string;

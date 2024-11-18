@@ -62,7 +62,7 @@ const initialCustomer: ICustomerForm = {
 const hiraganaRegex = /^[\u3040-\u309Fー]+$/;
 
 const EventReservePage: React.FC = () => {
-  const { id } = useParams();
+  const { id, event_url } = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [event, setEvent] = useState<IEvent>(initialEvent);
@@ -147,7 +147,7 @@ const EventReservePage: React.FC = () => {
         setIsReceiveInfo(customerConvData.isReceiveInfo);
       }
     } else {
-      router.push(`/smilebuilders/events/${id}/`);
+      router.push(`/${event_url}/events/${id}/`);
     }
 
     const fetchEventDetail = async () => {
@@ -156,7 +156,18 @@ const EventReservePage: React.FC = () => {
       if (res.status === 200) {
         const data = res.data[0];
         setEvent(data);
+
+        const userID = data.userID;
+        const { data: user } = await axios.post("/api/auth/detail", {
+          id: userID,
+        });
+        if (user.eventURL !== event_url) {
+          router.push("/404");
+        }
+      } else {
+        router.push("/404");
       }
+
       setIsLoading(false);
     };
     fetchEventDetail();
@@ -184,7 +195,7 @@ const EventReservePage: React.FC = () => {
       isReceiveInfo,
     }));
 
-    router.push(`/smilebuilders/events/${id}/confirm`);
+    router.push(`/${event_url}/events/${id}/confirm`);
   }
 
   return (
@@ -434,7 +445,7 @@ const EventReservePage: React.FC = () => {
             {/* Backward Button */}
             <div className="w-full mt-5">
               <Button
-                onClick={() => router.push(`/smilebuilders/events/${id}`)}
+                onClick={() => router.push(`/${event_url}/events/${id}`)}
                 variant="contained"
                 sx={{
                   padding: "5px 12px",

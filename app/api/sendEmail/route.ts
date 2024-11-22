@@ -5,13 +5,20 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { to, subject, content } = body;
+    const { to, subject, content } = await request.json();
     const msg = {
       to,
-      from: "support@spocul-bank.jp",
+      from: {
+        email: "info@smile-builders-hiraya.com",
+        name: "スマイルビルダーズ",
+      },
       subject,
       text: content,
+      tracking_settings: {
+        click_tracking: {
+          enable: false,
+        },
+      },
     };
 
     const res = await sgMail.send(msg);

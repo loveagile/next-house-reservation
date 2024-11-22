@@ -20,6 +20,8 @@ import Loading from "@/components/molecules/loading";
 import { IEvent, initialEvent } from "@/utils/types";
 import { formatDateToJapaneseString } from "@/utils/convert";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
+
 interface IEventReserveForm {
   reserveDate: string;
   startTime: string;
@@ -117,9 +119,15 @@ const EventConfirmPage: React.FC = () => {
 
   const handleSubmit = async () => {
     let customerId = -1;
+
+    const { lastName, firstName, seiName, meiName,
+      zipCode, prefecture, city, street, building,
+      phone, email, note,
+    } = customer;
+
     const customerData = await axios.post("/api/customers/detail", {
       field_name: "email",
-      field_value: customer.email,
+      field_value: email,
     });
 
     if (customerData.status === 200) {
@@ -127,11 +135,6 @@ const EventConfirmPage: React.FC = () => {
       if (data.length > 0) {
         customerId = data[0].id;
       } else {
-        const { lastName, firstName, seiName, meiName,
-          zipCode, prefecture, city, street, building,
-          phone, email, note,
-        } = customer;
-
         const res = await axios.post('/api/customers/create', {
           groupID: userID,
           status: "未設定", route: "予約",
@@ -146,7 +149,7 @@ const EventConfirmPage: React.FC = () => {
       }
     }
 
-    await axios.post('/api/reservations/create', {
+    const reservation = await axios.post('/api/reservations/create', {
       groupID: userID,
       customerId,
       eventId: id,
@@ -155,6 +158,45 @@ const EventConfirmPage: React.FC = () => {
       endTime: reserveDateTime.endTime,
       status: "active",
       route: "KC",
+    });
+
+    const { lastReservationId } = reservation.data;
+
+    const content = `
+    ${lastName}${firstName}様
+
+    貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
+
+    《イベント種別》
+    ${type}
+
+    《イベントタイトル》
+    ${title}
+
+    《予約日》
+    ${formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))} ${reserveDateTime.startTime}
+
+    予約者の氏名、連絡先等の詳細につきましては、下記のURLからご確認ください。
+    ${SITE_URL}/reservations/${lastReservationId}
+
+
+
+    ※本メールアドレスは送信専用となっております。
+    ──────────────────────────────────────────────────────
+    平屋だけの姶良総合住宅展示場スマイルビルダーズ 
+    住所：鹿児島県姶良市加治木町木田2511-1
+    営業時間：10:00〜18:00
+    定休日：水曜日
+    FAX：0995-55-8818
+    MAIL：info@smile-builders-hiraya.com
+    TEL：0995-55-8900
+    ──────────────────────────────────────────────────────
+    `;
+
+    await axios.post("/api/sendEmail", {
+      to: email,
+      subject: "【スマイルビルダーズ】イベント予約がありました",
+      content,
     });
 
     router.push(`/${event_url}/events/${id}/complete`);;

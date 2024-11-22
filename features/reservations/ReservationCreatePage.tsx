@@ -20,8 +20,10 @@ import ReservationDate from "@/components/molecules/Reservation/ReservationDate"
 import ReservationTime, { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
 
 import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
-import { getCandidateReserveDateTimes, eventHoldingPeriod, getTimeStr, getCandidateReserveTimes } from "@/utils/convert";
+import { getCandidateReserveDateTimes, eventHoldingPeriod, getTimeStr, formatDateToJapaneseString } from "@/utils/convert";
 import { IEvent, initialEvent, IEventDateTime, IReserveDateTime } from "@/utils/types";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
 interface IReservationForm {
   lastName: string;
@@ -34,7 +36,7 @@ interface IReservationForm {
   street?: string;
   building?: string;
   phone: string;
-  email?: string;
+  email: string;
   note?: string;
   memo?: string;
 }
@@ -96,7 +98,8 @@ export default function ReservationCreatePage() {
         value = value.replaceAll('-', '')
         return /(\d{2,3})\-?(\d{3,4})\-?(\d{4})/g.test(value)
       }),
-    email: yup.string().email("メールアドレスを正しく入力してください")
+    email: yup.string().required('メールアドレスは必須です')
+      .email("メールアドレスを正しく入力してください")
       .max(80, "80字以内で入力してください"),
   });
 
@@ -134,6 +137,9 @@ export default function ReservationCreatePage() {
     getAddress();
   }, [zipCode])
 
+  const { title, type, format, eventDate, images, mainIndex } = eventItem;
+  const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
+
   const onSubmit = async (data: IReservationForm) => {
 
     const {
@@ -144,8 +150,8 @@ export default function ReservationCreatePage() {
 
     let customerId = -1;
     const customer = await axios.post("/api/customers/detail", {
-      field_name: "phone",
-      field_value: phone.replaceAll("-", ""),
+      field_name: "email",
+      field_value: email,
     });
 
     if (customer.status === 200) {
@@ -167,7 +173,7 @@ export default function ReservationCreatePage() {
       }
     }
 
-    await axios.post('/api/reservations/create', {
+    const reservation = await axios.post('/api/reservations/create', {
       groupID: userID,
       customerId,
       eventId: id,
@@ -178,11 +184,47 @@ export default function ReservationCreatePage() {
       route: "手入力",
     });
 
+    const { lastReservationId } = reservation.data;
+
+    const content = `
+    ${lastName}${firstName}様
+
+    貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
+
+    《イベント種別》
+    ${type}
+
+    《イベントタイトル》
+    ${title}
+
+    《予約日》
+    ${formatDateToJapaneseString(new Date(reserveDate.value))} ${reserveTime.startTime}
+
+    予約者の氏名、連絡先等の詳細につきましては、下記のURLからご確認ください。
+    ${SITE_URL}/reservations/${lastReservationId}
+
+
+
+    ※本メールアドレスは送信専用となっております。
+    ──────────────────────────────────────────────────────
+    平屋だけの姶良総合住宅展示場スマイルビルダーズ 
+    住所：鹿児島県姶良市加治木町木田2511-1
+    営業時間：10:00〜18:00
+    定休日：水曜日
+    FAX：0995-55-8818
+    MAIL：info@smile-builders-hiraya.com
+    TEL：0995-55-8900
+    ──────────────────────────────────────────────────────
+    `;
+
+    await axios.post("/api/sendEmail", {
+      to: email,
+      subject: "【スマイルビルダーズ】イベント予約がありました",
+      content,
+    });
+
     router.push("/reservations/list");
   };
-
-  const { title, type, format, eventDate, images, mainIndex } = eventItem;
-  const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
 
   return (
     isLoading ? <Loading /> : (
@@ -376,9 +418,15 @@ export default function ReservationCreatePage() {
             <div className="flex items-start mt-5">
               <div className="flex min-w-[230px] justify-end pr-5">
                 <InputLabel htmlFor="email">メールアドレス</InputLabel>
+                <RequiredLabel />
               </div>
               <div className="w-full">
                 <InputField id="email" control={control} className="w-2/5" />
+                {errors.email && (
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.email?.message}
+                  </p>
+                )}
               </div>
             </div>
 

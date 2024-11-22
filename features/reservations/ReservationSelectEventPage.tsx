@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { useCookies } from "react-cookie";
@@ -62,16 +63,11 @@ export default function ReservationSelectEventPage() {
                     <PublishEventListItem values={item} />
                   </td>
                   <td className="align-middle p-2 min-w-[250px]">
-                    <Button href={`/reservations/${item.id}/create`} variant="contained" sx={{
-                      width: "100%",
-                      padding: "8px 20px",
-                      marginBottom: 0,
-                      fontSize: "14px",
-                      borderRadius: "1px",
-                    }}>
+                    <Link href={`/reservations/${item.id}/create`}
+                      className="flex justify-center items-center transition ease-out duration-300 hover:bg-[#1565c0] px-5 py-[10px] mb-0 text-sm bg-[#1976d2] text-white">
                       <FaPencilAlt className="text-sm" />
                       <span className="ml-[6px]">このイベントに登録する</span>
-                    </Button>
+                    </Link>
                   </td>
                 </tr>
               ))}

@@ -1,5 +1,4 @@
 import EventPreviewPage from "@/features/events/smilebuilders/EventPreviewPage";
-import FooterFC from "@/components/molecules/FooterFC";
 
 export default function page() {
   return (
@@ -7,7 +6,6 @@ export default function page() {
       <main className="flex w-full min-h-screen grow bg-white">
         <EventPreviewPage />
       </main>
-      <FooterFC />
     </>
   );
 }

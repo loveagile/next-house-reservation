@@ -66,9 +66,9 @@ const EventReservationCalendar: React.FC<ThisFCProps> = ({ className }) => {
   };
 
   return (
-    <div className={`bg-white items-start border-[1px] mt-3 w-full left-0 ${className}`}>
+    <div className={`bg-white items-start mt-3 w-full left-0 ${className}`}>
       <div>
-        <div className="w-full flex items-center justify-between bg-black text-white">
+        <div className="w-full flex items-center justify-between bg-[#2563EB] py-2 rounded-t-[8px] text-white">
           {/* {isFirstMonth(selectYearMonth.year, selectYearMonth.month) ? (
             <div className="w-[calc(100%/7)]"></div>
           ) : (
@@ -137,7 +137,7 @@ const EventReservationCalendar: React.FC<ThisFCProps> = ({ className }) => {
           <thead>
             <tr className="bg-gray-100 border-none">
               {daysStr.map((day, index) => (
-                <th key={index} className="p-2 border-none">
+                <th key={index} className={`p-2 border-none ${day === '日' ? 'text-[#EF4444]' : ''}`}>
                   {day}
                 </th>
               ))}

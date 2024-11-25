@@ -26,6 +26,7 @@ const ItemField: React.FC<IItemField> = ({
         className={`mr-3 w-[30px] h-[${height}px]`}
         width={30}
         height={height}
+        layout="intrinsic"
         alt={name}
       />
       <div className={`${className}`}>

@@ -3,38 +3,42 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'YuGothic';
-  src: url('/fonts/yu-gothic-regular.ttf') format('truetype');
+  font-family: "YuGothic";
+  src: url("/fonts/yu-gothic-regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
+  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF,
+    U+4E00-9FFF, U+FF00-FFEF;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'YuGothic';
-  src: url('/fonts/yu-gothic-medium.ttf') format('truetype');
+  font-family: "YuGothic";
+  src: url("/fonts/yu-gothic-medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
-  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
+  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF,
+    U+4E00-9FFF, U+FF00-FFEF;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'YuGothic';
-  src: url('/fonts/yu-gothic-semibold.ttf') format('truetype');
+  font-family: "YuGothic";
+  src: url("/fonts/yu-gothic-semibold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
-  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
+  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF,
+    U+4E00-9FFF, U+FF00-FFEF;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'YuGothic';
-  src: url('/fonts/yu-gothic-bold.ttf') format('truetype');
+  font-family: "YuGothic";
+  src: url("/fonts/yu-gothic-bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF, U+4E00-9FFF, U+FF00-FFEF;
+  unicode-range: U+0000-002F, U+003A-0040, U+005B-0060, U+007B-3000, U+3000-30FF,
+    U+4E00-9FFF, U+FF00-FFEF;
   font-display: swap;
 }
 
@@ -54,15 +58,8 @@
 
 body {
   background: #eee;
-  font-family: -apple-system,
-    BlinkMacSystemFont,
-    "Helvetica Neue",
-    "Yu Gothic",
-    YuGothic,
-    Verdana,
-    Meiryo,
-    "M+ 1p",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic",
+    YuGothic, Verdana, Meiryo, "M+ 1p", sans-serif;
   font-weight: 500;
   color: #484848;
 }
@@ -78,7 +75,7 @@ html {
 }
 
 .YuGothic {
-  font-family: 'YuGothic', sans-serif !important;
+  font-family: "YuGothic", sans-serif !important;
 }
 
 table,
@@ -99,7 +96,7 @@ td {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #C1C1C1;
+  background: #c1c1c1;
   border-radius: 3px;
 }
 
@@ -141,7 +138,7 @@ td {
 
 .ck-content {
   line-height: 1.5;
-  color: #20232D;
+  color: #20232d;
 }
 
 /* .ck-content a,
@@ -253,7 +250,7 @@ td {
 }
 
 .ck-content .image img {
-  max-width: 600px;
+  max-width: 540px;
   height: auto;
-  margin: 20px 0;
+  margin: 20px auto;
 }

@@ -44,13 +44,14 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }
           width: "100%",
           maxWidth: "640px",
           fontWeight: "600",
-          backgroundColor: "#E7625F",
+          backgroundColor: "#2563EB",
           color: "white",
           fontSize: "18px",
           padding: "8px",
           '&:hover': {
-            backgroundColor: "#E7625F",
+            backgroundColor: "#2563EB",
             opacity: 0.9,
+            transition: "all 0.3s ease-out"
           }
         }}>予約する</Button>
         <Dialog
@@ -86,9 +87,9 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }
               sx={{
                 borderRadius: "1px",
                 padding: "5px 20px",
-                backgroundColor: "#E7625F",
+                backgroundColor: "#2563EB",
                 '&:hover': {
-                  backgroundColor: "#E7625F",
+                  backgroundColor: "#2563EB",
                   opacity: 0.8,
                 }
               }}
@@ -103,13 +104,14 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }
         width: "100%",
         maxWidth: "640px",
         fontWeight: "600",
-        backgroundColor: "#EA9B54",
+        backgroundColor: "#2563EB",
         color: "white",
         fontSize: "18px",
         padding: "8px",
         '&:hover': {
-          backgroundColor: "#EA9B54",
+          backgroundColor: "#2563EB",
           opacity: 0.9,
+          transition: "all 0.3s ease-out"
         }
       }}>終了しました</Button>
     )

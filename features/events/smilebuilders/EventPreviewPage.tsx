@@ -1,13 +1,15 @@
 "use client";
 
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
-import { FaMapMarker, FaCalendar } from "react-icons/fa";
-import { BsFillCheckCircleFill } from "react-icons/bs";
-import { AiFillHome } from "react-icons/ai";
+import { FiMapPin } from "react-icons/fi";
+import { CiCalendar } from "react-icons/ci";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 import { Button } from "@mui/material";
 
@@ -71,7 +73,7 @@ const EventPreviewPage: React.FC = () => {
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (
-      <>
+      <div className="bg-[#F3F4F6] w-full min-h-screen">
         {status === "非公開" && (
           <div className="fixed top-0 w-full z-50 bg-black bg-opacity-50 text-white p-4">
             <p>このイベントは非公開です。公開をするをクリックして公開しましょう。</p>
@@ -93,18 +95,18 @@ const EventPreviewPage: React.FC = () => {
             </div>
           </div>
         )}
-        <div className="flex flex-col w-full max-w-[640px] mx-auto mt-14">
+        <div className="flex flex-col w-full max-w-[640px] bg-white mx-auto my-8 rounded-xl">
           <section>
             <CustomSlider imgs={imgs} />
-            <div className="p-2">
-              <h1 className="text-xl font-bold my-2">{title}</h1>
-              <p className="flex items-center">
-                <FaMapMarker className="mr-1" />
+            <div className="p-6">
+              <h1 className="text-2xl font-bold my-3 text-black">{title}</h1>
+              <p className="flex items-center mt-2">
+                <FiMapPin className="mr-2 text-[#3B82F6]" />
                 <span className="text-sm">{webAddress}</span>
               </p>
               {eventDate && (
-                <p className="flex items-center mt-1">
-                  <FaCalendar className="mr-1" />
+                <p className="flex items-center mt-2">
+                  <CiCalendar className="mr-2 text-lg text-[#3B82F6]" />
                   <span className="text-sm">
                     {eventHoldingPeriod(JSON.parse(eventDate))}
                   </span>
@@ -114,9 +116,9 @@ const EventPreviewPage: React.FC = () => {
           </section>
 
           {eventDate && (
-            <section className="mt-10" id="reservation">
-              <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-                <BsFillCheckCircleFill className="mr-2" />
+            <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]" id="reservation">
+              <h2 className="flex items-center text-lg font-bold">
+                <MdOutlineCalendarMonth className="mr-2 text-xl text-[#3B82F6]" />
                 <span>予約可能日時</span>
               </h2>
               <EventCalendarPage />
@@ -124,57 +126,74 @@ const EventPreviewPage: React.FC = () => {
           )}
 
           {feature && (
-            <section className="mt-10">
-              <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-                <BsFillCheckCircleFill className="mr-2" />
-                <span>見どころ</span>
+            <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">
+              <h2 className="flex items-center text-lg font-bold">
+                <Image src="/imgs/icons/star.png" width={18} height={18} alt="見どころ" />
+                <span className="ml-2">見どころ</span>
               </h2>
-              <div className="my-4">
+              <div className="my-4 bg-[#FDF2F8] p-6 rounded-xl">
                 <HTMLContent content={feature} />
               </div>
             </section>
           )}
 
+          {benefit && (
+            <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">
+              <h2 className="flex items-center text-lg font-bold">
+                <Image src="/imgs/icons/gift.png" width={18} height={18} alt="キャンペーン情報" />
+                <span className="ml-2">キャンペーン情報</span>
+              </h2>
+              <div className="my-4 bg-[#FDF2F8] p-6 rounded-xl">
+                <HTMLContent content={benefit} />
+              </div>
+            </section>
+          )}
+
+          <section className="px-6 pb-4 w-full">
+            <Button href="#reservation" sx={{
+              width: "100%",
+              maxWidth: "640px",
+              fontWeight: "600",
+              backgroundColor: "#2563EB",
+              color: "white",
+              fontSize: "18px",
+              padding: "8px",
+              '&:hover': {
+                backgroundColor: "#2563EB",
+                opacity: 0.9,
+                transition: "all 0.3s ease-out"
+              }
+            }}>予約する</Button>
+          </section>
+
           {splitTags.length > 0 && (
-            <section className="mt-10">
-              <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-                <BsFillCheckCircleFill className="mr-2" />
+            <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">
+              <h2 className="flex items-center text-lg font-bold">
+                <IoIosInformationCircleOutline className="mr-2 text-2xl text-[#3B82F6]" />
                 <span>イベントタグ</span>
               </h2>
               <div className="flex flex-wrap gap-2 my-4">
                 {splitTags.map((splitTag, index) => (
-                  <span className="flex items-center text-[13px] p-1 border-[1px] border-[#777] rounded" key={index}>
-                    <AiFillHome className="text-lg mr-1" />{splitTag}
+                  <span className="flex items-center text-xs p-1 border-[1px] border-[#777] rounded" key={index}>
+                    {splitTag}
                   </span>
                 ))}
               </div>
             </section>
           )}
 
-          <section className="mt-10">
-            <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-              <BsFillCheckCircleFill className="mr-2" />
-              <span>マップ</span>
+          <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">
+            <h2 className="flex items-center text-lg font-bold">
+              <Image src="/imgs/icons/map.png" width={20} height={20} alt="マップ" />
+              <span className="ml-2">マップ</span>
             </h2>
             <div className="my-4">
-              <GoogleMapFC width={640} height={420} address={mapAddress} />
+              <GoogleMapFC width={592} height={320} address={mapAddress} />
               <p className="flex items-center text-sm mt-2">
-                <AiFillHome className="text-lg mr-1" /><span>{webAddress}</span>
+                <FiMapPin className="mr-2 text-[#3B82F6]" /><span>{webAddress}</span>
               </p>
             </div>
           </section>
-
-          {benefit && (
-            <section className="mt-10">
-              <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-                <BsFillCheckCircleFill className="mr-2" />
-                <span>キャンペーン情報</span>
-              </h2>
-              <div className="my-4">
-                <HTMLContent content={benefit} />
-              </div>
-            </section>
-          )}
 
           {/* Floor Plan Images */}
           {FPImgs.length > 0 && (
@@ -183,79 +202,74 @@ const EventPreviewPage: React.FC = () => {
             </section>
           )}
 
-          <section className="my-10 w-full">
-            <Button href="#reservation" sx={{
-              width: "100%",
-              maxWidth: "640px",
-              fontWeight: "600",
-              backgroundColor: "#E7625F",
-              color: "white",
-              fontSize: "18px",
-              padding: "8px",
-              '&:hover': {
-                backgroundColor: "#E7625F",
-                opacity: 0.8,
-              }
-            }}>予約する</Button>
-          </section>
-
-          <section className="mt-10">
-            <h2 className="flex justify-center items-center text-xl font-bold border-y-[1px] border-[#ccc] p-3">
-              <BsFillCheckCircleFill className="mr-2" />
+          <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">
+            <h2 className="flex items-center text-lg font-bold">
+              <IoIosInformationCircleOutline className="mr-2 text-2xl text-[#3B82F6]" />
               <span>概要</span>
             </h2>
             <div className="my-4">
-              <table className="w-full border-collapse border-y border-gray-300">
+              <table className="w-full border-collapse border-y border-gray-300 rounded">
                 <tbody>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       ステータス
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">{title}</td>
+                    <td className="p-4 text-sm border-y border-gray-300">{title}</td>
                   </tr>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       開催日時
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">
+                    <td className="p-4 text-sm border-y border-gray-300">
                       {eventHoldingPeriod(JSON.parse(eventDate))}
                     </td>
                   </tr>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       開催場所
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">{webAddress}</td>
+                    <td className="p-4 text-sm border-y border-gray-300">{webAddress}</td>
                   </tr>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       種別
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">{format}</td>
+                    <td className="p-4 text-sm border-y border-gray-300">{format}</td>
                   </tr>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       種類
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">{type}</td>
+                    <td className="p-4 text-sm border-y border-gray-300">{type}</td>
                   </tr>
                   <tr>
-                    <th className="w-52 font-bold py-4 text-sm bg-gray-100 text-center border-y border-gray-300">
+                    <th className="w-52 font-bold p-4 text-sm bg-gray-100 border-y border-gray-300">
                       会社ホームページ
                     </th>
-                    <td className="py-4 text-sm text-center border-y border-gray-300">
-                      <Link href="https://smile-builders-hiraya.com/" className="text-blue-600 underline">
+                    <td className="p-4 text-sm border-y border-gray-300">
+                      <Link href="https://smile-builders-hiraya.com/" className="text-[#2563EB] no-underline">
                         https://smile-builders-hiraya.com/
                       </Link>
                     </td>
                   </tr>
                 </tbody>
               </table>
-
             </div>
           </section>
+
+          <footer className="bg-[#2563EB] rounded-b-xl">
+            <div className="flex items-center justify-center p-10 w-full max-w-[760px] text-white text-sm m-auto">
+              <div className="leading-5">
+                <Link href="https://smile-builders-hiraya.com/" className="text-xl font-bold block mb-3">
+                  スマイルビルダーズ‐姶良総合住宅展示場-
+                </Link>
+                <p className="text-center">〒899-5432</p>
+                <p className="text-center">鹿児島県姶良市加治木町木田2511-1</p>
+              </div>
+            </div>
+          </footer>
         </div >
-      </>
+      </div>
     )
   );
 };

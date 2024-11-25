@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
@@ -61,8 +62,11 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="max-w-[600px] m-auto">
-      <div className="bg-white w-full m-4 p-12">
-        <div className="text-center">
+      <div className="bg-white w-full p-10">
+        <figure className="flex justify-center mb-5">
+          <Image src="/imgs/icons/logo.svg" width={125} height={80} alt="LOGO" />
+        </figure>
+        <div className="text-center text-black">
           <h1 className="text-xl font-bold">パスワードが分からない方</h1>
           <p className="m-2 text-sm">パスワードのリセット方法を数分以内にメールでご連絡します。</p>
         </div>
@@ -109,23 +113,9 @@ export default function ForgotPasswordPage() {
           </div>
         </form>
 
-        <ul>
-          <li>
-            <Link href="/login" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">ログイン</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/home/terms_of_service" target="_blank" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">利用規約</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/home/privacy_policy" target="_blank" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">プライバシーポリシー</span>
-            </Link>
-          </li>
-        </ul>
+        <Link href="/login" className="flex items-center text-[15px] text-link-color">
+          <FaArrowRightLong /><span className="ml-2">ログイン</span>
+        </Link>
       </div >
     </div >
   );

@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaPhone } from "react-icons/fa6";
+import { LuPhone } from "react-icons/lu";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import { Select, MenuItem } from "@mui/material";
@@ -96,20 +98,25 @@ const EventCalendarPage: React.FC = () => {
     isLoading ? <Loading mlWidth={0} /> : (
       <section className="flex flex-col w-full justify-center max-w-[640px] mx-auto">
         <EventReservationCalendar />
-        <div className="mt-4 text-sm">
-          <span className="text-[#2aa6e2]">◎</span>：即予約可
-          <span className="text-[#2aa6e2] ml-4">残1~2</span>：即予約可（残りわずか）
-          <span className="ml-4">–</span>：予約不可
-          <span className="ml-4">×</span>：予約一杯
-          <p className="flex items-center mt-1">
-            <FaPhone className="text-[#2aa6e2] text-lg" />
-            <span>：要問い合わせ（TEL：</span>
-            <Link href={`tel:${phone}`} className="text-[#2aa6e2]">{phone}</Link>
+        <div className="bg-[#EFF6FF] mt-4 p-2">
+          <div className="flex text-sm gap-2 rounded">
+            <p className="flex-1 bg-white p-2 rounded"><span className="text-[#2563EB] mr-1">○</span>即予約可</p>
+            <p className="flex-1 bg-white p-2 rounded"><span className="text-[#F97316] mr-2">残1~2</span>残りわずか</p>
+            <p className="flex-1 bg-white p-2 rounded"><span className="mr-1">–</span>予約不可</p>
+            <p className="flex-1 bg-white p-2 rounded"><span className="mr-1 text-[#EF4444]">×</span>予約一杯</p>
+          </div>
+          <p className="flex items-center mt-2 bg-white text-[#3B82F6] text-sm p-2 rounded">
+            <LuPhone className="text-lg mr-2" />
+            <span className="mr-2">お問い合わせ：</span>
+            <Link href={`tel:${phone}`}>{phone}</Link>
             <span>）</span>
           </p>
         </div>
         <div className="mt-4">
-          <p className="mb-4 text-sm">※日付を選ぶと予約時刻を選択できるようになります。</p>
+          <p className="flex items-center mb-4 text-sm">
+            <IoIosInformationCircleOutline className="text-lg mr-1" />
+            <span>日付を選択すると、予約可能な時間帯が表示されます</span>
+          </p>
           <Select id="time" className="w-[70%]"
             value={reserveTime.startTime}
             disabled={selectTimeStrs.length === 1}

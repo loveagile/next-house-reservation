@@ -48,13 +48,13 @@ const CustomSlider: React.FC<CustomCarouselProps> = ({ imgs }) => {
 
   return (
     <div
-      className="container__slider"
+      className="container__slider !bg-white rounded-t-xl"
       onMouseEnter={AutoPlayStop}
       onMouseLeave={AutoPlayStart}
     >
       {imgs.map((imgUrl, index) => (
         <div
-          className={`slider__item slider__item-active-${activeIndex + 1}`}
+          className={`slider__item slider__item-active-${activeIndex + 1} rounded-xl`}
           key={index}
         >
           <Image
@@ -62,7 +62,7 @@ const CustomSlider: React.FC<CustomCarouselProps> = ({ imgs }) => {
             width={640}
             height={480}
             objectFit="cover"
-            className="aspect-[4/3] object-cover object-center w-full h-auto"
+            className="aspect-[5/3] object-cover object-center w-full h-auto"
             alt={`img-${index}`}
           />
         </div>

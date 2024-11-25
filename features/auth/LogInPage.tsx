@@ -2,8 +2,9 @@
 
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
@@ -25,11 +26,14 @@ interface ILogInForm {
 export default function LogInPage() {
   const router = useRouter();
   const [error, setError] = useState<string>("");
-  const [cookies, setCookie] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(["user"]);
 
   const schema = yup.object().shape({
-    email: yup.string().required('メールアドレスは必須です').email('メールアドレスを正しく入力してください'),
-    password: yup.string().required('パスワードは必須です'),
+    email: yup
+      .string()
+      .required("メールアドレスは必須です")
+      .email("メールアドレスを正しく入力してください"),
+    password: yup.string().required("パスワードは必須です"),
   });
 
   const {
@@ -43,9 +47,9 @@ export default function LogInPage() {
   const onSubmit = async (data: ILogInForm) => {
     const { email, password } = data;
 
-    const res = await axios.post('/api/auth/login', {
+    const res = await axios.post("/api/auth/login", {
       email,
-      password
+      password,
     });
 
     if (res.status === 200) {
@@ -56,7 +60,7 @@ export default function LogInPage() {
         setError("パスワードが違います。");
         return;
       } else {
-        setCookie('user', res.data);
+        setCookie("user", res.data);
         router.push("/");
       }
     } else {
@@ -66,10 +70,15 @@ export default function LogInPage() {
 
   return (
     <div className="max-w-[600px] m-auto">
-      <div className="bg-white w-full m-4 p-10">
-        <div className="text-center">
-          <h1 className="text-xl font-bold">住宅会社様向け管理画面（ログイン）</h1>
-          <p className="m-2 text-sm">メールアドレスとパスワードを入力してください</p>
+      <div className="bg-white w-full m-4 px-10 pt-8 pb-10">
+        <figure className="flex justify-center mb-5">
+          <Image src="/imgs/icons/logo.svg" width={125} height={80} alt="LOGO" />
+        </figure>
+        <div className="text-center text-black">
+          <h1 className="text-xl font-bold">スマイルビルダーズシステム</h1>
+          <p className="m-2 text-sm">
+            メールアドレスとパスワードを入力してください
+          </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -94,7 +103,12 @@ export default function LogInPage() {
               <RequiredLabel />
             </div>
             <div className="w-full">
-              <InputField id="password" control={control} className="w-full" isPassword />
+              <InputField
+                id="password"
+                control={control}
+                className="w-full"
+                isPassword
+              />
               {errors.password && (
                 <p className="text-sm mt-3 text-m-red">
                   {errors.password.message}
@@ -104,9 +118,7 @@ export default function LogInPage() {
           </div>
 
           {!errors.email && !errors.password && error && (
-            <p className="text-sm mt-3 text-m-red">
-              {error}
-            </p>
+            <p className="text-sm mt-3 text-m-red">{error}</p>
           )}
 
           {/* Register Button */}
@@ -117,9 +129,9 @@ export default function LogInPage() {
                 variant="contained"
                 sx={{
                   width: "100%",
-                  padding: '4px 30px',
-                  fontSize: '18px',
-                  borderRadius: '1px',
+                  padding: "4px 30px",
+                  fontSize: "18px",
+                  borderRadius: "1px",
                 }}
               >
                 ログイン
@@ -128,33 +140,14 @@ export default function LogInPage() {
           </div>
         </form>
 
-        <p className="text-sm py-4 leading-6">
-          本サービスは、利用規約・プライバシーポリシーにご同意いただけない場合には、ご利用いただけません。特に利用規約には、お客様の義務、禁止事項、本サービスで保証されない事項、損害賠償の規律など、お客様と当社との間の重要な法的関係が記載されておりますので、必ずご理解いただいた上でご利用ください。
-        </p>
-
-        <ul>
-          <li>
-            <Link href="/home/terms_of_service" target="_blank" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">利用規約</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/home/privacy_policy" target="_blank" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">プライバシーポリシー</span>
-            </Link>
-          </li>
-          <li>
-            <Link href="/forgot-password" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">パスワードを忘れた方</span>
-            </Link>
-          </li>
-          {/* <li>
-            <Link href="#" target="_blank" className="flex items-center text-[15px] text-link-color">
-              <FaArrowRightLong /><span className="ml-2">確認メールが届かない方</span>
-            </Link>
-          </li> */}
-        </ul>
-      </div >
-    </div >
+        <Link
+          href="/forgot-password"
+          className="flex items-center text-[15px] text-link-color"
+        >
+          <FaArrowRightLong />
+          <span className="ml-2">パスワードを忘れた方</span>
+        </Link>
+      </div>
+    </div>
   );
 }

@@ -20,7 +20,7 @@ interface IPublishEvent {
   eventURL: string;
 }
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, OPTIONS",

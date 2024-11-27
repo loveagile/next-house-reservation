@@ -3,22 +3,6 @@ import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
 
-const cors = Cors({
-  origin: "*",
-  methods: ["GET", "POST", "OPTIONS"],
-});
-
-function runMiddleware(req: NextRequest, fn: any) {
-  return new Promise((resolve, reject) => {
-    fn(req, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-      return resolve(result);
-    });
-  });
-}
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
 interface IPublishEvent {
@@ -38,16 +22,6 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
-  await runMiddleware(req, cors);
-
-  if (req.method === "OPTIONS") {
-    return new NextResponse(null, { status: 204 }); // Handle preflight requests
-  }
-
-  const data = { message: "CORS is working!" }; // Replace with your database logic
-
-  return NextResponse.json(data);
-
   let queryStr = `
   SELECT 
     e.id, e.title, e.type, e.format, e.eventDate, e.status, 

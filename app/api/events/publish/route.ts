@@ -22,8 +22,16 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
-  const res = NextResponse.next();
-  await runMiddleware(req, res, cors);
+  if (req.method === "OPTIONS") {
+    const headers = new Headers();
+    headers.set("Access-Control-Allow-Origin", "*"); // Allowed origin
+    headers.set("Access-Control-Allow-Methods", "POST, OPTIONS"); // Allowed methods
+    headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Origin, User-Agent"
+    ); // Allowed headers
+    return new NextResponse(null, { status: 204, headers });
+  }
 
   let queryStr = `
   SELECT 

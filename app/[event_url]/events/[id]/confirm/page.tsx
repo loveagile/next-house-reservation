@@ -1,5 +1,4 @@
 import EventConfirmPage from "@/features/events/smilebuilders/EventConfirmPage";
-import FooterFC from "@/components/molecules/FooterFC";
 
 export default function page() {
   return (
@@ -7,7 +6,6 @@ export default function page() {
       <main className="flex w-full grow bg-white">
         <EventConfirmPage />
       </main>
-      <FooterFC />
     </div>
   );
 }

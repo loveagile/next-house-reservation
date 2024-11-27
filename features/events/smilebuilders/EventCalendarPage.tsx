@@ -4,7 +4,6 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaPhone } from "react-icons/fa6";
 import { LuPhone } from "react-icons/lu";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { useRecoilState, useRecoilValue } from "recoil";

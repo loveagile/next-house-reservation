@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,8 +11,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button, InputLabel } from "@mui/material";
 
-import { FaCheck } from "react-icons/fa6";
-import { IoArrowBackCircle } from "react-icons/io5";
+import { IoIosInformationCircle } from "react-icons/io";
+import { IoCheckmarkSharp } from "react-icons/io5";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 
 import CheckBox from "@/components/molecules/Input/CheckBox";
@@ -200,272 +201,312 @@ const EventReservePage: React.FC = () => {
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (
-      <section className="flex flex-col w-full max-w-[640px] mx-auto">
-        {/* Event Information */}
-        <div className="mt-5">
-          <div className="w-full">
-            <p className="bg-[#c8c8c8] text-center text-white p-1 text-sm">
-              予約完了まであと2ステップです！
-            </p>
-            <ol className="flex justify-between relative list-none m-5 before:content-[''] before:absolute before:block before:bg-[#c8c8c8] before:top-5 before:h-[3px] before:w-full">
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">1</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-white border-[2px] border-solid border-[#448ACA] rounded-full bg-[#448ACA]">2</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">3</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">
-                <FaCheck />
-              </li>
-            </ol>
+      <div className="bg-[#F3F4F6] w-full min-h-screen">
+        <div className="flex flex-col w-full max-w-[640px] bg-white mx-auto my-8 rounded-xl">
+          {/* Event Information */}
+          <div className="px-6">
+            <div className="w-full">
+              <p className="bg-[#D1D5DB] text-center text-black p-1 text-sm">
+                予約完了まであと少し！
+              </p>
+              <div className="flex items-center justify-center my-4">
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  1
+                </div>
+                <div className="h-1 w-16 bg-[#3B82F6]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  2
+                </div>
+                <div className="h-1 w-16 bg-[#c8c8c8]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-white border-[#c8c8c8] border-[2px] text-black font-bold">
+                  3
+                </div>
+                <div className="h-1 w-16 bg-[#c8c8c8]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-white border-[#c8c8c8] border-[2px] text-black font-bold">
+                  <IoCheckmarkSharp />
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-xl">
+              <Image src={mainImg} className="rounded-xl" width={640} height={360} alt="イベント画像" />
+            </div>
+
+            <div className="bg-[#F9FAFB] p-6 my-8 rounded-xl">
+              <h2 className="text-lg text-black font-bold">予約内容</h2>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">イベント名</span>{title}
+              </p>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">開催場所</span>{webAddress}
+              </p>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">予約日</span>
+                {formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))}
+              </p>
+              <p className="pt-3">
+                <span className="inline-block w-[100px]">予約時間</span>
+                {reserveDateTime?.startTime}
+              </p>
+            </div>
           </div>
 
-          <div className="relative after:content-[''] after:absolute after:top-0 after:left-0 after:block after:w-full after:h-full after:bg-[rgba(0,0,0,0.6)]">
-            <Image src={mainImg} width={640} height={360} alt="イベント画像" />
-            <div className="absolute z-10 bottom-0 text-white p-6">
-              <h1 className=" text-xl mb-3 font-bold underline">{title}</h1>
-              <p className="text-sm">{type}</p>
-              <p className="text-sm">{webAddress}</p>
-            </div>
+          <div className="px-6 pb-8">
+            <h2 className="flex items-center text-lg font-bold">
+              <IoIosInformationCircle className="text-2xl mr-2" />
+              <span className="text-black">お客様の情報</span>
+            </h2>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* Client Name */}
+              <div className="flex w-full gap-x-4 mt-4">
+                <div>
+                  <div className="flex mb-2">
+                    <InputLabel>姓</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="lastName" control={control} value={customer.lastName} placeholder="例) 田中" />
+                </div>
+                <div>
+                  <div className="flex mb-2">
+                    <InputLabel>名</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="firstName" control={control} value={customer.firstName} placeholder="例) 太郎" />
+                </div>
+              </div>
+              {(errors.lastName || errors.firstName) && (
+                <p className="text-sm mt-3 text-m-red">
+                  {errors.lastName && errors.lastName?.message}
+                  {!errors.lastName && errors.firstName?.message}
+                </p>
+              )}
+
+              {/* Furigana Client Name */}
+              <div className="flex w-full gap-x-4 mt-8">
+                <div>
+                  <div className="flex mb-2">
+                    <InputLabel>せい</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="seiName" control={control} value={customer.seiName} placeholder="例) たなか" />
+                </div>
+                <div>
+                  <div className="flex mb-2">
+                    <InputLabel>めい</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="meiName" control={control} value={customer.meiName} placeholder="例) たろう" />
+                </div>
+              </div>
+              {(errors.seiName || errors.meiName) && (
+                <p className="text-sm mt-3 text-m-red">
+                  {errors.seiName && errors.seiName?.message}
+                  {!errors.seiName && errors.meiName?.message}
+                </p>
+              )}
+
+              {/* Contract Phone */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>電話番号（ハイフンなし）</InputLabel>
+                  <RequiredLabel />
+                </div>
+
+                <div className="w-full">
+                  <InputField id="phone" control={control} className="w-full" value={customer.phone} placeholder="例) 09011112222" />
+                </div>
+
+                {errors.phone && (
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Email Address */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>メールアドレス</InputLabel>
+                  <RequiredLabel />
+                </div>
+
+                <div className="w-full">
+                  <InputField id="email" control={control} className="w-full" value={customer.email} placeholder="例) ○○○○@example.com" />
+                </div>
+
+                {errors.email && (
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.email.message}
+                  </p>
+                )}
+
+                <p className="text-sm leading-5 mt-3">
+                  Gmail・Yahoo!・iCloudメールなどの「.html形式メールが受信可能な」メールアドレスを推奨しています。<br />
+                  ※携帯キャリアメールの場合は、正しくご確認できない場合がございますので、ご了承ください。
+                </p>
+              </div>
+
+              {/* Postal Code */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>郵便番号</InputLabel>
+                  <RequiredLabel />
+                </div>
+
+                <div className="w-full">
+                  <InputField id="zipCode" control={control} className="w-1/2" value={customer.zipCode} placeholder="例) 0000000" />
+                </div>
+
+                {errors.zipCode && (
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.zipCode.message}
+                  </p>
+                )}
+
+                <p className="text-sm mt-3">
+                  郵便番号を入力いただくと自動で住所が入力されます
+                </p>
+              </div>
+
+              {/* Prefecture & City */}
+              <div className="flex w-full gap-x-2 mt-8">
+                <div className="w-1/2">
+                  <div className="flex mb-2">
+                    <InputLabel>都道府県</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="prefecture" control={control} value={customer.prefecture} placeholder="例) 鹿児島県" />
+                </div>
+                <div className="w-full">
+                  <div className="flex pl-2 mb-2">
+                    <InputLabel>市区町村</InputLabel>
+                    <RequiredLabel />
+                  </div>
+                  <InputField id="city" control={control} className="w-full" value={customer.city} placeholder="例) 鹿児島市加治屋町" />
+                </div>
+              </div>
+              {(errors.prefecture || errors.city) && (
+                <p className="text-sm mt-3 text-m-red">
+                  {errors.prefecture && errors.prefecture?.message}
+                  {!errors.prefecture && errors.city?.message}
+                </p>
+              )}
+
+              {/* Street */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>番地</InputLabel>
+                  <RequiredLabel />
+                </div>
+
+                <div className="w-full">
+                  <InputField id="street" control={control} className="w-full" value={customer.street} placeholder="例) ○○ビル123-45" />
+                </div>
+
+                {errors.email && (
+                  <p className="text-sm mt-3 text-m-red">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Building Name */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>建物名・部屋番号</InputLabel>
+                </div>
+
+                <div className="w-full">
+                  <InputField id="building" control={control} className="w-full" value={customer.building} placeholder="例) ○○マンション○号室" />
+                </div>
+              </div>
+
+              {/* Contract Info */}
+              <div className="w-full mt-8">
+                <div className="flex mb-2">
+                  <InputLabel>質問・ご要望事項</InputLabel>
+                </div>
+
+                <div className="w-full">
+                  <MultilineField id="note" control={control} className="w-full" value={customer.note} />
+                </div>
+              </div>
+
+              <div className="w-full mt-6">
+                <CheckBox
+                  checked={isReceiveInfo} setChecked={setIsReceiveInfo}
+                  className="flex items-center ml-auto"
+                  text="住宅会社からの情報提供を希望しない"
+                />
+              </div>
+
+              {/* Register Button */}
+              <div className="w-full mt-5">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    maxWidth: "640px",
+                    fontWeight: "5500",
+                    backgroundColor: "#2563EB",
+                    color: "white",
+                    fontSize: "18px",
+                    padding: "8px",
+                    '&:hover': {
+                      backgroundColor: "#2563EB",
+                      opacity: 0.9,
+                      transition: "all 0.3s ease-out"
+                    }
+                  }}
+                >
+                  確認画面へ
+                </Button>
+              </div>
+
+              {/* Backward Button */}
+              <div className="w-full mt-5">
+                <Button
+                  onClick={() => router.push(`/${event_url}/events/${id}`)}
+                  variant="contained"
+                  sx={{
+                    width: "100%",
+                    maxWidth: "640px",
+                    fontWeight: "500",
+                    backgroundColor: "#4B5563",
+                    color: "white",
+                    fontSize: "18px",
+                    padding: "4px 8px",
+                    '&:hover': {
+                      backgroundColor: "#4B5563",
+                      opacity: 0.9,
+                      transition: "all 0.3s ease-out"
+                    }
+                  }}
+                >
+                  <span className="ml-1">詳細ページに戻る</span>
+                </Button>
+              </div>
+            </form>
           </div>
 
-          <div className="w-full flex">
-            <dl className="w-[50%] border-[1px] px-3 py-2">
-              <dt className="text-xs">予約希望日</dt>
-              <dd className="mt-[2px]">{formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))}</dd>
-            </dl>
-            <dl className="w-[50%] border-[1px] border-l-0 px-3 py-2">
-              <dt className="text-xs">時間</dt>
-              <dd className="mt-[2px]">{reserveDateTime?.startTime}</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div className="p-3">
-          <h2 className="flex items-center text-xl font-bold">
-            <BsFillCheckCircleFill className="mr-2" />
-            <span>お客様の情報</span>
-          </h2>
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Client Name */}
-            <div className="flex w-full gap-x-4 mt-4">
-              <div>
-                <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                  <InputLabel>姓</InputLabel>
-                  <RequiredLabel />
-                </div>
-                <InputField id="lastName" control={control} value={customer.lastName} placeholder="例）見学" />
-              </div>
-              <div>
-                <div className="flex pl-2 mb-2">
-                  <InputLabel>名</InputLabel>
-                </div>
-                <InputField id="firstName" control={control} value={customer.firstName} placeholder="例）太郎" />
+          <footer className="bg-[#2563EB] rounded-b-xl">
+            <div className="flex items-center justify-center p-10 w-full max-w-[760px] text-white text-sm m-auto">
+              <div className="leading-5">
+                <Link href="https://smile-builders-hiraya.com/" className="text-xl font-bold block mb-3">
+                  スマイルビルダーズ‐姶良総合住宅展示場-
+                </Link>
+                <p className="text-center">〒899-5432</p>
+                <p className="text-center">鹿児島県姶良市加治木町木田2511-1</p>
               </div>
             </div>
-            {(errors.lastName || errors.firstName) && (
-              <p className="text-sm mt-3 text-m-red">
-                {errors.lastName && errors.lastName?.message}
-                {!errors.lastName && errors.firstName?.message}
-              </p>
-            )}
-
-            {/* Furigana Client Name */}
-            <div className="flex w-full gap-x-4 mt-8">
-              <div>
-                <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                  <InputLabel>せい</InputLabel>
-                  <RequiredLabel />
-                </div>
-                <InputField id="seiName" control={control} value={customer.seiName} placeholder="例）けんがく" />
-              </div>
-              <div>
-                <div className="flex pl-2 mb-2">
-                  <InputLabel>めい</InputLabel>
-                </div>
-                <InputField id="meiName" control={control} value={customer.meiName} placeholder="例）たろう" />
-              </div>
-            </div>
-            {(errors.seiName || errors.meiName) && (
-              <p className="text-sm mt-3 text-m-red">
-                {errors.seiName && errors.seiName?.message}
-                {!errors.seiName && errors.meiName?.message}
-              </p>
-            )}
-
-            {/* Contract Phone */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>電話番号（ハイフンなし）</InputLabel>
-                <RequiredLabel />
-              </div>
-
-              <div className="w-full">
-                <InputField id="phone" control={control} className="w-full" value={customer.phone} placeholder="例）09011112222" />
-              </div>
-
-              {errors.phone && (
-                <p className="text-sm mt-3 text-m-red">
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
-
-            {/* Email Address */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>メールアドレス</InputLabel>
-                <RequiredLabel />
-              </div>
-
-              <div className="w-full">
-                <InputField id="email" control={control} className="w-full" value={customer.email} placeholder="例）○○○○@example.com" />
-              </div>
-
-              {errors.email && (
-                <p className="text-sm mt-3 text-m-red">
-                  {errors.email.message}
-                </p>
-              )}
-
-              <p className="text-sm mt-3">
-                GmailやYahoo・iCloudメールなどの「html形式メールが受信可能な」メールアドレスを推奨しています。<br />
-                ※携帯キャリアメールの場合は、正しくご確認できない場合がございますので、ご了承ください。
-              </p>
-            </div>
-
-            {/* Postal Code */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>郵便番号</InputLabel>
-                <RequiredLabel />
-              </div>
-
-              <div className="w-full">
-                <InputField id="zipCode" control={control} className="w-1/2" value={customer.zipCode} placeholder="例）0000000" />
-              </div>
-
-              {errors.zipCode && (
-                <p className="text-sm mt-3 text-m-red">
-                  {errors.zipCode.message}
-                </p>
-              )}
-
-              <p className="text-sm mt-3">
-                郵便番号を入力いただくと自動で住所が入力されます
-              </p>
-            </div>
-
-            {/* Prefecture & City */}
-            <div className="flex w-full gap-x-2 mt-8">
-              <div className="w-1/2">
-                <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                  <InputLabel>都道府県</InputLabel>
-                  <RequiredLabel />
-                </div>
-                <InputField id="prefecture" control={control} value={customer.prefecture} placeholder="例）鹿児島県" />
-              </div>
-              <div className="w-full">
-                <div className="flex pl-2 mb-2">
-                  <InputLabel>市区町村</InputLabel>
-                  <RequiredLabel />
-                </div>
-                <InputField id="city" control={control} className="w-full" value={customer.city} placeholder="例）姶良市加治木町" />
-              </div>
-            </div>
-            {(errors.prefecture || errors.city) && (
-              <p className="text-sm mt-3 text-m-red">
-                {errors.prefecture && errors.prefecture?.message}
-                {!errors.prefecture && errors.city?.message}
-              </p>
-            )}
-
-            {/* Street */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>番地</InputLabel>
-                <RequiredLabel />
-              </div>
-
-              <div className="w-full">
-                <InputField id="street" control={control} className="w-full" value={customer.street} placeholder="例）〇〇町1丁目23-45" />
-              </div>
-
-              {errors.email && (
-                <p className="text-sm mt-3 text-m-red">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-
-            {/* Building Name */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>建物名・部屋番号</InputLabel>
-              </div>
-
-              <div className="w-full">
-                <InputField id="building" control={control} className="w-full" value={customer.building} placeholder="例）〇〇マンション〇号室" />
-              </div>
-            </div>
-
-            {/* Contract Info */}
-            <div className="w-full mt-8">
-              <div className="flex pl-2 mb-2 border-l-4 border-[#333]">
-                <InputLabel>質問・ご連絡事項</InputLabel>
-              </div>
-
-              <div className="w-full">
-                <MultilineField id="note" control={control} className="w-full" value={customer.note} />
-              </div>
-            </div>
-
-            <div className="w-full mt-6">
-              <CheckBox
-                checked={isReceiveInfo} setChecked={setIsReceiveInfo}
-                className="flex items-center ml-auto"
-                text="住宅会社からの情報提供を希望しない"
-              />
-            </div>
-
-            {/* Register Button */}
-            <div className="w-full mt-5">
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{
-                  width: "100%",
-                  padding: "5px 30px",
-                  fontSize: "24px",
-                  borderRadius: "1px",
-                }}
-              >
-                確認画面へ
-              </Button>
-            </div>
-
-            {/* Backward Button */}
-            <div className="w-full mt-5">
-              <Button
-                onClick={() => router.push(`/${event_url}/events/${id}`)}
-                variant="contained"
-                sx={{
-                  padding: "5px 12px",
-                  marginBottom: "10px",
-                  fontSize: "16px",
-                  borderRadius: "1px",
-                  background: "#777",
-                  '&:hover': {
-                    background: "#777",
-                    opacity: 0.9,
-                  }
-                }}
-              >
-                <IoArrowBackCircle className="text-xl" />
-                <span className="ml-1">詳細ページに戻る</span>
-              </Button>
-            </div>
-          </form>
-        </div>
-      </section >
+          </footer>
+        </div >
+      </div >
     )
   );
 };

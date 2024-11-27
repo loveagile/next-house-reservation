@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@mui/material";
 
+import { IoCheckmarkSharp } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
 
 import Loading from "@/components/molecules/loading";
@@ -104,77 +105,109 @@ const EventCompletePage: React.FC = () => {
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (
-      <section className="flex flex-col w-full max-w-[640px] mx-auto">
-        {/* Event Information */}
-        <div className="mt-5">
-          <div className="w-full">
-            <p className="bg-[#c8c8c8] text-center text-white p-1 text-sm">
-              予約完了です！
-            </p>
-            <ol className="flex justify-between relative list-none m-5 before:content-[''] before:absolute before:block before:bg-[#c8c8c8] before:top-5 before:h-[3px] before:w-full">
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">1</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">2</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-[#c8c8c8] border-[2px] border-solid border-[#c8c8c8] rounded-full bg-white">3</li>
-              <li className="relative z-10 w-11 h-11 flex justify-center items-center text-white border-[2px] border-solid border-[#448ACA] rounded-full bg-[#448ACA]">
-                <FaCheck />
-              </li>
-            </ol>
-          </div>
+      <div className="bg-[#F3F4F6] w-full min-h-screen">
+        <div className="flex flex-col w-full max-w-[640px] mx-auto my-8">
+          {/* Event Information */}
 
-          <div className="relative after:content-[''] after:absolute after:top-0 after:left-0 after:block after:w-full after:h-full after:bg-[rgba(0,0,0,0.6)]">
-            <Image src={mainImg} width={640} height={360} alt="イベント画像" />
-            <div className="absolute z-10 bottom-0 text-white p-6">
-              <h1 className=" text-xl mb-3 font-bold underline">{title}</h1>
-              <p className="text-sm">{type}</p>
-              <p className="text-sm">{webAddress}</p>
+          <div>
+            <div className="w-full">
+              <p className="bg-[#D1D5DB] text-center text-black p-1 text-sm">
+                予約完了です！
+              </p>
+              <div className="flex items-center justify-center my-4">
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  1
+                </div>
+                <div className="h-1 w-16 bg-[#3B82F6]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  2
+                </div>
+                <div className="h-1 w-16 bg-[#3B82F6]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  3
+                </div>
+                <div className="h-1 w-16 bg-[#3B82F6]"></div>
+
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#3B82F6] text-white font-bold">
+                  <IoCheckmarkSharp />
+                </div>
+              </div>
+            </div>
+
+            <div className="relative rounded-xl">
+              <Image src={mainImg} className="rounded-xl" width={640} height={360} alt="イベント画像" />
+            </div>
+
+            <div className="bg-[#F9FAFB] p-6 my-8 rounded-xl">
+              <h2 className="text-lg text-black font-bold">予約内容</h2>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">イベント名</span>{title}
+              </p>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">開催場所</span>{webAddress}
+              </p>
+              <p className="border-b-[1px] border-[#E5E7EB] py-3">
+                <span className="inline-block w-[100px]">予約日</span>
+                {formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))}
+              </p>
+              <p className="pt-3">
+                <span className="inline-block w-[100px]">予約時間</span>
+                {reserveDateTime?.startTime}
+              </p>
             </div>
           </div>
 
-          <div className="w-full flex">
-            <dl className="w-[50%] border-[1px] px-3 py-2">
-              <dt className="text-xs">予約希望日</dt>
-              <dd className="mt-[2px]">{formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))}</dd>
-            </dl>
-            <dl className="w-[50%] border-[1px] border-l-0 px-3 py-2">
-              <dt className="text-xs">時間</dt>
-              <dd className="mt-[2px]">{reserveDateTime?.startTime}</dd>
-            </dl>
+          <div className="px-2">
+            <p className="text-[#EF4444] text-center text-2xl font-bold my-4">
+              予約が完了しました。
+            </p>
+
+            <p className="text-center mt-2">ご登録いただきましたメールアドレスに確認メールをお送りいたしましたので、ご確認ください。</p>
+            <p className="text-center mt-2">申し込み内容を変更したい・行けなくなった場合は担当者へご連絡くださいますようお願いいたします。</p>
+            <p className="text-center text-sm mt-2">※1日以内に予約完了メールが届かない場合は、受信拒否設定などブロックされている場合がありますので主催者へ直接お電話にてお問合せください。
+              （TEL：<Link href="tel:0995-55-8900" className="text-link-color no-underline">0995-55-8900</Link>）
+            </p>
+
+            {/* Register Button */}
+            <div className="w-full mt-10 flex justify-center">
+              <Button
+                href="/reservations/list"
+                variant="contained"
+                sx={{
+                  width: "100%",
+                  maxWidth: "640px",
+                  fontWeight: "500",
+                  backgroundColor: "#4B5563",
+                  color: "white",
+                  fontSize: "18px",
+                  padding: "4px 8px",
+                  '&:hover': {
+                    backgroundColor: "#4B5563",
+                    opacity: 0.9,
+                    transition: "all 0.3s ease-out"
+                  }
+                }}
+              >
+                トップページに戻る
+              </Button>
+            </div>
           </div>
+
+          <footer className="bg-[#2563EB] rounded-b-xl mt-4">
+            <div className="flex items-center justify-center p-10 w-full max-w-[760px] text-white text-sm m-auto">
+              <div className="leading-5">
+                <Link href="https://smile-builders-hiraya.com/" className="text-xl font-bold block mb-3">
+                  スマイルビルダーズ‐姶良総合住宅展示場-
+                </Link>
+                <p className="text-center">〒899-5432</p>
+                <p className="text-center">鹿児島県姶良市加治木町木田2511-1</p>
+              </div>
+            </div>
+          </footer>
         </div>
-
-        <div className="px-2 py-10">
-          <p className="text-[#E7625F] text-center text-xl font-bold my-4">
-            予約が完了しました。
-          </p>
-
-          <p className="text-sm mt-3">ご登録いただきましたメールアドレスに確認メールをお送りいたしましたので、ご確認ください。</p>
-          <p className="text-sm mt-3">申し込み内容を変更したい・行けなくなった場合は担当者へご連絡くださいますようお願いいたします。</p>
-          <p className="text-sm mt-3">※1日以内に予約完了メールが届かない場合は、受信拒否設定などブロックされている場合がありますので主催者へ直接お電話にてお問合せください。（TEL：
-            <Link href="tel:0995-55-8900" className="text-link-color underline" >0995-55-8900</Link>）
-          </p>
-
-          {/* Register Button */}
-          <div className="w-full mt-10 flex justify-center">
-            <Button
-              href="/reservations/list"
-              variant="contained"
-              sx={{
-                width: "80%",
-                padding: "2px 30px",
-                fontSize: "22px",
-                borderRadius: "1px",
-                backgroundColor: "#777",
-                '&:hover': {
-                  backgroundColor: "#777",
-                  opacity: 0.9,
-                }
-              }}
-            >
-              トップページに戻る
-            </Button>
-          </div>
-        </div>
-      </section >
+      </div >
     )
   );
 };

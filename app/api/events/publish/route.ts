@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
 
 const cors = Cors({
-  origin: "*",
+  origin: ["https://smile-builders-hiraya.com"],
   methods: ["GET", "POST"],
 });
 

@@ -71,7 +71,7 @@ export async function GET(req: NextRequest) {
       return { ...rest, link, address, holdingPeriod, mainImg };
     });
 
-    return new NextResponse(JSON.stringify(convPublishEvents), { headers });
+    return NextResponse.json(convPublishEvents);
   } catch (error) {
     console.error("Error connecting to database:", error);
   }

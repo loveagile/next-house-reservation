@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
 
 const cors = Cors({
-  origin: ["https://smile-builders-hiraya.com"],
-  methods: ["GET", "POST"],
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
 });
 
 function runMiddleware(req: NextRequest, fn: any) {
@@ -39,6 +39,14 @@ interface IPublishEvent {
 
 export async function POST(req: NextRequest) {
   await runMiddleware(req, cors);
+
+  if (req.method === "OPTIONS") {
+    return new NextResponse(null, { status: 204 }); // Handle preflight requests
+  }
+
+  const data = { message: "CORS is working!" }; // Replace with your database logic
+
+  return NextResponse.json(data);
 
   let queryStr = `
   SELECT 

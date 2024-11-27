@@ -1,4 +1,4 @@
-import Cors from "cors";
+import cors, { runMiddleware } from "@/lib/cors";
 import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
@@ -22,6 +22,9 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
+  const res = NextResponse.next();
+  await runMiddleware(req, res, cors);
+
   let queryStr = `
   SELECT 
     e.id, e.title, e.type, e.format, e.eventDate, e.status, 

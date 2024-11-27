@@ -25,6 +25,7 @@
     "ckeditor5-classic-plus": "^41.3.0",
     "ckeditor5-premium-features": "^0.0.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dompurify": "^3.1.6",
     "formidable": "^3.5.1",
     "jsonwebtoken": "^9.0.2",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/dompurify": "^3.0.5",
     "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.7",

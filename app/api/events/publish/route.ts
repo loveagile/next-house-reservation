@@ -1,6 +1,23 @@
+import Cors from "cors";
 import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
+
+const cors = Cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+});
+
+function runMiddleware(req: NextRequest, fn: any) {
+  return new Promise((resolve, reject) => {
+    fn(req, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      return resolve(result);
+    });
+  });
+}
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
@@ -21,6 +38,8 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
+  await runMiddleware(req, cors);
+
   let queryStr = `
   SELECT 
     e.id, e.title, e.type, e.format, e.eventDate, e.status, 

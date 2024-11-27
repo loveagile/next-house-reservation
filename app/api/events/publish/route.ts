@@ -1,4 +1,3 @@
-import cors, { runMiddleware } from "@/lib/cors";
 import { connectToDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { convEventStatus, eventHoldingPeriod } from "@/utils/convert";
@@ -22,16 +21,11 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
-  if (req.method === "POST") {
-    const headers = new Headers();
-    headers.set("Access-Control-Allow-Origin", "*"); // Allowed origin
-    headers.set("Access-Control-Allow-Methods", "POST, OPTIONS"); // Allowed methods
-    headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Origin, User-Agent"
-    ); // Allowed headers
-    return new NextResponse(null, { status: 204, headers });
-  }
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
 
   let queryStr = `
   SELECT 
@@ -76,7 +70,8 @@ export async function POST(req: NextRequest) {
       const holdingPeriod = eventHoldingPeriod(JSON.parse(eventDate));
       return { ...rest, link, address, holdingPeriod, mainImg };
     });
-    return NextResponse.json(convPublishEvents);
+
+    return new NextResponse(JSON.stringify(convPublishEvents), { headers });
   } catch (error) {
     console.error("Error connecting to database:", error);
   }

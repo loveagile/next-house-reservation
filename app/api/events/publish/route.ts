@@ -22,7 +22,7 @@ interface IPublishEvent {
 }
 
 export async function POST(req: NextRequest) {
-  if (req.method === "OPTIONS") {
+  if (req.method === "POST") {
     const headers = new Headers();
     headers.set("Access-Control-Allow-Origin", "*"); // Allowed origin
     headers.set("Access-Control-Allow-Methods", "POST, OPTIONS"); // Allowed methods

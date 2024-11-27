@@ -15,7 +15,7 @@ const EventCalendarEditPage: React.FC = () => {
       </h1>
       <p className="mt-2 mb-5 text-sm">どんなイベントですか？</p>
       <div className="bg-white items-start mt-5 p-5 w-full">
-        <p className="text-sm">見学会など、土日のみ数日間のイベント</p>
+        <p className="text-sm mb-4">見学会など、土日のみ数日間のイベント</p>
         <Link
           href={`/events/${id}/calendar/date_somedays`}
           className="px-8 py-2 text-xl rounded-[1px] mt-4 bg-btn-color text-white hover:opacity-85">

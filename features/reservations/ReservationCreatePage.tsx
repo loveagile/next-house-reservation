@@ -217,7 +217,7 @@ export default function ReservationCreatePage() {
     ──────────────────────────────────────────────────────
     `;
 
-    await axios.post("/api/sendEmail", {
+    await axios.post("/api/sendEmail/reservation", {
       to: email,
       subject: "【スマイルビルダーズ】イベント予約がありました",
       content,

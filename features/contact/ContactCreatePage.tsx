@@ -50,7 +50,7 @@ export default function ContactCreatePage() {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
-  const [content, setContent] = useState<string>("操作方法について知りたい");
+  const [type, setType] = useState<string>("操作方法について知りたい");
 
   const schema = yup.object().shape({
     detail: yup.string().required("入力してください。"),
@@ -74,7 +74,7 @@ export default function ContactCreatePage() {
     const storedData = localStorage.getItem("contactData");
     if (storedData) {
       const data = JSON.parse(storedData);
-      setContent(data.content);
+      setType(data.type);
       setValue("detail", data.detail);
       setValue("contactPerson", data.contactPerson);
       setValue("email", data.email);
@@ -83,13 +83,13 @@ export default function ContactCreatePage() {
   }, [])
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setContent(event.target.value);
+    setType(event.target.value);
   }
 
   const onSubmit = async (data: IContactForm) => {
     const { detail, contactPerson, email } = data;
     localStorage.setItem("contactData", JSON.stringify({
-      content,
+      type,
       detail,
       contactPerson,
       email
@@ -114,10 +114,10 @@ export default function ContactCreatePage() {
             {/* Contact Content */}
             <div className="flex items-start mt-5">
               <div className="flex min-w-[230px] justify-end pr-5 mt-1">
-                <InputLabel htmlFor="content">お問い合わせ内容</InputLabel>
+                <InputLabel htmlFor="type">お問い合わせ内容</InputLabel>
                 <RequiredLabel />
               </div>
-              <RadioGroup name="contact-content" value={content}
+              <RadioGroup name="contact-type" value={type}
                 onChange={handleRadioChange}
                 className="ml-3"
               >

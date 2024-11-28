@@ -167,23 +167,22 @@ const EventConfirmPage: React.FC = () => {
 
     貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
 
-    《イベント種別》
+    ■【イベント種別】
     ${type}
 
-    《イベントタイトル》
+    ■【イベントタイトル】
     ${title}
 
-    《予約日》
+    ■【予約日】
     ${formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))} ${reserveDateTime.startTime}
 
     予約者の氏名、連絡先等の詳細につきましては、下記のURLからご確認ください。
     ${SITE_URL}/reservations/${lastReservationId}
 
 
-
     ※本メールアドレスは送信専用となっております。
     ──────────────────────────────────────────────────────
-    平屋だけの姶良総合住宅展示場スマイルビルダーズ 
+    平屋だけの姶良総合住宅展示場スマイルビルダーズ
     住所：鹿児島県姶良市加治木町木田2511-1
     営業時間：10:00〜18:00
     定休日：水曜日
@@ -193,9 +192,8 @@ const EventConfirmPage: React.FC = () => {
     ──────────────────────────────────────────────────────
     `;
 
-    await axios.post("/api/sendEmail", {
+    await axios.post("/api/sendEmail/reservation", {
       to: email,
-      subject: "【スマイルビルダーズ】イベント予約がありました",
       content,
     });
 

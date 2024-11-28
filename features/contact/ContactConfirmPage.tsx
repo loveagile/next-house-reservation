@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +10,7 @@ import Loading from "@/components/molecules/loading";
 import EditBackBtn from "@/components/atoms/Button/EditBackBtn";
 
 interface IContactConfirmForm {
-  content: string;
+  type: string;
   detail: string;
   contactPerson: string;
   email: string;
@@ -33,7 +34,39 @@ export default function ContactConfirmPage() {
     setIsLoading(false);
   }, [])
 
-  const handleSendClick = () => {
+  const handleSendClick = async () => {
+
+    const content = `
+      システム担当者様
+
+      ${contactData?.contactPerson}様から新しい新規ごお問い合わせがございました。
+
+      ■【担当者名】
+      ${contactData?.contactPerson}
+
+      ■【メールアドレス】
+      ${contactData?.email}
+
+      ■【お問い合わせ内容】
+      ${contactData?.type}
+
+      ■【お問い合わせ詳細】
+      ${contactData?.detail}
+
+      
+      --------------------------------------------------------------
+      平屋だけの姶良総合住宅展示場スマイルビルダーズ
+      住所：鹿児島県姶良市加治木町木田2511-1
+      営業時間：10:00〜18:00
+      定休日：水曜日
+      FAX：0995-55-8818
+      MAIL：info@smile-builders-hiraya.com
+      TEL：0995-55-8900
+      --------------------------------------------------------------
+    `;
+
+    await axios.post("/api/sendEmail/contact", { content });
+
     localStorage.clear();
     router.push("/");
   }
@@ -57,7 +90,7 @@ export default function ContactConfirmPage() {
                 <th className="w-56 font-medium px-2 py-2 text-sm text-left bg-gray-100 border border-gray-300">
                   お問い合わせ内容
                 </th>
-                <td className="px-2 py-2 text-sm border border-gray-300">{contactData?.content}</td>
+                <td className="px-2 py-2 text-sm border border-gray-300">{contactData?.type}</td>
               </tr>
               <tr>
                 <th className="w-56 font-medium px-2 py-2 text-sm text-left bg-gray-100 border border-gray-300">

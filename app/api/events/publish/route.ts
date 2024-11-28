@@ -65,14 +65,7 @@ export async function GET(req: NextRequest) {
       return { ...rest, link, address, holdingPeriod, mainImg };
     });
 
-    const response = NextResponse.json(convPublishEvents);
-    response.headers.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
-    response.headers.set("Pragma", "no-cache");
-    response.headers.set("Expires", "0");
-    return response;
+    return NextResponse.json(convPublishEvents);
   } catch (error) {
     console.error("Error connecting to database:", error);
   }

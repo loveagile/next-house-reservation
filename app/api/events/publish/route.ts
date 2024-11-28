@@ -20,7 +20,7 @@ interface IPublishEvent {
   eventURL: string;
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   let queryStr = `
   SELECT 
     e.id, e.title, e.type, e.format, e.eventDate, e.status, 

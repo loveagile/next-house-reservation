@@ -7,11 +7,11 @@ import { DialogTitle, DialogContentText } from "@mui/material";
 
 interface ThisFCProps {
   date: string;
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
 }
 
-const NewsDialog: React.FC<ThisFCProps> = ({ date, title, content }) => {
+const NewsDialog: React.FC<ThisFCProps> = ({ date, title = "", content = "" }) => {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);

@@ -221,7 +221,7 @@ export const convEventStatus = (
   eventDates: IEventDateTime[] | null
 ): string => {
   if (status === "非公開") return "非公開(下書き)";
-  if (!eventDates || eventDates.length === 0) return status;
+  if (!eventDates || eventDates.length === 0) return "非公開(下書き)";
   const { date, time } = eventDates.at(-1)!;
   const isExpired = getFormatDate(date, getTimeStr(time.at(-2)!)) < new Date();
   return isExpired ? "公開(開催終了)" : status;

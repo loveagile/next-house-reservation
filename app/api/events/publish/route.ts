@@ -21,12 +21,6 @@ interface IPublishEvent {
 }
 
 export async function GET(req: NextRequest) {
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
   let queryStr = `
   SELECT 
     e.id, e.title, e.type, e.format, e.eventDate, e.status, 

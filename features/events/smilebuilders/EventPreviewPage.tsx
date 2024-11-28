@@ -32,7 +32,6 @@ const EventPreviewPage: React.FC = () => {
   const [eventStatus, setEventStatus] = useState<IStatusProps>({
     status: "非公開",
     isEmbed: false,
-    isIemiru: false,
   })
 
   useEffect(() => {
@@ -149,22 +148,15 @@ const EventPreviewPage: React.FC = () => {
             </section>
           )}
 
-          <section className="px-6 pb-4 w-full">
-            <Button href="#reservation" sx={{
-              width: "100%",
-              maxWidth: "640px",
-              fontWeight: "600",
-              backgroundColor: "#2563EB",
-              color: "white",
-              fontSize: "18px",
-              padding: "8px",
-              '&:hover': {
-                backgroundColor: "#2563EB",
-                opacity: 0.9,
-                transition: "all 0.3s ease-out"
-              }
-            }}>予約する</Button>
-          </section>
+          {(feature || benefit) && (
+            <section className="px-6 pb-4 w-full">
+              <Link href="#reservation"
+                className="block w-full max-w-[640px] font-bold text-center rounded bg-[#2563EB] text-white text-lg p-2 hover:opacity-90 transition-all duration-300 ease-out"
+              >
+                予約する
+              </Link>
+            </section>
+          )}
 
           {splitTags.length > 0 && (
             <section className="mt-2 border-t-[1px] p-6 border-[#F3F4F6]">

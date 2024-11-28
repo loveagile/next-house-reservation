@@ -25,14 +25,12 @@ interface ThisFCProps {
 export interface IStatusProps {
   status: string;
   isEmbed: boolean;
-  isIemiru: boolean;
 }
 
 const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, eventDate }) => {
   const [eventStatus, setEventStatus] = useState<IStatusProps>({
     status: (statusBit === 0 && status === "公開") ? "限定公開" : status, // 公開, 限定公開, or 非公開
-    isEmbed: statusBit >= 2,
-    isIemiru: statusBit % 2 === 1,
+    isEmbed: statusBit === 1,
   });
 
   const convStatus = convEventStatus(eventStatus.status, JSON.parse(eventDate));
@@ -91,13 +89,6 @@ const EventStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit, even
                     position: "absolute",
                   }} />}
                   <span className="pl-7">埋込先HP</span>
-                </p>
-                <p className="relative">
-                  {eventStatus.isIemiru && <CheckIcon sx={{
-                    color: "#2aac6d",
-                    position: "absolute",
-                  }} />}
-                  <span className="pl-7">iemiru</span>
                 </p>
               </div>
             </div>

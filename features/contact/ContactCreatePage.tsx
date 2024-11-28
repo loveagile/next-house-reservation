@@ -123,12 +123,7 @@ export default function ContactCreatePage() {
               >
                 <RadioButton value="操作方法について知りたい" />
                 <RadioButton value="魅力的なページの作り方について知りたい" />
-                <RadioButton value="iemiruについて知りたい" />
                 <RadioButton value="集客方法について知りたい" />
-                <RadioButton value="プラン内容の確認" />
-                <RadioButton value="サービスを解約したい" />
-                <RadioButton value="オプションプランについて(追加の埋め込み・連携機能についてなど)" />
-                <RadioButton value="有料の機能について知りたい" />
                 <RadioButton value="その他" />
               </RadioGroup>
             </div>

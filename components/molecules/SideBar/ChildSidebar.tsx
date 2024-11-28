@@ -12,24 +12,6 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 
 const menues = [
   {
-    label: "Branchプラン",
-    icon: <></>,
-    submenues: [
-      {
-        label: "利用内容の確認",
-        link: "/claim",
-        target: "_self",
-        submenues: [],
-      },
-      {
-        label: "アカウント枠数変更",
-        link: "/settings/account_slot_count/edit",
-        target: "_self",
-        submenues: [],
-      },
-    ],
-  },
-  {
     label: "イベント作成",
     icon: <AiFillPicture />,
     submenues: [
@@ -82,14 +64,9 @@ const menues = [
     icon: <MdInfo />,
     submenues: [
       {
-        label: "オンラインマニュアル",
-        link: "https://help.kengakucloud.jp/",
-        submenues: [],
-        target: "_blank",
-      },
-      {
         label: "フォームから問い合わせ",
         link: "/contact/create",
+        target: "_self",
         submenues: [],
       },
     ],
@@ -99,31 +76,10 @@ const menues = [
     icon: <MdInfo />,
     submenues: [
       {
-        label: "システム設定",
-        link: "/settings",
-        submenues: [],
-      },
-      {
-        label: "ログイン情報編集",
-        link: "/staff/edit",
-        submenues: [],
-      },
-      {
         label: "LINE通知設定",
         link: "/settings/line",
+        target: "_self",
         submenues: [],
-      },
-      {
-        label: "利用規約",
-        link: "/home/terms_of_service",
-        submenues: [],
-        target: "_blank",
-      },
-      {
-        label: "プライバシーポリシー",
-        link: "/home/privacy_policy",
-        submenues: [],
-        target: "_blank",
       },
       {
         label: "ログアウト",
@@ -134,7 +90,11 @@ const menues = [
   },
 ];
 
-export default function Sidebar() {
+interface ThisFCProps {
+  name: string;
+}
+
+const ChildSidebar: React.FC<ThisFCProps> = ({ name }) => {
   const [hoveredItem, setHoveredItem] = useState<number>(-1);
   const [hoveredSubItem, setHoveredSubItem] = useState<number>(-1);
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -142,6 +102,10 @@ export default function Sidebar() {
   return (
     <div className="fixed h-full w-[240px] bg-dark-gray z-50">
       <ul className="p-0 relative text-[#cfd8dc]">
+        <li className="w-full flex items-center px-3 py-4">
+          <span className="ml-2 text-[15px]">{name}</span>
+        </li>
+        <hr className="border-border-gray" />
         {menues.map((item, index) => (
           <div key={index}>
             <li className="py-1 hover:bg-[#0098ba] relative"
@@ -239,3 +203,5 @@ export default function Sidebar() {
     </div >
   );
 }
+
+export default ChildSidebar;

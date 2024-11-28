@@ -11,24 +11,6 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const menues = [
   {
-    label: "スマイルビルダーズ",
-    icon: <></>,
-    submenues: [
-      {
-        label: "利用内容の確認",
-        link: "/claim",
-        submenues: [],
-        target: "_self",
-      },
-      {
-        label: "アカウント枠数変更",
-        link: "/settings/account_slot_count/edit",
-        submenues: [],
-        target: "_self",
-      },
-    ],
-  },
-  {
     label: "イベント作成",
     icon: <AiFillPicture />,
     submenues: [
@@ -58,44 +40,6 @@ const menues = [
       },
     ],
   },
-  // {
-  //   label: "メール/SMS送信",
-  //   icon: <SourceRoundedIcon />,
-  //   submenues: [
-  //     {
-  //       label: "イベント案内メール",
-  //       link: "#",
-  //       submenues: [
-  //         {
-  //           label: "新規送信",
-  //           link: "/event_mails/new",
-  //         },
-  //         {
-  //           label: "送信履歴",
-  //           link: "/event_mails",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "繰り返しメール",
-  //       link: "#",
-  //       submenues: [
-  //         {
-  //           label: "新規配信設定",
-  //           link: "/recurring_event_mails",
-  //         },
-  //         {
-  //           label: "配信設定一覧",
-  //           link: "/recurring_event_mails",
-  //         },
-  //       ],
-  //     },
-  //     {
-  //       label: "SMS申し込み",
-  //       link: "/short_message_owners/new",
-  //     },
-  //   ],
-  // },
   {
     label: "予約確認",
     icon: <FaCalendarAlt />,
@@ -198,12 +142,6 @@ const menues = [
     icon: <MdInfo />,
     submenues: [
       {
-        label: "オンラインマニュアル",
-        link: "https://help.kengakucloud.jp/",
-        submenues: [],
-        target: "_blank",
-      },
-      {
         label: "フォームから問い合わせ",
         link: "/contact/create",
         submenues: [],
@@ -216,34 +154,10 @@ const menues = [
     icon: <MdInfo />,
     submenues: [
       {
-        label: "システム設定",
-        link: "/settings",
-        submenues: [],
-        target: "_self",
-      },
-      {
-        label: "ログイン情報編集",
-        link: "/staff/edit",
-        submenues: [],
-        target: "_self",
-      },
-      {
         label: "LINE通知設定",
         link: "/settings/line",
         submenues: [],
         target: "_self",
-      },
-      {
-        label: "利用規約",
-        link: "/home/terms_of_service",
-        submenues: [],
-        target: "_blank",
-      },
-      {
-        label: "プライバシーポリシー",
-        link: "/home/privacy_policy",
-        submenues: [],
-        target: "_blank",
       },
       {
         label: "ログアウト",
@@ -262,6 +176,10 @@ export default function Sidebar() {
   return (
     <div className="fixed h-full w-[240px] bg-dark-gray z-50">
       <ul className="p-0 relative text-[#cfd8dc]">
+        <li className="w-full flex items-center px-3 py-4">
+          <span className="ml-2 text-[15px]">スマイルビルダーズ</span>
+        </li>
+        <hr className="border-border-gray" />
         {menues.map((item, index) => (
           <div key={index}>
             <li className="py-1 hover:bg-[#0098ba] relative"

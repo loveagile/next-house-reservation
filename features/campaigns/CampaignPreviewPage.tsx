@@ -28,7 +28,6 @@ const CampaignPreviewPage: React.FC = () => {
   const [campaignStatus, setCampaignStatus] = useState<IStatusProps>({
     status: "非公開",
     isEmbed: false,
-    isIemiru: false,
   })
 
   useEffect(() => {

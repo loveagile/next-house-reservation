@@ -22,14 +22,12 @@ interface ThisFCProps {
 export interface IStatusProps {
   status: string;
   isEmbed: boolean;
-  isIemiru: boolean;
 }
 
 const CampaignStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit }) => {
   const [campaignStatus, setCampaignStatus] = useState<IStatusProps>({
     status: (statusBit === 0 && status === "公開") ? "限定公開" : status, // 公開, 限定公開, or 非公開
-    isEmbed: statusBit >= 2,
-    isIemiru: statusBit % 2 === 1,
+    isEmbed: statusBit === 1,
   })
 
   const [eventURL, setEventURL] = useState<string>("");
@@ -74,13 +72,6 @@ const CampaignStatusSideBar: React.FC<ThisFCProps> = ({ id, status, statusBit })
                     position: "absolute",
                   }} />}
                   <span className="pl-7">埋込先HP</span>
-                </p>
-                <p className="relative">
-                  {campaignStatus.isIemiru && <CheckIcon sx={{
-                    color: "#2aac6d",
-                    position: "absolute",
-                  }} />}
-                  <span className="pl-7">iemiru</span>
                 </p>
               </div>
             </div>

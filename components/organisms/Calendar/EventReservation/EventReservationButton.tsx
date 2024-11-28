@@ -47,7 +47,7 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }
           backgroundColor: "#2563EB",
           color: "white",
           fontSize: "18px",
-          padding: "8px",
+          padding: "6px",
           '&:hover': {
             backgroundColor: "#2563EB",
             opacity: 0.9,
@@ -100,18 +100,16 @@ const EventReservationButton: React.FC<ThisFCProps> = ({ id, isExist, eventURL }
         </Dialog>
       </>
     ) : (
-      <Button sx={{
+      <Button disabled sx={{
         width: "100%",
         maxWidth: "640px",
         fontWeight: "600",
         backgroundColor: "#2563EB",
         color: "white",
         fontSize: "18px",
-        padding: "8px",
-        '&:hover': {
-          backgroundColor: "#2563EB",
-          opacity: 0.9,
-          transition: "all 0.3s ease-out"
+        padding: "6px",
+        '&:disabled': {
+          color: "white",
         }
       }}>終了しました</Button>
     )

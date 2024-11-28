@@ -75,9 +75,6 @@ const EventListItem: React.FC<ThisFCProps> = ({ item, eventURL }) => {
             {eventHoldingPeriod(JSON.parse(eventDate))}
           </p>
           {address && <div className="text-sm my-1">・{address}</div>}
-          <span className="text-xs mt-2 bg-[#2FA8B5] px-2 py-[2px] text-white">
-            iemiru掲載設定済み
-          </span>
         </div>
       </div>
       <div className="flex flex-col ml-auto p-5 w-[25%] min-w-[300px]">

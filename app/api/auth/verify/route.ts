@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
       const isAuthenticated = id === user.id;
       return NextResponse.json({
         isAuthenticated,
+        companyName: user.name,
       });
     }
   } catch (error) {

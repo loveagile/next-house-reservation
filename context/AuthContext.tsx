@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const pathName = usePathname();
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [companyName, setCompanyName] = useState<string>("スマイルビルダーズ");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -55,14 +56,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
 
       try {
-        const { data: isAuthenticated } = await axios.post("/api/auth/verify", {
+        const auth = await axios.post("/api/auth/verify", {
           access_token: new_access_token,
         });
+
+        const { isAuthenticated, companyName } = auth.data;
 
         if (!isAuthenticated) {
           router.push("/login");
           return;
         }
+
+        setCompanyName(companyName);
         setIsLoading(false);
       } catch (error) {
         console.error('Error verifying token', error);
@@ -75,7 +80,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return (
     isLoading ? <Loading mlWidth={0} /> : (
       <div className="flex">
-        {cookies['user'].subId !== -1 ? <ChildSidebar /> : cookies['user'].isParent === 1 ? <Sidebar /> : <ChildSidebar />}
+        {cookies['user'].subId !== -1 ? <ChildSidebar name={companyName} /> : (
+          cookies['user'].isParent === 1 ? <Sidebar /> : <ChildSidebar name={companyName} />
+        )}
         {children}
       </div>
     )

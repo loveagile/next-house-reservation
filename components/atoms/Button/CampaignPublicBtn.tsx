@@ -32,28 +32,25 @@ const CampaignPublicBtn: React.FC<ThisFCProps> = ({ id, campaignStatus, setCampa
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const embedCheckboxRef = useRef<HTMLInputElement>(null);
-  const iemiruCheckboxRef = useRef<HTMLInputElement>(null);
   const radioGroupRef = useRef<HTMLDivElement>(null);
 
   const handleUpdate = async () => {
     let embedChecked = embedCheckboxRef.current?.checked || false;
-    let iemiruChecked = iemiruCheckboxRef.current?.checked || false;
     let selectedRadio = (radioGroupRef.current?.querySelector('input[type="radio"]:checked') as HTMLInputElement).value;
     if (selectedRadio !== "公開") {
-      embedChecked = iemiruChecked = false;
-    } else if (embedChecked === false && iemiruChecked === false) {
+      embedChecked = false;
+    } else if (embedChecked === false) {
       selectedRadio = "限定公開";
     }
     setCampaignStatus({
       status: selectedRadio,
       isEmbed: embedChecked,
-      isIemiru: iemiruChecked,
     })
 
     await axios.post("/api/campaigns/update", {
       id,
       field_names: ["status", "statusBit"],
-      field_values: [selectedRadio, 2 * Number(embedChecked) + Number(iemiruChecked)],
+      field_values: [selectedRadio, Number(embedChecked)],
     })
 
     setOpen(false);
@@ -140,21 +137,6 @@ const CampaignPublicBtn: React.FC<ThisFCProps> = ({ id, campaignStatus, setCampa
                       padding: 0,
                     }
                   }} />
-                <FormControlLabel control={<Checkbox defaultChecked={campaignStatus.isIemiru}
-                  inputRef={iemiruCheckboxRef} />} label="iemiruへ公開する" sx={{
-                    '& .MuiFormControlLabel-label': {
-                      marginLeft: "8px",
-                      letterSpacing: "1px",
-                      fontSize: "14px",
-                    },
-                    '& .MuiCheckbox-root': {
-                      padding: 0,
-                    }
-                  }} />
-                <div className="flex ml-4">
-                  <span className="mr-2 text-sm">見学マッチングサイト iemiruに当イベントを掲載し、新規集客を行います。※掲載料金無料</span>
-                  <Image src="/imgs/icons/logo_iemiru.png" width={140} height={30} alt="iemiru" className="self-center" />
-                </div>
               </div>
             </div>
             <div className="mt-2">

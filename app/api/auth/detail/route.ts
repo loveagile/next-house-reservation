@@ -1,22 +1,29 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { comparePassword } from "@/utils/auth";
-import jwt, { sign, verify } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
-  const { id } = await req.json();
-
-  let queryStr = `SELECT * FROM users WHERE id = ?`; // Use parameterized query for security
-
   try {
-    const db = await connectToDatabase();
-    const [rows]: any = await db.query(queryStr, [id]);
+    const { id } = await req.json();
+
+    const queryStr = `SELECT name, email, eventURL, phone FROM users WHERE id = ?`;
+
+    const user = await withDatabase(async (db) => {
+      const [rows]: any = await db.query(queryStr, [id]);
+      return rows.length === 1 ? rows[0] : null;
+    });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     return NextResponse.json({
-      eventURL: rows[0].eventURL,
-      phone: rows[0].phone,
+      name: user.name,
+      email: user.email,
+      eventURL: user.eventURL,
+      phone: user.phone,
     });
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error in POST /api/auth/detail: ", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

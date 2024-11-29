@@ -7,11 +7,11 @@ export async function POST(request: NextRequest) {
   try {
     const { to, content } = await request.json();
     const msg = {
-      to,
       from: {
         email: "info@smile-builders-hiraya.com",
         name: "スマイルビルダーズ",
       },
+      to: [{ email: to }, { email: "info@wazeka.co.jp" }],
       subject: "【スマイルビルダーズ】イベント予約がありました",
       text: content,
       tracking_settings: {

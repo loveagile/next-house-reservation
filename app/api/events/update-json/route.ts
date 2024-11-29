@@ -1,19 +1,29 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const { id, field_name, field_value } = data;
-  let queryStr = `
-    UPDATE events SET ${field_name} = '${JSON.stringify(field_value)}' 
-    WHERE id = ${id.toString()}
-  `;
-
   try {
-    const db = await connectToDatabase();
-    const [row] = await db.query(queryStr);
-    return NextResponse.json(row);
+    const { id, field_name, field_value } = await req.json();
+
+    const queryStr = `
+      UPDATE events 
+      SET ?? = ? 
+      WHERE id = ?
+    `;
+
+    const queryParams = [field_name, JSON.stringify(field_value), id];
+
+    const result = await withDatabase(async (db) => {
+      const [res] = await db.query(queryStr, queryParams);
+      return res;
+    });
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error in POST /api/events/update-json: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

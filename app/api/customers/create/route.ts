@@ -1,79 +1,77 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface ResultSetHeader {
-  fieldCount: number;
-  affectedRows: number;
-  insertId: number;
-  info: string;
-  serverStatus: number;
-  warningStatus: number;
-  changedRows: number;
-}
-
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const {
-    groupID,
-    status,
-    route,
-    lastName,
-    firstName,
-    seiName,
-    meiName,
-    zipCode,
-    prefecture,
-    city,
-    street,
-    building,
-    phone,
-    email,
-    birthYear,
-    birthMonth,
-    birthDate,
-    note,
-    memo,
-    employee,
-    delivery,
-  } = data;
-
-  let queryStr = `INSERT INTO customers (
-    groupID, status, route, lastName, firstName, seiName, meiName, 
-    zipCode, prefecture, city, street, building, 
-    phone, email, note, memo,
-    birthYear, birthMonth, birthDate,
-    employee, delivery
-    ) VALUES (
-  `;
-  queryStr += (groupID || -1) + ", ";
-  queryStr += "'" + (status || "") + "', ";
-  queryStr += "'" + (route || "") + "', ";
-  queryStr += "'" + (lastName || "") + "', ";
-  queryStr += "'" + (firstName || "") + "'";
-  queryStr += ", '" + (seiName || "") + "'";
-  queryStr += ", '" + (meiName || "") + "'";
-  queryStr += ", '" + (zipCode || "") + "'";
-  queryStr += ", '" + (prefecture || "") + "'";
-  queryStr += ", '" + (city || "") + "'";
-  queryStr += ", '" + (street || "") + "'";
-  queryStr += ", '" + (building || "") + "'";
-  queryStr += ", '" + (phone || "") + "'";
-  queryStr += ", '" + (email || "") + "'";
-  queryStr += ", '" + (note || "") + "'";
-  queryStr += ", '" + (memo || "") + "'";
-  queryStr += ", " + (birthYear || -1);
-  queryStr += ", " + (birthMonth || -1);
-  queryStr += ", " + (birthDate || -1);
-  queryStr += ", '" + (employee || "未設定") + "'";
-  queryStr += ", '" + (delivery || "") + "'";
-  queryStr += ");";
-
   try {
-    const db = await connectToDatabase();
-    const [result] = (await db.query(queryStr)) as ResultSetHeader[];
-    const lastCustomerId = result.insertId;
+    const {
+      groupID,
+      status,
+      route,
+      lastName,
+      firstName,
+      seiName,
+      meiName,
+      zipCode,
+      prefecture,
+      city,
+      street,
+      building,
+      phone,
+      email,
+      birthYear,
+      birthMonth,
+      birthDate,
+      note,
+      memo,
+      employee,
+      delivery,
+    } = await req.json();
+
+    const queryStr = `
+      INSERT INTO customers (
+        groupID, status, route, lastName, firstName, seiName, meiName, 
+        zipCode, prefecture, city, street, building, 
+        phone, email, note, memo,
+        birthYear, birthMonth, birthDate,
+        employee, delivery
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const queryParams = [
+      groupID || -1,
+      status || "",
+      route || "",
+      lastName || "",
+      firstName || "",
+      seiName || "",
+      meiName || "",
+      zipCode || "",
+      prefecture || "",
+      city || "",
+      street || "",
+      building || "",
+      phone || "",
+      email || "",
+      note || "",
+      memo || "",
+      birthYear || -1,
+      birthMonth || -1,
+      birthDate || -1,
+      employee || "未設定",
+      delivery || "",
+    ];
+
+    const lastCustomerId = await withDatabase(async (db) => {
+      const [result] = await db.execute(queryStr, queryParams);
+      return (result as any).insertId;
+    });
+
     return NextResponse.json({ lastCustomerId });
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error in POST /api/customers/create: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

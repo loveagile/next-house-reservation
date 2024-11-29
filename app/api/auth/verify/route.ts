@@ -1,35 +1,47 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { verify } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const { access_token } = data;
-
-  if (!access_token) {
-    return NextResponse.json({ isAuthenticated: false });
-  }
-
   try {
-    const payload = verify(access_token, "access_token") as any;
+    const { access_token } = await req.json();
+
+    if (!access_token) {
+      return NextResponse.json({ isAuthenticated: false });
+    }
+
+    // Verify the JWT token
+    let payload;
+    try {
+      payload = verify(
+        access_token,
+        process.env.ACCESS_TOKEN_SECRET || "access_token_secret"
+      ) as any;
+    } catch (error) {
+      console.error("JWT verification failed:", error);
+      return NextResponse.json({ isAuthenticated: false });
+    }
+
     const { id, email } = payload;
 
-    const db = await connectToDatabase();
-    let queryStr = `SELECT * FROM users WHERE email = ?`;
-    const [rows]: any = await db.query(queryStr, [email]);
+    const user = await withDatabase(async (db) => {
+      const queryStr = `SELECT * FROM users WHERE email = ?`;
+      const [rows]: any = await db.query(queryStr, [email]);
+      return rows.length === 1 ? rows[0] : null;
+    });
 
-    if (rows.length !== 1) {
+    if (!user) {
       return NextResponse.json({ isAuthenticated: false });
-    } else {
-      const user = rows[0];
-      const isAuthenticated = id === user.id;
-      return NextResponse.json({
-        isAuthenticated,
-        companyName: user.name,
-      });
     }
+
+    const isAuthenticated = id === user.id;
+
+    return NextResponse.json({
+      isAuthenticated,
+      companyName: user.name,
+    });
   } catch (error) {
-    console.error("JWT verification failed:", error);
-    return NextResponse.json({ isAuthenticated: false });
+    console.error("Error in POST /api/auth/verify: ", error);
+    return NextResponse.json({ isAuthenticated: false }, { status: 500 });
   }
 }

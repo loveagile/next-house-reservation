@@ -172,26 +172,11 @@ const EventCompletePage: React.FC = () => {
 
             {/* Register Button */}
             <div className="w-full mt-10 flex justify-center">
-              <Button
-                href="/reservations/list"
-                variant="contained"
-                sx={{
-                  width: "100%",
-                  maxWidth: "640px",
-                  fontWeight: "500",
-                  backgroundColor: "#4B5563",
-                  color: "white",
-                  fontSize: "18px",
-                  padding: "4px 8px",
-                  '&:hover': {
-                    backgroundColor: "#4B5563",
-                    opacity: 0.9,
-                    transition: "all 0.3s ease-out"
-                  }
-                }}
+              <Link href="https://smile-builders-hiraya.com/"
+                className="w-full max-w-[640px] text-center font-medium bg-[#4B5563] text-white text-lg px-2 py-2 rounded transition-all duration-300 ease-out hover:opacity-90"
               >
                 トップページに戻る
-              </Button>
+              </Link>
             </div>
           </div>
 

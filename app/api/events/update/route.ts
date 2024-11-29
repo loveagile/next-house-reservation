@@ -1,4 +1,4 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,19 +11,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const updates = field_names
-      .map(
-        (field: string, index: number) => `${field} = '${field_values[index]}'`
-      )
-      .join(", ");
-    const queryStr = `UPDATE events SET ${updates} WHERE id = ${id}`;
+    const updates = field_names.map(() => "?? = ?").join(", ");
+    const queryStr = `UPDATE events SET ${updates} WHERE id = ?`;
 
-    const db = await connectToDatabase();
-    const [result] = await db.query(queryStr);
+    const queryParams = [
+      ...field_names.flatMap((field: string, index: number) => [
+        field,
+        field_values[index],
+      ]),
+      id,
+    ];
+
+    const result = await withDatabase(async (db) => {
+      const [res] = await db.query(queryStr, queryParams);
+      return res;
+    });
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error:", error);
-    return NextResponse.error();
+    console.error("Error in POST /api/events/update: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

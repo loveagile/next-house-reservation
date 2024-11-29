@@ -124,7 +124,7 @@ const CampaignDetailPage: React.FC = () => {
                   <NoInputLabel />
                 )}
                 <EditBtn
-                  linkUrl={`/campaigns/${id}/calendar`}
+                  linkUrl={`/campaigns/${id}/calendar/date_somedays`}
                   text="設定" className="self-start"
                 />
               </div>
@@ -188,7 +188,7 @@ const CampaignDetailPage: React.FC = () => {
                 {imgs.length === 0 ? (
                   <NoInputLabel />
                 ) : (
-                  <div className="flex gap-2">
+                  <div className="flex gap-1">
                     {imgs.map((url, index) => (
                       <div
                         className="border-[#ddd] border-[1px] rounded bg-cover bg-center"
@@ -196,10 +196,11 @@ const CampaignDetailPage: React.FC = () => {
                       >
                         <Image
                           src={url}
-                          width={80}
-                          height={60}
+                          width={100}
+                          height={75}
                           objectFit="cover"
-                          className="w-full h-auto aspect-[4/3]"
+                          objectPosition="center"
+                          className="aspect-[4/3] object-cover object-center border-[#ddd] border-[1px] rounded-[2px]"
                           alt="参考画像"
                         />
                       </div>

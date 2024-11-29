@@ -1,32 +1,33 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface ResultSetHeader {
-  fieldCount: number;
-  affectedRows: number;
-  insertId: number;
-  info: string;
-  serverStatus: number;
-  warningStatus: number;
-  changedRows: number;
-}
-
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-  const { userID, title, type, format } = data;
-
-  let queryStr = `
-    INSERT INTO campaigns 
-      (userID, title, type, format) 
-    VALUES
-      ('${userID}', '${title}', '${type}', '${format}')`;
-
   try {
-    const db = await connectToDatabase();
-    const [result] = (await db.query(queryStr)) as ResultSetHeader[];
-    const lastInsertedId = result.insertId;
+    const { userID, title, type, format } = await req.json();
+
+    const queryStr = `
+      INSERT INTO campaigns 
+        (userID, title, type, format) 
+      VALUES
+        (?, ?, ?, ?)
+    `;
+
+    const lastInsertedId = await withDatabase(async (db) => {
+      const [result] = await db.execute(queryStr, [
+        userID,
+        title,
+        type,
+        format,
+      ]);
+      return (result as any).insertId;
+    });
+
     return NextResponse.json({ lastInsertedId });
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error in POST /api/campaigns/create: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

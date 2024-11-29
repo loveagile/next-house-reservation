@@ -1,15 +1,5 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-
-interface ResultSetHeader {
-  fieldCount: number;
-  affectedRows: number;
-  insertId: number;
-  info: string;
-  serverStatus: number;
-  warningStatus: number;
-  changedRows: number;
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,19 +11,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const updates = field_names
-      .map(
-        (field: string, index: number) => `${field} = '${field_values[index]}'`
-      )
-      .join(", ");
+    const updates = field_names.map((field: string) => `?? = ?`).join(", ");
+    const queryStr = `UPDATE customers SET ${updates} WHERE id = ?`;
 
-    const queryStr = `UPDATE customers SET ${updates} WHERE id = ${id}`;
-    const db = await connectToDatabase();
-    const [result] = await db.query(queryStr);
+    const queryParams = [
+      ...field_names.flatMap((_: string, index: number) => [
+        field_names[index],
+        field_values[index],
+      ]),
+      id,
+    ];
+
+    const result = await withDatabase(async (db) => {
+      const [res] = await db.query(queryStr, queryParams);
+      return res;
+    });
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error:", error);
-    return NextResponse.error();
+    console.error("Error in POST /api/customers/update: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

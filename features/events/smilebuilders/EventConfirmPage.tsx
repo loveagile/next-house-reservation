@@ -58,6 +58,20 @@ const initialCustomer: ICustomerForm = {
   note: "",
 }
 
+interface IUser {
+  name: string;
+  email: string;
+  eventURL: string;
+  phone: string;
+}
+
+const initialUser: IUser = {
+  name: "スマイルビルダーズ",
+  email: "info@smile-builders-hiraya.com",
+  eventURL: "smilebuilders",
+  phone: "0995-55-8900",
+}
+
 const EventConfirmPage: React.FC = () => {
   const { id, event_url } = useParams();
   const router = useRouter();
@@ -70,6 +84,7 @@ const EventConfirmPage: React.FC = () => {
   });
   const [customer, setCustomer] = useState<ICustomerForm>(initialCustomer);
   const [isReceiveInfo, setIsReceiveInfo] = useState<boolean>(false);
+  const [user, setUser] = useState<IUser>(initialUser);
 
   const { control } = useForm<ICustomerForm>();
 
@@ -99,6 +114,7 @@ const EventConfirmPage: React.FC = () => {
         if (user.eventURL !== event_url) {
           router.push("/404");
         }
+        setUser(user);
       } else {
         router.push("/404");
       }
@@ -163,9 +179,9 @@ const EventConfirmPage: React.FC = () => {
     const { lastReservationId } = reservation.data;
 
     const content = `
-    ${lastName}${firstName}様
+    ${user.name}様
 
-    貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
+    ${lastName}${firstName}様から貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
 
     ■【イベント種別】
     ${type}
@@ -193,7 +209,7 @@ const EventConfirmPage: React.FC = () => {
     `;
 
     await axios.post("/api/sendEmail/reservation", {
-      to: email,
+      to: user.email,
       content,
     });
 

@@ -1,18 +1,23 @@
-import { connectToDatabase } from "@/lib/db";
+import { withDatabase } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const data = await req.json();
-
-  const { field_name, field_value } = data;
-
-  let queryStr = `SELECT * FROM customers WHERE ${field_name} = '${field_value}'`;
-
   try {
-    const db = await connectToDatabase();
-    const [row] = await db.query(queryStr);
-    return NextResponse.json(row);
+    const { field_name, field_value } = await req.json();
+
+    const queryStr = `SELECT * FROM customers WHERE ?? = ?`;
+
+    const rows = await withDatabase(async (db) => {
+      const [result] = await db.query(queryStr, [field_name, field_value]);
+      return result;
+    });
+
+    return NextResponse.json(rows);
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Error in POST /api/customers/detail: ", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

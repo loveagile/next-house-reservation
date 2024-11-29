@@ -1,9 +1,11 @@
 import mysql, { Connection } from "mysql2/promise";
 
-let db: Connection | undefined;
+export async function withDatabase<T>(
+  callback: (db: Connection) => Promise<T>
+): Promise<T> {
+  let db: Connection | null = null;
 
-export async function connectToDatabase(): Promise<Connection> {
-  if (!db) {
+  try {
     db = await mysql.createConnection({
       host: process.env.DB_HOST as string,
       user: process.env.DB_USER as string,
@@ -11,9 +13,20 @@ export async function connectToDatabase(): Promise<Connection> {
       database: process.env.DB_NAME as string,
     });
 
+    // Initialize the database if needed
     await initializeDatabase(db);
+
+    // Execute the callback function with the connection
+    return await callback(db);
+  } catch (error) {
+    console.error("Database error:", error);
+    throw error;
+  } finally {
+    // Ensure the connection is always closed
+    if (db) {
+      await db.end();
+    }
   }
-  return db;
 }
 
 async function initializeDatabase(db: Connection) {

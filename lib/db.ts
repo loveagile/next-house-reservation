@@ -70,7 +70,7 @@ async function initializeDatabase(db: Connection) {
       featuredEvent VARCHAR(255),
       images VARCHAR(255),
       mainIndex INT DEFAULT 0,
-      article VARCHAR(1000),
+      article LONGTEXT,
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
       updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
       deletedAt TIMESTAMP NULL

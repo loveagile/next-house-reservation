@@ -177,7 +177,7 @@ export default function Sidebar() {
     <div className="fixed h-full w-[240px] bg-dark-gray z-50">
       <ul className="p-0 relative text-[#cfd8dc]">
         <li className="w-full flex items-center px-3 py-4">
-          <span className="ml-2 text-[15px]">スマイルビルダーズ</span>
+          <span className="w-full text-center text-lg font-bold">スマイルビルダーズ</span>
         </li>
         <hr className="border-border-gray" />
         {menues.map((item, index) => (

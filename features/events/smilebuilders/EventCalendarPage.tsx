@@ -108,7 +108,6 @@ const EventCalendarPage: React.FC = () => {
             <LuPhone className="text-lg mr-2" />
             <span className="mr-2">お問い合わせ：</span>
             <Link href={`tel:${phone}`}>{phone}</Link>
-            <span>）</span>
           </p>
         </div>
         <div className="mt-4">

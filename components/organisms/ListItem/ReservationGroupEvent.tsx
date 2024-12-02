@@ -1,7 +1,9 @@
+import axios from "axios";
 import Link from "next/link";
 
 import { IReservationGroupedEvent } from "../Calendar/Month/CalendarBody";
-import { formatSlashSplitDateString } from "@/utils/convert";
+import { formatSlashSplitDateString, getFormatDate } from "@/utils/convert";
+import ReservationGroupEventItem from "./ReservationGroupEventItem";
 
 interface ThisFCProps {
   event: IReservationGroupedEvent;
@@ -32,20 +34,7 @@ const ReservationGroupEvent: React.FC<ThisFCProps> = ({ event }) => {
           </thead>
           <tbody>
             {customers.map((customer, index) => (
-              <tr key={index}>
-                <td className="px-3 py-2 text-[15px]">
-                  <Link href={`/customers/${customer.customerId}`} className="text-link-color underline font-semibold">
-                    {customer.lastName}{customer.firstName}
-                  </Link> 氏
-                  <p>
-                    {formatSlashSplitDateString(customer.reserveDate)} {customer.startTime} 〜 {formatSlashSplitDateString(customer.reserveDate)} {customer.endTime}
-                  </p>
-                </td>
-                {startTimes.map((time, index) => {
-                  const bgColor = time === customer.startTime ? "bg-[#f2cf01]" : "";
-                  return <td key={index} className={`w-[300px] ${bgColor}`}></td>
-                })}
-              </tr>
+              <ReservationGroupEventItem key={index} resId={event.id} customer={customer} startTimes={startTimes} />
             ))}
           </tbody>
         </table>

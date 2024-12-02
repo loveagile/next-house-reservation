@@ -232,6 +232,7 @@ export const groupEventsByEventId = (events: IReservationEvent[]) => {
   const groupedEvents: Record<number, IReservationGroupedEvent> = {};
   events.forEach((event) => {
     const {
+      id,
       eventId,
       title,
       customerId,
@@ -240,10 +241,12 @@ export const groupEventsByEventId = (events: IReservationEvent[]) => {
       reserveDate,
       startTime,
       endTime,
+      status,
     } = event;
 
     if (!groupedEvents[eventId]) {
       groupedEvents[eventId] = {
+        id,
         eventId,
         title,
         customers: [],
@@ -257,6 +260,7 @@ export const groupEventsByEventId = (events: IReservationEvent[]) => {
       reserveDate,
       startTime,
       endTime,
+      status,
     });
   });
 

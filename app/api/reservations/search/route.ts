@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
 
     let queryStr = `
       SELECT 
+        r.id,
         e.title,
         c.lastName,
         c.firstName,
@@ -14,7 +15,8 @@ export async function POST(req: NextRequest) {
         r.customerId,
         r.reserveDate,
         r.startTime,
-        r.endTime
+        r.endTime,
+        r.status
       FROM 
         reservations r
       JOIN

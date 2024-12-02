@@ -66,14 +66,16 @@ export default function ReservationViewPage() {
           filteredItems = filteredItems.filter(item => {
             const fullName = item.lastName + item.firstName;
             const furiName = item.seiName + item.meiName;
-            const fullAddress = item.prefecture + item.city + item.street + item.building;
+            const fullAddress = (item.prefecture || "") + (item.city || "") + (item.street || "") + (item.building || "");
 
             if (item.title && item.title.includes(keyword)) return true;
-            if (fullName.includes(keyword) || furiName.includes(keyword)) return true;
-            if (fullAddress.includes(keyword)) return true;
-            if (item.phone.includes(keyword)) return true;
-            if (item.email.includes(keyword)) return true;
-            if (item.memo.includes(keyword) || item.note.includes(keyword)) return true;
+            if (fullName && fullName.includes(keyword)) return true;
+            if (furiName && furiName.includes(keyword)) return true;
+            if (fullAddress && fullAddress.includes(keyword)) return true;
+            if (item.phone && item.phone.includes(keyword)) return true;
+            if (item.email && item.email.includes(keyword)) return true;
+            if (item.memo && item.memo.includes(keyword)) return true;
+            if (item.note && item.note.includes(keyword)) return true;
             return false;
           })
         }

@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
         users u ON r.groupID = u.id
       WHERE 
         r.reserveDate = CURDATE()
-        AND r.status = 'active'
       GROUP BY 
         r.groupID, u.name, u.email;
     `;

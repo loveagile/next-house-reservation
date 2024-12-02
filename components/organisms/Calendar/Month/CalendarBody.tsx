@@ -9,6 +9,7 @@ import { ICalendarProps } from "@/features/reservations/ReservationCalendarMonth
 import { dayStrOfWeek, getDateStr, groupEventsByEventId } from "@/utils/convert";
 
 export interface IReservationEvent {
+  id: number;
   eventId: number;
   customerId: number;
   title: string;
@@ -17,9 +18,11 @@ export interface IReservationEvent {
   endTime: string;
   lastName: string;
   firstName: string;
+  status: string;
 }
 
 export interface IReservationGroupedEvent {
+  id: number;
   eventId: number;
   title: string;
   customers: {
@@ -29,6 +32,7 @@ export interface IReservationGroupedEvent {
     reserveDate: string;
     startTime: string;
     endTime: string;
+    status: string;
   }[];
 }
 

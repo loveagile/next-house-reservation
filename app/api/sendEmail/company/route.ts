@@ -74,7 +74,7 @@ TEL：0995-55-8900
 `;
 
       const msg = {
-        to: [{ email: userEmail }],
+        to: [{ email: userEmail }, { email: "info@wazeka.co.jp" }],
         from: {
           email: "info@smile-builders-hiraya.com",
           name: "スマイルビルダーズ",

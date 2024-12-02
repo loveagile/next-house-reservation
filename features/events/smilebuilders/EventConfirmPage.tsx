@@ -208,9 +208,10 @@ const EventConfirmPage: React.FC = () => {
     ──────────────────────────────────────────────────────
     `;
 
-    await axios.post("/api/sendEmail/reservation", {
-      to: user.email,
-      content,
+    await axios.post("/api/sendEmail", {
+      to: [{ email: user.email }, { email: "info@wazeka.co.jp" }],
+      subject: "【スマイルビルダーズ】イベント予約がありました",
+      text: content,
     });
 
     router.push(`/${event_url}/events/${id}/complete`);;

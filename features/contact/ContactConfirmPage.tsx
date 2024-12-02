@@ -65,7 +65,14 @@ export default function ContactConfirmPage() {
       --------------------------------------------------------------
     `;
 
-    await axios.post("/api/sendEmail/contact", { content });
+    await axios.post("/api/sendEmail", {
+      to: [
+        { email: "info@smile-builders-hiraya.com" },
+        { email: "info@wazeka.co.jp" },
+      ],
+      subject: "【スマイルビルダーズ】新しい新規ごお問い合わせがございました。",
+      text: content,
+    });
 
     localStorage.clear();
     router.push("/");

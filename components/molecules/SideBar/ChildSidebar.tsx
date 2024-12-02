@@ -52,16 +52,18 @@ const menues = [
       },
     ],
   },
-  {
-    label: "アカウント管理",
-    icon: <BsPersonPlusFill />,
-    link: "/accounts/list",
-    target: "_self",
-    submenues: [],
-  },
+  // {
+  //   label: "アカウント管理",
+  //   icon: <BsPersonPlusFill />,
+  //   link: "/accounts/list",
+  //   target: "_self",
+  //   submenues: [],
+  // },
   {
     label: "サポートに問い合わせ",
     icon: <MdInfo />,
+    link: "#",
+    target: "_self",
     submenues: [
       {
         label: "フォームから問い合わせ",

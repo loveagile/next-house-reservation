@@ -132,14 +132,9 @@ const menues = [
     ],
   },
   {
-    label: "アカウント管理",
-    icon: <BsPersonPlusFill />,
-    submenues: [],
-    link: "/accounts/list",
-  },
-  {
     label: "サポートに問い合わせ",
     icon: <MdInfo />,
+    link: "#",
     submenues: [
       {
         label: "フォームから問い合わせ",

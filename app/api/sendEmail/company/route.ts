@@ -96,10 +96,7 @@ TEL：0995-55-8900
     }
 
     // Return success response
-    return NextResponse.json({
-      status: 200,
-      message: "Emails sent successfully",
-    });
+    return NextResponse.json(rows);
   } catch (error) {
     console.error("Error in POST /api/sendEmail/company: ", error);
     return NextResponse.json(

@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       const content = `
 ${userName} 様
 本日開催のイベントに予約が入っております。
-
 ${eventTitles
   .split(", ")
   .map(
@@ -53,7 +52,6 @@ ${eventTitles
 `
   )
   .join("")}
-
 予約内容の詳細については、
 管理画面にログイン後、「予約」→「予約一覧」をご確認ください。
 https://smile-builders-system.com/reservations/list

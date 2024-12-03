@@ -61,7 +61,7 @@ const EventPreviewPage: React.FC = () => {
     title, status, note, type, format,
     prefecture, address1, address2, hiddenAddress,
     eventDate, tag, feature, benefit,
-    images, FPImages, propertyType
+    images, FPImages, mainIndex, propertyType
   } = event;
 
   const imgs = images?.split(",").map((img) => img.trim()) || [];
@@ -69,6 +69,10 @@ const EventPreviewPage: React.FC = () => {
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
   const mapAddress = webAddress + (hiddenAddress || "");
   const splitTags = tag?.split(",").map(item => item.trim()) || [];
+
+  if (mainIndex !== -1 && mainIndex !== 0) {
+    imgs.unshift(imgs.splice(mainIndex, 1)[0]);
+  }
 
   return (
     isLoading ? <Loading mlWidth={0} /> : (

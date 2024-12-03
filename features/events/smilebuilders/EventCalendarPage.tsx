@@ -96,7 +96,7 @@ const EventCalendarPage: React.FC = () => {
   return (
     isLoading ? <Loading mlWidth={0} /> : (
       <section className="flex flex-col w-full justify-center max-w-[640px] mx-auto">
-        <EventReservationCalendar />
+        <EventReservationCalendar phone={phone} />
         <div className="bg-[#EFF6FF] mt-4 p-2">
           <div className="flex text-sm gap-2 rounded">
             <p className="flex-1 bg-white p-2 rounded"><span className="text-[#2563EB] mr-1">○</span>即予約可</p>

@@ -1,5 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { useRecoilValue, useRecoilState } from "recoil";
+import { LuPhone } from "react-icons/lu";
 
 import { Button } from "@mui/material";
 
@@ -8,7 +10,12 @@ import { IEventDateTime } from "@/utils/types";
 import { CandidateEventDateTimeAtom, YearMonthAtom, ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
 import { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
 
-const EventReservationTableCellItem: React.FC<{ day: number }> = ({ day }) => {
+interface ThisFCProps {
+  day: number;
+  phone: string;
+}
+
+const EventReservationTableCellItem: React.FC<ThisFCProps> = ({ day, phone }) => {
   const candidateReserveDates = useRecoilValue<IEventDateTime[]>(CandidateEventDateTimeAtom);
 
   const { year, month } = useRecoilValue(YearMonthAtom);
@@ -19,6 +26,11 @@ const EventReservationTableCellItem: React.FC<{ day: number }> = ({ day }) => {
     candidateReserveDates,
     year, month, day
   );
+
+  const givenDate = new Date(year, month - 1, day);
+  const currentDate = new Date();
+  const timeDifference = givenDate.getTime() - currentDate.getTime();
+  const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
 
   const isSelected = reserveDate.value.slice(-2) === String(day).padStart(2, "0");
 
@@ -60,7 +72,9 @@ const EventReservationTableCellItem: React.FC<{ day: number }> = ({ day }) => {
         }}>
           {day}
         </Button>
-        <span className="text-[#00BFFF] text-lg">◎</span>
+        {dayDifference < 2 && phone ? <Link href={`tel:${phone}`}><LuPhone className="text-[#00BFFF] text-lg mt-2" /></Link> : (
+          <span className="text-[#00BFFF] text-lg leading-none mt-2">◎</span>
+        )}
       </div>
     ) : (
       <p className="text-center leading-5 p-1">

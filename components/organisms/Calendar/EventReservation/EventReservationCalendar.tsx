@@ -11,6 +11,7 @@ import { dayOfWeek, numberOfDays } from "@/utils/convert";
 import { useEffect } from "react";
 
 interface ThisFCProps {
+  phone: string;
   className?: string;
 }
 
@@ -31,7 +32,7 @@ const isLastMonth = (
   return year === Number(lstYear) && month === Number(lstMonth);
 };
 
-const EventReservationCalendar: React.FC<ThisFCProps> = ({ className }) => {
+const EventReservationCalendar: React.FC<ThisFCProps> = ({ phone, className }) => {
   const candidateReserveDates = useRecoilValue(CandidateEventDateTimeAtom);
   const [selectYearMonth, setSelectYearMonth] = useRecoilState(YearMonthAtom);
 
@@ -148,22 +149,25 @@ const EventReservationCalendar: React.FC<ThisFCProps> = ({ className }) => {
               emptyCount={dayOfFirstDay}
               count={numberInFirstRow}
               startIndex={1}
+              phone={phone}
             />
-            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 1} />
-            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 8} />
-            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 15} />
+            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 1} phone={phone} />
+            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 8} phone={phone} />
+            <EventReservationTableRow count={7} startIndex={numberInFirstRow + 15} phone={phone} />
             {numberInFirstRow + 28 <= countsOfDays ? (
               <>
-                <EventReservationTableRow count={7} startIndex={numberInFirstRow + 22} />
+                <EventReservationTableRow count={7} startIndex={numberInFirstRow + 22} phone={phone} />
                 <EventReservationTableRow
                   count={countsOfDays - numberInFirstRow - 28}
                   startIndex={numberInFirstRow + 29}
+                  phone={phone}
                 />
               </>
             ) : (
               <EventReservationTableRow
                 count={countsOfDays - numberInFirstRow - 21}
                 startIndex={numberInFirstRow + 22}
+                phone={phone}
               />
             )}
           </tbody>

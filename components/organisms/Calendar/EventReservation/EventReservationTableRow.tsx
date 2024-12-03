@@ -4,12 +4,14 @@ interface ITableRowProps {
   emptyCount?: number;
   count: number;
   startIndex: number;
+  phone: string;
 }
 
 const EventReservationTableRow: React.FC<ITableRowProps> = ({
   emptyCount = 0,
   count,
   startIndex,
+  phone,
 }) => {
   return (
     <tr>
@@ -19,7 +21,7 @@ const EventReservationTableRow: React.FC<ITableRowProps> = ({
       {Array.from({ length: count }, (_, i) => i + startIndex).map(
         (value, index) => (
           <td key={index} className="p-3 font-bold w-[calc(100%/7)] border-gray-300">
-            <EventReservationTableCellItem day={value} />
+            <EventReservationTableCellItem day={value} phone={phone} />
           </td>
         )
       )}

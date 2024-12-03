@@ -25,6 +25,12 @@ export async function POST(req: NextRequest) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
 
   try {
+    const twoHoursLater = new Date(new Date().getTime() + 2 * 60 * 60 * 1000);
+    const dateStr = twoHoursLater.toISOString().split("T")[0];
+    const hours = twoHoursLater.getHours().toString().padStart(2, "0");
+    const minutes = twoHoursLater.getMinutes().toString().padStart(2, "0");
+    const timeStr = `${hours}:${minutes}`;
+
     const queryStr = `
       SELECT 
         r.groupID, r.reserveDate, r.startTime,
@@ -41,7 +47,7 @@ export async function POST(req: NextRequest) {
       JOIN 
         users u ON r.groupID = u.id
       WHERE 
-        r.reserveDate = DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+        r.reserveDate = '${dateStr}' AND r.startTime = '${timeStr}'
     `;
 
     const rows = (await withDatabase(async (db) => {
@@ -73,28 +79,27 @@ export async function POST(req: NextRequest) {
       ${lastName}${firstName}様
 
       ご予約いただきありがとうございます。
-  
+
       「${title}」への予約を受け付けましたので、お知らせいたします。
-  
+
       ────────────────────────────────
       ◆ 予約受付詳細 ◆
       ────────────────────────────────
       ■【お名前】
       ${lastName}${firstName}様
-  
+
       ■【予約イベント】
       ${title}
 
       ■【予約希望日】
       ${formatDateToJapaneseString(new Date(reserveDate))} ${startTime}
-  
+
       ■【その他連絡事項】
       ${note}
-  
+
       ■【イベント開催場所】
       ${webAddress}
-  
-  
+
       ＜当日チェックしてほしいポイント＞
       ▼ イベント内容はコチラからご確認ください ▼
       ${SITE_URL}/${eventURL}/events/${eventId}
@@ -125,7 +130,7 @@ export async function POST(req: NextRequest) {
     // Return success response
     return NextResponse.json(rows);
   } catch (error) {
-    console.error("Error in POST /api/sendEmail/user: ", error);
+    console.error("Error in POST /api/sendEmail/timeToUser: ", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

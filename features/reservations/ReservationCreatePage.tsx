@@ -52,6 +52,7 @@ export default function ReservationCreatePage() {
   const [candidateReserveDateTimes, setCandidateReserveDateTimes] = useRecoilState(CandidateEventDateTimeAtom);
   const [reserveDate, setReserveDate] = useRecoilState(ReserveDateAtom);
   const [reserveTime, setReserveTime] = useRecoilState(ReserveTimeAtom);
+  const [eventURL, setEventURL] = useState<string>("smilebuilders");
 
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const mainID = cookies['user'].id;
@@ -76,6 +77,12 @@ export default function ReservationCreatePage() {
           endTime: getTimeStr(candidates[0]?.time[1]) || "",
         });
         setCandidateReserveDateTimes(candidates);
+
+        const userID = data.userID;
+        const { data: user } = await axios.post("/api/auth/detail", {
+          id: userID,
+        });
+        setEventURL(user.eventURL);
       }
       setIsLoading(false);
     };
@@ -137,8 +144,13 @@ export default function ReservationCreatePage() {
     getAddress();
   }, [zipCode])
 
-  const { title, type, format, eventDate, images, mainIndex } = eventItem;
+  const {
+    title, type, format,
+    prefecture, address1, address2,
+    eventDate, images, mainIndex
+  } = eventItem;
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
+  const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
 
   const onSubmit = async (data: IReservationForm) => {
 
@@ -186,7 +198,46 @@ export default function ReservationCreatePage() {
 
     const { lastReservationId } = reservation.data;
 
-    const content = `
+    // From System To User
+    const userContent = `
+    ${lastName}${firstName}様
+
+    ご予約いただきありがとうございます。
+
+    「${title}」への予約を受け付けましたので、お知らせいたします。
+
+    ────────────────────────────────
+    ◆ 予約受付詳細 ◆
+    ────────────────────────────────
+    ■【お名前】
+    ${lastName}${firstName}様
+
+    ■【予約イベント】
+    ${title}
+
+    ■【予約希望日】
+    ${formatDateToJapaneseString(new Date(reserveDate.value))} ${reserveTime.startTime}
+
+    ■【その他連絡事項】
+    ${note}
+
+    ■【イベント開催場所】
+    ${webAddress}
+
+
+    ＜当日チェックしてほしいポイント＞
+    ▼ イベント内容はコチラからご確認ください ▼
+    ${SITE_URL}/${eventURL}/events/${id}
+    `;
+
+    await axios.post("/api/sendEmail", {
+      to: [{ email, }, { email: "info@wazeka.co.jp" }],
+      subject: "【スマイルビルダーズ】イベントご予約の件",
+      text: userContent,
+    });
+
+    // From System To Company
+    const comContent = `
     ${lastName}${firstName}様
 
     貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
@@ -220,7 +271,7 @@ export default function ReservationCreatePage() {
     await axios.post("/api/sendEmail", {
       to: [{ email: email }, { email: "info@wazeka.co.jp" }],
       subject: "【スマイルビルダーズ】イベント予約がありました",
-      text: content,
+      text: comContent,
     });
 
     router.push("/reservations/list");

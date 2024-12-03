@@ -178,7 +178,46 @@ const EventConfirmPage: React.FC = () => {
 
     const { lastReservationId } = reservation.data;
 
-    const content = `
+    // From System To User
+    const userContent = `
+    ${lastName}${firstName}様
+
+    ご予約いただきありがとうございます。
+
+    「${title}」への予約を受け付けましたので、お知らせいたします。
+
+    ────────────────────────────────
+    ◆ 予約受付詳細 ◆
+    ────────────────────────────────
+    ■【お名前】
+    ${lastName}${firstName}様
+
+    ■【予約イベント】
+    ${title}
+
+    ■【予約希望日】
+    ${formatDateToJapaneseString(new Date(reserveDateTime.reserveDate))} ${reserveDateTime.startTime}
+
+    ■【その他連絡事項】
+    ${note}
+
+    ■【イベント開催場所】
+    ${webAddress}
+
+
+    ＜当日チェックしてほしいポイント＞
+    ▼ イベント内容はコチラからご確認ください ▼
+    ${SITE_URL}/${event_url}/events/${id}
+    `;
+
+    await axios.post("/api/sendEmail", {
+      to: [{ email, }, { email: "info@wazeka.co.jp" }],
+      subject: "【スマイルビルダーズ】イベントご予約の件",
+      text: userContent,
+    });
+
+    // From System To Company
+    const comContent = `
     ${user.name}様
 
     ${lastName}${firstName}様から貴社のイベント情報にイベント予約がありましたのでお知らせ致します。
@@ -211,10 +250,10 @@ const EventConfirmPage: React.FC = () => {
     await axios.post("/api/sendEmail", {
       to: [{ email: user.email }, { email: "info@wazeka.co.jp" }],
       subject: "【スマイルビルダーズ】イベント予約がありました",
-      text: content,
+      text: comContent,
     });
 
-    router.push(`/${event_url}/events/${id}/complete`);;
+    router.push(`/${event_url}/events/${id}/complete`);
   }
 
   return (

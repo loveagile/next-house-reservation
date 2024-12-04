@@ -71,10 +71,12 @@ export async function POST(req: NextRequest) {
 
       const content = `
       ${lastName}${firstName}様
-
-      ご予約いただきありがとうございます。
   
-      「${title}」への予約を受け付けましたので、お知らせいたします。
+      先日は、「${title}」にご予約いただきありがとうございます。
+      ご予約いただきましたイベント前日となりましたのでご連絡いたします。
+      当日は、お気をつけてお越しください。
+      ご不明点ございましたらご連絡いただけますと幸いです。
+      どうぞよろしくお願いいたします。
   
       ────────────────────────────────
       ◆ 予約受付詳細 ◆
@@ -106,7 +108,7 @@ export async function POST(req: NextRequest) {
           email: "info@smile-builders-hiraya.com",
           name: "スマイルビルダーズ",
         },
-        subject: "【スマイルビルダーズ】イベントご予約の件",
+        subject: "【スマイルビルダーズ】イベント前日のご連絡",
         text: content,
         tracking_settings: {
           click_tracking: {

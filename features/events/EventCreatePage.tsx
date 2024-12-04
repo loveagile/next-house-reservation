@@ -104,13 +104,6 @@ export default function EventCreatePage() {
                 names={types.slice(1)}
                 className="max-w-[250px]"
               />
-              <p className="text-sm mt-3">
-                ※オンライン相談ツール「Zoom（ズーム）」を利用したオンライン住宅イベントを実施する場合は、「オンライン相談会」
-                or 「オンライン見学会」を選択してください。<br></br>
-                ※スペースコアと連携する場合は「無人見学会」をご利用ください。
-                <br></br>
-                ※KengakuCloudの「OB邸見学」機能を使用して開催されたイベントへは見学保険が適用されます。
-              </p>
             </div>
           </div>
 

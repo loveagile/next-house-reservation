@@ -15,9 +15,9 @@ export default function LineSettingPage() {
           LINEユーザーが未登録です。<br></br>
           以下のQRコードをLINEで読み取って、LINEユーザー登録を行ってください。
         </p>
-        <div className="my-2">
+        {/* <div className="my-2">
           <QRCodeSVG value={valueToEncode} />
-        </div>
+        </div> */}
         <p>既に友達登録済みの場合は、一度、友だち登録を解除し、もう一度友だち登録を行ってください。</p>
         <hr className='my-4 border-[#ccc]' />
         <p className='my-2'>解除方法</p>

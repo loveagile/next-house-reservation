@@ -85,6 +85,13 @@ export const types = [
   "その他",
 ];
 
+export const formTypes = [
+  "一行テキスト",
+  "複数行テキスト",
+  "ラジオボタン",
+  "チェックボックス",
+];
+
 export const sortMethods = [
   "申込日: 降順",
   "申込日: 昇順",

@@ -149,6 +149,12 @@ const menues = [
     icon: <MdInfo />,
     submenues: [
       {
+        label: "フォーム項目管理",
+        link: "/settings/form/list",
+        submenues: [],
+        target: "_self",
+      },
+      {
         label: "LINE通知設定",
         link: "/settings/line",
         submenues: [],

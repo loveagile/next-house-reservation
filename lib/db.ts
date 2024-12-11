@@ -202,4 +202,21 @@ async function initializeDatabase(db: Connection) {
       deletedAt TIMESTAMP NULL
     )
   `);
+
+  // Create 'forms' table if it doesn't exist
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS forms (
+      id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+      userID INT NOT NULL,
+      formTitle VARCHAR(255) NOT NULL,
+      formDetail VARCHAR(255),
+      formType VARCHAR(255) NOT NULL,
+      formChoice LONGTEXT,
+      isHidden INT DEFAULT 0,
+
+      createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+      deletedAt TIMESTAMP NULL
+    )
+  `);
 }

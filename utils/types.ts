@@ -170,6 +170,20 @@ export interface IAccount {
   deletedAt?: Date;
 }
 
+export interface IForm {
+  id: number;
+  userID: number;
+  formTitle: string;
+  formDetail: string;
+  formType: string;
+  formChoice: string;
+  isHidden: number;
+
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+}
+
 export interface IEventDateTime {
   date: string;
   time: number[];

@@ -41,7 +41,7 @@ const EventFormEditPage: React.FC = () => {
     const fetchEventFormat = async () => {
       setIsLoading(true);
       const res = await axios.post("/api/events/detail", { id });
-      if (res.status === 200) {
+      if (res.status === 200 && res.data[0].reserveForm) {
         setCurrentForms(JSON.parse(res.data[0].reserveForm));
       }
       const forms = await axios.post('/api/forms/get', { userID });
@@ -56,6 +56,7 @@ const EventFormEditPage: React.FC = () => {
 
   const onEventFormAdd = () => {
     if (registerForms.length === 0) {
+      setFormError("登録されたフォームはありません");
       return;
     }
     const { formTitle, formDetail, formType, formChoice } = registerForms[0];

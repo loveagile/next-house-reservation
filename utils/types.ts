@@ -6,6 +6,7 @@ export interface IEvent {
   format: string;
   attend: number;
   eventDate: string;
+  reserveForm: string;
   note: string;
   status: string;
   statusBit: number;
@@ -37,6 +38,7 @@ export const initialEvent: IEvent = {
   format: "",
   attend: 0,
   eventDate: "",
+  reserveForm: "",
   note: "",
   status: "非公開",
   statusBit: 0,

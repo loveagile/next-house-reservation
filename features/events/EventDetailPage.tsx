@@ -16,9 +16,11 @@ import EventStatusSideBar from "@/components/molecules/SideBar/EventStatusSideBa
 import HTMLContent from "@/components/atoms/HTMLContent";
 import GoogleMapFC from "@/components/atoms/GoogleMapFC";
 import EventCampaignDeleteBtn from "@/components/atoms/Button/EventCampaignDeleteBtn";
+import { IEventFormProps } from "./edit/EventFormEdit";
 
 import { EventAtom } from "@/lib/recoil/EventAtom";
 import { eventHoldingPeriod } from "@/utils/convert";
+
 
 const EventDetailPage: React.FC = () => {
   const { id } = useParams();
@@ -55,7 +57,7 @@ const EventDetailPage: React.FC = () => {
     status, statusBit, eventDate,
     prefecture, address1, address2, hiddenAddress,
     images, FPImages, tag, feature, benefit,
-    propertyType
+    reserveForm, propertyType
   } = eventAtom;
 
   const imgs = images?.split(",").map((img) => img.trim()) || [];
@@ -64,6 +66,7 @@ const EventDetailPage: React.FC = () => {
   const mapAddress = webAddress + (hiddenAddress || "");
   const splitTags = tag?.trim() ? tag.split(",").map(item => item.trim()) : [];
   const convEventDate = eventDate ? JSON.parse(eventDate) : [];
+  const currentForms = reserveForm ? JSON.parse(reserveForm) as IEventFormProps[] : [];
 
   return (
     isLoading ? <Loading /> : (
@@ -198,6 +201,24 @@ const EventDetailPage: React.FC = () => {
                   linkUrl={`/events/${id}/address`}
                   className="self-start"
                 />
+              </div>
+            </div>
+
+            {/* Event Extra Form */}
+            <div className="flex bg-white mb-5">
+              <div className="flex items-center p-5 min-w-[260px] border-r-[1px] border-[#eee]">
+                <ItemField
+                  src="/imgs/icons/folder.png"
+                  name="予約フォーム"
+                />
+              </div>
+              <div className="flex items-center p-5 w-full">
+                <div>
+                  {currentForms && currentForms.length > 0 && (
+                    currentForms.map((form, index) => <p key={index} className="text-sm mb-1">{form.title}</p>)
+                  )}
+                </div>
+                <EditBtn linkUrl={`/events/${id}/form`} className="self-start" />
               </div>
             </div>
 

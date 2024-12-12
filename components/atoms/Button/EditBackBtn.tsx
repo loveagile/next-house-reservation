@@ -7,7 +7,7 @@ interface ThisFCProps {
 
 const EditBackBtn: React.FC<ThisFCProps> = ({ linkUrl, className = "" }) => {
   return (
-    <div className="inline-block mr-auto hover:opacity-70">
+    <div className="inline-block mr-auto hover:opacity-70 transition-all duration-300 ease-out">
       <Link href={linkUrl} className={`flex items-center ${className}`}>
         <span>
           <svg

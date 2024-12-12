@@ -39,6 +39,7 @@ async function initializeDatabase(db: Connection) {
       type VARCHAR(255) NOT NULL,
       format VARCHAR(255) NOT NULL,
       eventDate JSON,
+      reserveForm JSON,
       note VARCHAR(255),
       status VARCHAR(255) DEFAULT '非公開',
       statusBit INT DEFAULT 0,

@@ -23,10 +23,13 @@ const CheckBox: React.FC<ICheckBoxProps> = ({ checked, setChecked, className, te
         checked={checked}
         onChange={handleChange}
         disabled={disabled}
+        sx={{
+          padding: "0",
+        }}
         inputProps={{ "aria-label": "controlled" }}
       />
       <InputLabel htmlFor={text}>
-        <span className="text-sm">{text}</span>
+        <span className="text-sm ml-1">{text}</span>
       </InputLabel>
     </div>
   );

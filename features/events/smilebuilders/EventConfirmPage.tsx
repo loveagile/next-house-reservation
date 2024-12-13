@@ -15,10 +15,13 @@ import CheckBox from "@/components/molecules/Input/CheckBox";
 import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import MultilineField from "@/components/molecules/Input/MultilineField";
+import MoreFormFC from "@/components/molecules/MoreFormFC";
 
 import Loading from "@/components/molecules/loading";
 import { IEvent, initialEvent } from "@/utils/types";
 import { formatDateToJapaneseString } from "@/utils/convert";
+
+import { IEventFormProps } from "../edit/EventFormEdit";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
@@ -85,6 +88,7 @@ const EventConfirmPage: React.FC = () => {
   const [customer, setCustomer] = useState<ICustomerForm>(initialCustomer);
   const [isReceiveInfo, setIsReceiveInfo] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>(initialUser);
+  const [formValues, setFormValues] = useState<string[]>([]);
 
   const { control } = useForm<ICustomerForm>();
 
@@ -94,6 +98,7 @@ const EventConfirmPage: React.FC = () => {
     if (eventReserveData && customerData) {
       const customerConvData = JSON.parse(customerData);
       setReserveDateTime(JSON.parse(eventReserveData));
+      setFormValues(customerConvData.formValues);
       setCustomer(customerConvData);
       setIsReceiveInfo(customerConvData.isReceiveInfo);
     } else {
@@ -127,11 +132,14 @@ const EventConfirmPage: React.FC = () => {
   const {
     userID, title, type,
     prefecture, address1, address2,
-    images, mainIndex,
+    images, mainIndex, reserveForm,
   } = event;
 
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
+  const moreForms = reserveForm ? JSON.parse(reserveForm) as IEventFormProps[] : [];
+
+  const onMoreFormChange = (index: number, updatedValue: string) => { }
 
   const handleSubmit = async () => {
     let customerId = -1;
@@ -429,6 +437,13 @@ const EventConfirmPage: React.FC = () => {
                 <InputField id="building" control={control} className="w-full" value={customer.building} disabled />
               </div>
             </div>
+
+            {/* More Form Items */}
+            {moreForms.map((form, index) => (
+              <MoreFormFC key={index} formData={form} value={formValues[index]} index={index}
+                onFormChange={onMoreFormChange} disabled />
+            ))}
+
 
             {/* Contract Info */}
             <div className="w-full mt-8">

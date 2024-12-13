@@ -42,8 +42,6 @@ const ReservationCalendarDateEventPage: React.FC = () => {
     setIsLoading(false);
   }, []);
 
-  console.log("here => ", groupedEvents);
-
   const handlePreviousDay = () => {
     const currentDate = new Date(year, month - 1, date);
     const previousDate = new Date(currentDate);

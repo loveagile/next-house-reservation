@@ -15,6 +15,7 @@ import { Button, InputLabel } from "@mui/material";
 import Loading from "@/components/molecules/loading";
 import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
+import ManualMoreFormFC from "@/components/molecules/ManualMoreFormFC";
 import MultilineField from "@/components/molecules/Input/MultilineField";
 import ReservationDate from "@/components/molecules/Reservation/ReservationDate";
 import ReservationTime, { IReservationTimeProps } from "@/components/molecules/Reservation/ReservationTime";
@@ -22,6 +23,7 @@ import ReservationTime, { IReservationTimeProps } from "@/components/molecules/R
 import { CandidateEventDateTimeAtom, ReserveDateAtom, ReserveTimeAtom } from "@/lib/recoil/EventReserveDateAtom";
 import { getCandidateReserveDateTimes, eventHoldingPeriod, getTimeStr, formatDateToJapaneseString } from "@/utils/convert";
 import { IEvent, initialEvent, IEventDateTime, IReserveDateTime } from "@/utils/types";
+import { IEventFormProps } from "../events/edit/EventFormEdit";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
@@ -58,6 +60,9 @@ export default function ReservationCreatePage() {
   const mainID = cookies['user'].id;
   const subID = cookies['user'].subId;
   const userID = subID !== -1 ? subID : mainID;
+
+  const [formValues, setFormValues] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchEventDetail = async () => {
@@ -122,6 +127,7 @@ export default function ReservationCreatePage() {
   const zipCode = watch("zipCode");
 
   useEffect(() => {
+    if (!zipCode) return;
     const getAddress = async () => {
       await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipCode}`)
         .then((response) => response.json())
@@ -133,7 +139,7 @@ export default function ReservationCreatePage() {
             setValue("city", address2 + address3);
             // setValue("street", address3);
           } else {
-            console.log("Address not found")
+            console.error("Address not found")
           }
         })
         .catch((error) => {
@@ -147,10 +153,20 @@ export default function ReservationCreatePage() {
   const {
     title, type, format,
     prefecture, address1, address2,
-    eventDate, images, mainIndex
+    eventDate, images, mainIndex, reserveForm,
   } = eventItem;
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
+  const moreForms = reserveForm ? JSON.parse(reserveForm) as IEventFormProps[] : [];
+
+  const onMoreFormChange = (index: number, updatedValue: string = "") => {
+    const nextValues = formValues.slice();
+    while (nextValues.length < index) {
+      nextValues.push("");
+    }
+    nextValues[index] = updatedValue;
+    setFormValues(nextValues);
+  }
 
   const onSubmit = async (data: IReservationForm) => {
 
@@ -159,6 +175,23 @@ export default function ReservationCreatePage() {
       zipCode, prefecture, city, street, building,
       phone, email, note, memo
     } = data;
+
+    let errorStrs: string[] = [];
+
+    for (let i = 0; i < moreForms.length; i++) {
+      if (moreForms[i].isNecessary && !formValues[i]) {
+        const errorMessage = (moreForms[i].type === "一行テキスト" || moreForms[i].type === "複数行テキスト")
+          ? "入力してください。"
+          : "選択してください。";
+
+        errorStrs.push(errorMessage);
+      } else {
+        errorStrs.push("");
+      }
+    }
+
+    setFormErrors(errorStrs);
+    if (errorStrs.some(error => error)) return;
 
     let customerId = -1;
     const customer = await axios.post("/api/customers/detail", {
@@ -480,6 +513,14 @@ export default function ReservationCreatePage() {
                 )}
               </div>
             </div>
+
+            {/* More Form Items */}
+            {moreForms.map((form, index) => (
+              <ManualMoreFormFC key={index} formData={form} index={index}
+                value={formValues.length > index ? formValues[index] : ""}
+                error={formErrors.length > index ? formErrors[index] : ""}
+                onFormChange={onMoreFormChange} />
+            ))}
 
             {/* Contract Info */}
             <div className="flex items-start mt-5">

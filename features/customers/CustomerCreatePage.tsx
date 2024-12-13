@@ -115,7 +115,7 @@ export default function CustomerCreatePage() {
             setValue("city", address2);
             setValue("street", address3);
           } else {
-            console.log("Address not found")
+            console.error("Address not found")
           }
         })
         .catch((error) => {

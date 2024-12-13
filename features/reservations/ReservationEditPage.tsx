@@ -114,6 +114,7 @@ export default function ReservationEditPage() {
   const zipCode = watch("zipCode");
 
   useEffect(() => {
+    if (!zipCode) return;
     const getAddress = async () => {
       await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipCode}`)
         .then((response) => response.json())
@@ -125,7 +126,7 @@ export default function ReservationEditPage() {
             setValue("city", address2);
             setValue("street", address3);
           } else {
-            console.log("Address not found")
+            console.error("Address not found")
           }
         })
         .catch((error) => {

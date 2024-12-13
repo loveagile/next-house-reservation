@@ -13,16 +13,18 @@ import { Button, InputLabel } from "@mui/material";
 
 import { IoIosInformationCircle } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { BsFillCheckCircleFill } from "react-icons/bs";
 
 import CheckBox from "@/components/molecules/Input/CheckBox";
 import InputField from "@/components/molecules/Input/InputField";
 import RequiredLabel from "@/components/atoms/Label/RequiredLabel";
 import MultilineField from "@/components/molecules/Input/MultilineField";
+import MoreFormFC from "@/components/molecules/MoreFormFC";
 
 import Loading from "@/components/molecules/loading";
 import { IEvent, initialEvent } from "@/utils/types";
 import { formatDateToJapaneseString } from "@/utils/convert";
+
+import { IEventFormProps } from "../edit/EventFormEdit";
 
 interface IEventReserveForm {
   reserveDate: string;
@@ -74,20 +76,22 @@ const EventReservePage: React.FC = () => {
   });
   const [customer, setCustomer] = useState<ICustomerForm>(initialCustomer);
   const [isReceiveInfo, setIsReceiveInfo] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState<string[]>([]);
+  const [formErrors, setFormErrors] = useState<string[]>([]);
 
   const schema = yup.object().shape({
     lastName: yup.string().required("入力してください。")
-      .max(10, "10字以内で入力してください"),
+      .max(10, "10字以内で入力してください。"),
     firstName: yup.string().required("入力してください。")
-      .max(10, "10字以内で入力してください"),
+      .max(10, "10字以内で入力してください。"),
     seiName: yup.string().required("入力してください。")
-      .max(10, "10字以内で入力してください")
-      .matches(hiraganaRegex, 'ひらがなで入力してください'),
+      .max(10, "10字以内で入力してください。")
+      .matches(hiraganaRegex, 'ひらがなで入力してください。'),
     meiName: yup.string().required("入力してください。")
-      .max(10, "10字以内で入力してください")
-      .matches(hiraganaRegex, 'ひらがなで入力してください'),
+      .max(10, "10字以内で入力してください。")
+      .matches(hiraganaRegex, 'ひらがなで入力してください。'),
     zipCode: yup.string().required("入力してください。")
-      .test('is-not-empty', '7桁の数字で入力してください', (value) => {
+      .test('is-not-empty', '7桁の数字で入力してください。', (value) => {
         value = value.replaceAll('-', '')
         return /^\d+$/.test(value) && value.length === 7;
       }),
@@ -95,13 +99,13 @@ const EventReservePage: React.FC = () => {
     city: yup.string().required("入力してください。"),
     street: yup.string().required("入力してください。"),
     phone: yup.string().required("入力してください。")
-      .test('is-not-empty', '電話番号を正しく入力してください', (value) => {
+      .test('is-not-empty', '電話番号を正しく入力してください。', (value) => {
         value = value.replaceAll('-', '')
         return /(\d{2,3})\-?(\d{3,4})\-?(\d{4})/g.test(value)
       }),
     email: yup.string().required("入力してください。")
-      .email("メールアドレスを正しく入力してください")
-      .max(80, "80字以内で入力してください"),
+      .email("メールアドレスを正しく入力してください。")
+      .max(80, "80字以内で入力してください。"),
   });
 
   const {
@@ -115,6 +119,7 @@ const EventReservePage: React.FC = () => {
 
   const zipCode = watch("zipCode");
   useEffect(() => {
+    if (!zipCode) return;
     const getAddress = async () => {
       await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipCode}`)
         .then((response) => response.json())
@@ -126,7 +131,7 @@ const EventReservePage: React.FC = () => {
             setValue("city", address2 + address3);
             // setValue("street", address3);
           } else {
-            console.log("Address not found")
+            console.error("Address not found")
           }
         })
         .catch((error) => {
@@ -145,6 +150,7 @@ const EventReservePage: React.FC = () => {
       if (customerData) {
         const customerConvData = JSON.parse(customerData);
         setCustomer(customerConvData);
+        setFormValues(customerConvData.formValues);
         setIsReceiveInfo(customerConvData.isReceiveInfo);
       }
     } else {
@@ -177,11 +183,21 @@ const EventReservePage: React.FC = () => {
   const {
     title, type,
     prefecture, address1, address2,
-    images, mainIndex,
+    images, mainIndex, reserveForm,
   } = event;
 
   const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/events/no_image.png";
   const webAddress = (prefecture || "") + (address1 || "") + (address2 || "");
+  const moreForms = reserveForm ? JSON.parse(reserveForm) as IEventFormProps[] : [];
+
+  const onMoreFormChange = (index: number, updatedValue: string = "") => {
+    const nextValues = formValues.slice();
+    while (nextValues.length < index) {
+      nextValues.push("");
+    }
+    nextValues[index] = updatedValue;
+    setFormValues(nextValues);
+  }
 
   const onSubmit = async (data: ICustomerForm) => {
     const { lastName, firstName, seiName, meiName,
@@ -194,7 +210,25 @@ const EventReservePage: React.FC = () => {
       phone, email, note,
       zipCode, prefecture, city, street, building,
       isReceiveInfo,
+      formValues,
     }));
+
+    let errorStrs: string[] = [];
+
+    for (let i = 0; i < moreForms.length; i++) {
+      if (moreForms[i].isNecessary && !formValues[i]) {
+        const errorMessage = (moreForms[i].type === "一行テキスト" || moreForms[i].type === "複数行テキスト")
+          ? "入力してください。"
+          : "選択してください。";
+
+        errorStrs.push(errorMessage);
+      } else {
+        errorStrs.push("");
+      }
+    }
+
+    setFormErrors(errorStrs);
+    if (errorStrs.some(error => error)) return;
 
     router.push(`/${event_url}/events/${id}/confirm`);
   }
@@ -424,6 +458,14 @@ const EventReservePage: React.FC = () => {
                   <InputField id="building" control={control} className="w-full" value={customer.building} placeholder="例) ○○マンション○号室" />
                 </div>
               </div>
+
+              {/* More Form Items */}
+              {moreForms.map((form, index) => (
+                <MoreFormFC key={index} formData={form} index={index}
+                  value={formValues.length > index ? formValues[index] : ""}
+                  error={formErrors.length > index ? formErrors[index] : ""}
+                  onFormChange={onMoreFormChange} />
+              ))}
 
               {/* Contract Info */}
               <div className="w-full mt-8">

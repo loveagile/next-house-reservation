@@ -1,0 +1,76 @@
+import Image from "next/image";
+import Link from "next/link";
+import { FaPencilAlt } from "react-icons/fa";
+
+import StatusField from "@/components/molecules/Field/StatusField";
+
+import { ICampaign } from "@/utils/types";
+import { formatISO8601TimestampToJapaneseString, eventHoldingPeriod, convEventStatus } from "@/utils/convert";
+
+interface ThisFCProps {
+  item: ICampaign;
+  eventURL: string;
+}
+
+const CampaignListItem: React.FC<ThisFCProps> = ({ item, eventURL }) => {
+  const {
+    id, title, type, format,
+    status, eventDate,
+    prefecture, address1, address2,
+    images, mainIndex,
+    updatedAt,
+  } = item;
+
+  const mainImg = images?.split(",").map((img) => img.trim())[mainIndex] || "/imgs/campaigns/no_image.png";
+  const address = (prefecture || "") + (address1 || "") + (address2 || "");
+
+  return (
+    <div className="w-full flex border-[1px] border-[#ddd] mb-5">
+      <div className="flex flex-col justify-center items-center w-[120px] border-r-[1px] border-[#ddd] p-1">
+        <StatusField status={convEventStatus(status, JSON.parse(eventDate))} />
+      </div>
+      <div className="flex p-5">
+        <Image
+          src={mainImg}
+          width={160}
+          height={120}
+          className="w-[160px] h-[120px]"
+          alt="イベント画像"
+        />
+        <div className="ml-10">
+          <div className="flex items-center">
+            <span className="text-[10px] text-white bg-black px-2 py-[2px]">
+              {type}
+            </span>
+            <span className="text-xs border-[1px] border-[#737373] px-2 py-[2px] ml-1">
+              {format}
+            </span>
+          </div>
+          <div className="text-sm mt-3 mb-5">{title}</div>
+          <p className="text-sm text-m-red">
+            {eventHoldingPeriod(JSON.parse(eventDate))}
+          </p>
+          {address && <div className="text-sm my-1">・{address}</div>}
+        </div>
+      </div>
+      <div className="flex flex-col ml-auto p-5 min-w-[25%]">
+        <Link href={`/campaigns/${id}`}
+          className="flex items-center justify-center px-10 py-2 rounded-[1px] mb-3 text-sm bg-btn-color text-white hover:opacity-90"
+        >
+          <FaPencilAlt className="text-sm mr-1" />
+          <span className="text-sm">まとめページを編集</span>
+        </Link>
+        <Link
+          className="border-[1px] border-[#484848] text-center p-1 hover:bg-[#eee]"
+          href={`/${eventURL}/campaigns/${id}`}
+        // target="_blank"
+        >
+          <span className="text-sm">プレビュー</span>
+        </Link>
+        <div className="text-[11px] mt-auto">最終更新: {formatISO8601TimestampToJapaneseString(updatedAt.toString())}</div>
+      </div>
+    </div>
+  );
+};
+
+export default CampaignListItem;
